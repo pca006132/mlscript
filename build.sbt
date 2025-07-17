@@ -1,4 +1,5 @@
 import Wart._
+import org.scalajs.linker.interface.OutputPatterns
 
 enablePlugins(ScalaJSPlugin)
 
@@ -39,7 +40,8 @@ lazy val hkmc2 = crossProject(JSPlatform, JVMPlatform).in(file("hkmc2"))
     
     libraryDependencies += "io.methvin" % "directory-watcher" % directoryWatcherVersion,
     libraryDependencies += "io.methvin" %% "directory-watcher-better-files" % directoryWatcherVersion,
-    libraryDependencies += "com.lihaoyi" %%% "fansi" % "0.4.0",
+    libraryDependencies += "com.lihaoyi" %%% "fansi" % "0.5.0", // Scala.js or Scala-Native
+    libraryDependencies += "com.lihaoyi" %%% "sourcecode" % "0.4.2", // Scala.js / Scala Native
     libraryDependencies += "com.lihaoyi" %% "os-lib" % "0.9.3",
     
     libraryDependencies += "org.scalactic" %%% "scalactic" % "3.2.18",
@@ -53,6 +55,13 @@ lazy val hkmc2 = crossProject(JSPlatform, JVMPlatform).in(file("hkmc2"))
       baseDirectory.value.getParentFile()/"shared"/"src"/"test"/"mlscript", "*.cmd", NothingFilter),
   )
   .jvmSettings(
+  )
+  .jsSettings(
+    scalaJSLinkerConfig ~= {
+      _.withModuleKind(ModuleKind.ESModule)
+       .withOutputPatterns(OutputPatterns.fromJSFile("MLscript.mjs"))
+    },
+    libraryDependencies += "org.scala-js" %%% "scalajs-dom" % "2.2.0",
   )
   .dependsOn(core)
 
@@ -113,7 +122,6 @@ lazy val mlscript = crossProject(JSPlatform, JVMPlatform).in(file("."))
   )
   .jsSettings(
     scalaJSUseMainModuleInitializer := true,
-    libraryDependencies += "org.scala-js" %%% "scalajs-dom" % "2.2.0",
   )
   .dependsOn(core)
 

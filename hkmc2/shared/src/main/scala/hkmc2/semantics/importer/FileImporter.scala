@@ -1,5 +1,6 @@
 package hkmc2
 package semantics
+package importer
 
 import scala.collection.mutable
 import scala.annotation.tailrec
@@ -7,18 +8,19 @@ import scala.annotation.tailrec
 import mlscript.utils.*, shorthands.*
 import hkmc2.Message.MessageContext
 import utils.TraceLogger
+import utils.path.*, conversion.*
 
 import Elaborator.*
-import hkmc2.syntax.LetBind
+import syntax.{Keyword, LetBind}, syntax.Tree.StrLit
 
-class Importer:
-  self: Elaborator =>
+class FileImporter(val prelude: Ctx, val wd: os.Path)
+    (using tl: TraceLogger)(using State, Raise) extends Importer:
   import tl.*
   
+  // log(s"pwd: ${os.pwd}")
+  // log(s"wd: ${wd}")
+  
   def importPath(path: Str): Import =
-    // log(s"pwd: ${os.pwd}")
-    // log(s"wd: ${wd}")
-    
     val file =
       if path.startsWith("/")
       then os.Path(path)
@@ -44,7 +46,7 @@ class Importer:
         
         val block = os.read(file)
         val fph = new FastParseHelpers(block)
-        val origin = Origin(file, 0, fph)
+        val origin = Origin(file.toAbsolutePath, 0, fph)
         
         val sym = tl.trace(s">>> Importing $file"):
           
@@ -61,7 +63,8 @@ class Importer:
           val resBlk = new syntax.Tree.Block(res)
           
           given Elaborator.Ctx = prelude.copy(mode = Mode.Light).nestLocal
-          val elab = Elaborator(tl, file / os.up, prelude)
+          val importer = new FileImporter(prelude, file / os.up)
+          val elab = Elaborator(tl, importer)
           elab.importFrom(resBlk)
           
           resBlk.definedSymbols.find(_._1 === nme) match
@@ -77,5 +80,13 @@ class Importer:
       
     else
       Import(sym, path)
+  
+  override def importContent(kw: Keyword, kwLoc: Opt[Loc], path: StrLit): Opt[Term] =
+    import java.nio.file.*
+    var projectRoot = os.Path(Paths.get(".").toAbsolutePath())
+    // The project root path is different in DiffTests and compilation tests.
+    if !os.exists(projectRoot / "build.sbt") then
+      projectRoot = projectRoot / os.up
+    val filePath = projectRoot / os.RelPath(path.value)
+    S(Term.Lit(StrLit(os.read(filePath))))
     
-
