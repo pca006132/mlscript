@@ -165,8 +165,8 @@ build of
   // Be careful with the output path! Everything in it will be purged.
   // The path here is just an example. Do not output to the test folder because
   // it will trigger the test.
-  None
-  // Some of path.resolve of projectRoot, "..", "..", "..", "..", "popl26-paper402"
+  // None
+  Some of "/home/pca006132/code/popl"
 //│ > Processing src/test/mlscript-compile/apps/supreme-f-web-demo/main.mjs
 //│ > Processing ../js/target/scala-3.6.1/hkmc2-opt/MLscript.mjs
 //│ > Processing src/test/mlscript-compile/apps/supreme-f-web-demo/Examples.mjs
@@ -182,3 +182,21 @@ build of
 //│ > Processing src/test/mlscript-compile/Str.mjs
 //│ > Processing src/test/mlscript-compile/Runtime.mjs
 //│ > Collected 13 files
+//│ > There are 16 files in the output folder.
+//│ > Removing Examples.mjs
+//│ > Removing Iter.mjs
+//│ > Removing MLscript.mjs
+//│ > Removing MutMap.mjs
+//│ > Removing Option.mjs
+//│ > Removing Predef.mjs
+//│ > Removing Rendering.mjs
+//│ > Removing Runtime.mjs
+//│ > Removing RuntimeJS.mjs
+//│ > Removing Stack.mjs
+//│ > Removing Str.mjs
+//│ > Removing XML.mjs
+//│ > Removing index.html
+//│ > Removing main.css
+//│ > Removing main.mjs
+
+

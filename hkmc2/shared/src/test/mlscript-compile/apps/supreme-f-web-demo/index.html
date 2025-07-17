@@ -30,7 +30,9 @@
     </div>
     <div id="output" class="tabs">
       <input type="radio" id="radio-typer" name="tabgroup" checked>
-      <label for="radio-typer">Typer</label>
+      <div class="hint">Superscripts corresponds to marks, resolved weak types
+        corresponds to the set of different possible types for the term,
+        while C-Err indicates the constraint solving is stuck.</div>
       <div class="tab-content" id="tab-parser">
         <h3>Diagnostics</h3>
         <div class="diagnostics">
@@ -143,9 +145,15 @@
   <script type="module" src="./main.mjs"></script>
   <script type="module">
     import katex from 'https://cdn.jsdelivr.net/npm/katex@0.16.22/+esm';
+    import renderMathInElement from "https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.mjs";
     katex.render("FCCT^{\\mathcal{I}+}", document.querySelector(".brand .name"), {
       throwOnError: false
     });
+    document.querySelector("#parse").addEventListener("click", function() {
+      for (let x of document.querySelectorAll(".latexty")) {
+        renderMathInElement(x, {delimiters: [{left: "$$", right: "$$", display: false}]});
+      }
+    })
   </script>
 </body>
 

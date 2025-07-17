@@ -311,6 +311,7 @@ label[for="show-traces"] {
   padding: 0.5rem;
   border: 1px solid #000;
   box-shadow: 0 0 0.5rem 0 rgba(0, 0, 0, 0.1);
+  z-index: 1;
 }
 
 .typer-result .output {
@@ -344,6 +345,18 @@ label[for="show-traces"] {
   font-size: 0.875rem;
 }
 
+.typer-result .output .simple{
+  line-height: 1.9em;
+}
+
+.typer-result .output .inline {
+  display: inline;
+}
+
 .typer-result .output .chunk pre {
   text-wrap: wrap;
+}
+
+span.katex{
+  line-height: 1.2em;
 }

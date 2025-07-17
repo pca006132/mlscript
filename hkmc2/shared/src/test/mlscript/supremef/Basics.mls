@@ -1,28 +1,22 @@
-// :js
-
-:global
 :supreme-f
-// :d
-// :todo
 
-
-
-// 1
-
-:re
-:tt
-// 3(2)
-
-
-:re
-:tt
-// 1(2)
-
+//│ Error: hkmc2.ErrorReport: invalid term Import(member:Predef,/home/pca006132/code/mlscript/hkmc2/shared/src/test/mlscript-compile/Predef.mjs)
+//│ Parsed Core Term: ()
+//│ Inferred: ()
+//│ As term: ()
+//│ |> () ≤ •
+//│ ====== (1) ======
+//│ Constr: () ≤ •
+//│ Rule: C-UnitForce
+//│ Remaining constraints: 0
+//│ ====== Final ======
+//│ ------ Resolved Weak Types ------
+//│ ()
 if (()) then (x => x) else ()
 //│ Parsed Core Term: ((cond ()) (λx. x)) ()
 //│ Inferred: α
-//│ As term: let α1 = (λ⚫ -> λα0 -> λα0 -> α0) () in let α2 = α1 (λx -> x) in let α = α2 () in α
-//│ |> α0, α1, ⚫ -> α0 -> α0 -> α0 ≤ () -> α1, α2, α1 ≤ (∀^m4 x. x -> (x)^m3) -> α2, α, α2 ≤ () -> α, α ≤ ⚫
+//│ As term: let α1 = (λ• -> λα0 -> λα0 -> α0) () in let α2 = α1 (λx -> x) in let α = α2 () in α
+//│ |> α0, α1, • -> α0 -> α0 -> α0 ≤ () -> α1, α2, α1 ≤ (∀^m4 x. x -> (x)^m3) -> α2, α, α2 ≤ () -> α, α ≤ •
 //│ ====== (1) ======
 //│ Constr: α0
 //│ Rule: C-Promote
@@ -32,14 +26,14 @@ if (()) then (x => x) else ()
 //│ Rule: C-Promote
 //│ Remaining constraints: 6
 //│ ====== (3) ======
-//│ Constr: ⚫ -> α0 -> α0 -> α0 ≤ () -> α1
+//│ Constr: • -> α0 -> α0 -> α0 ≤ () -> α1
 //│ Rule: C-Fun
 //│ New Constraints:
-//│  () ≤ ⚫
+//│  () ≤ •
 //│  α0 -> α0 -> α0 ≤ α1
 //│ Remaining constraints: 7
 //│ ====== (4) ======
-//│ Constr: () ≤ ⚫
+//│ Constr: () ≤ •
 //│ Rule: C-UnitForce
 //│ Remaining constraints: 6
 //│ ====== (5) ======
@@ -115,54 +109,54 @@ if (()) then (x => x) else ()
 //│ Rule: C-Var2
 //│ Remaining constraints: 1
 //│ ====== (18) ======
-//│ Constr: α ≤ ⚫
+//│ Constr: α ≤ •
 //│ Rule: C-Var1
 //│ Premises:
 //│   α0 ≤ α ∈ B
 //│   ∀^m4 x0. x0 -> (x0)^m3 ≤ α ∈ B
 //│   () ≤ α ∈ B
 //│ New Constraints:
-//│  α0 ≤ ⚫
-//│  ∀^m4 x1. x1 -> (x1)^m3 ≤ ⚫
-//│  () ≤ ⚫
+//│  α0 ≤ •
+//│  ∀^m4 x1. x1 -> (x1)^m3 ≤ •
+//│  () ≤ •
 //│ Remaining constraints: 3
 //│ ====== (19) ======
-//│ Constr: α0 ≤ ⚫
+//│ Constr: α0 ≤ •
 //│ Rule: C-Var1
 //│ Premises:
 //│   ∀^m4 x. x -> (x)^m3 ≤ α0 ∈ B
 //│   () ≤ α0 ∈ B
 //│ New Constraints:
-//│  ∀^m4 x2. x2 -> (x2)^m3 ≤ ⚫
-//│  () ≤ ⚫
+//│  ∀^m4 x2. x2 -> (x2)^m3 ≤ •
+//│  () ≤ •
 //│ Remaining constraints: 4
 //│ ====== (20) ======
-//│ Constr: ∀^m4 x2. x2 -> (x2)^m3 ≤ ⚫
+//│ Constr: ∀^m4 x2. x2 -> (x2)^m3 ≤ •
 //│ Rule: C-Forall1
 //│ New Constraints:
-//│  x2 -> (x2)^m3 ≤ ⚫
+//│  x2 -> (x2)^m3 ≤ •
 //│ Remaining constraints: 4
 //│ ====== (21) ======
-//│ Constr: x2 -> (x2)^m3 ≤ ⚫
+//│ Constr: x2 -> (x2)^m3 ≤ •
 //│ Rule: C-FunForce
 //│ Remaining constraints: 3
 //│ ====== (22) ======
-//│ Constr: () ≤ ⚫
+//│ Constr: () ≤ •
 //│ Rule: C-UnitForce
 //│ Remaining constraints: 2
 //│ ====== (23) ======
-//│ Constr: ∀^m4 x1. x1 -> (x1)^m3 ≤ ⚫
+//│ Constr: ∀^m4 x1. x1 -> (x1)^m3 ≤ •
 //│ Rule: C-Forall2
 //│ Premise: [m4] ↦ x2 -> (x2)^m3 ∈ B
 //│ New Constraints:
-//│  x2 -> (x2)^m3 ≤ ⚫
+//│  x2 -> (x2)^m3 ≤ •
 //│ Remaining constraints: 2
 //│ ====== (24) ======
-//│ Constr: x2 -> (x2)^m3 ≤ ⚫
+//│ Constr: x2 -> (x2)^m3 ≤ •
 //│ Rule: C-FunForce
 //│ Remaining constraints: 1
 //│ ====== (25) ======
-//│ Constr: () ≤ ⚫
+//│ Constr: () ≤ •
 //│ Rule: C-UnitForce
 //│ Remaining constraints: 0
 //│ ====== Final ======
@@ -172,9 +166,9 @@ if (()) then (x => x) else ()
 //│ -------- UBS --------
 //│ α1 ≤^ (∀^m4 x. x -> (x)^m3) -> α2
 //│ α0 ≤^ α
-//│ α0 ≤^ ⚫
+//│ α0 ≤^ •
 //│ α2 ≤^ () -> α
-//│ α ≤^ ⚫
+//│ α ≤^ •
 //│ -------- LBS --------
 //│ α1 ≥^ α0 -> α0 -> α0
 //│ α0 ≥^ ∀^m4 x. x -> (x)^m3
@@ -189,13 +183,13 @@ x => x
 //│ Parsed Core Term: λx. x
 //│ Inferred: x -> (x)^m1
 //│ As term: λx -> x
-//│ |> x, x -> (x)^m1 ≤ ⚫
+//│ |> x, x -> (x)^m1 ≤ •
 //│ ====== (1) ======
 //│ Constr: x
 //│ Rule: C-Promote
 //│ Remaining constraints: 1
 //│ ====== (2) ======
-//│ Constr: x -> (x)^m1 ≤ ⚫
+//│ Constr: x -> (x)^m1 ≤ •
 //│ Rule: C-FunForce
 //│ Remaining constraints: 0
 //│ ====== Final ======
@@ -206,7 +200,7 @@ x => x
 //│ Parsed Core Term: (λx. x) ()
 //│ Inferred: α
 //│ As term: let α = (λx -> x) () in α
-//│ |> x, α, x -> (x)^m1 ≤ () -> α, α ≤ ⚫
+//│ |> x, α, x -> (x)^m1 ≤ () -> α, α ≤ •
 //│ ====== (1) ======
 //│ Constr: x
 //│ Rule: C-Promote
@@ -231,37 +225,37 @@ x => x
 //│ Rule: C-Var2
 //│ Remaining constraints: 1
 //│ ====== (6) ======
-//│ Constr: α ≤ ⚫
+//│ Constr: α ≤ •
 //│ Rule: C-Var1
 //│ Premises:
 //│   (x)^m1 ≤ α ∈ B
 //│ New Constraints:
-//│  (x)^m1 ≤ ⚫
+//│  (x)^m1 ≤ •
 //│ Remaining constraints: 1
 //│ ====== (7) ======
-//│ Constr: (x)^m1 ≤ ⚫
+//│ Constr: (x)^m1 ≤ •
 //│ Rule: C-Unwrap
 //│ New Constraints:
-//│  x ≤[m1] ⚫
+//│  x ≤[m1] •
 //│ Remaining constraints: 1
 //│ ====== (8) ======
-//│ Constr: x ≤[m1] ⚫
+//│ Constr: x ≤[m1] •
 //│ Rule: C-Var1
 //│ Premises:
 //│   () ≤ x ∈ B
 //│ New Constraints:
-//│  () ≤[m1] ⚫
+//│  () ≤[m1] •
 //│ Remaining constraints: 1
 //│ ====== (9) ======
-//│ Constr: () ≤[m1] ⚫
+//│ Constr: () ≤[m1] •
 //│ Rule: C-UnitForce
 //│ Remaining constraints: 0
 //│ ====== Final ======
 //│ ------ Resolved Weak Types ------
 //│ ()
 //│ -------- UBS --------
-//│ x ≤^[m1] ⚫
-//│ α ≤^ ⚫
+//│ x ≤^[m1] •
+//│ α ≤^ •
 //│ -------- LBS --------
 //│ x ≥^ ()
 //│ α ≥^ (x)^m1
@@ -271,7 +265,7 @@ x => x
 //│ Parsed Core Term: (λx. x) (λy. y)
 //│ Inferred: α
 //│ As term: let α = (λx -> x) (λy -> y) in α
-//│ |> x, α, x -> (x)^m1 ≤ (∀^m4 y. y -> (y)^m3) -> α, α ≤ ⚫
+//│ |> x, α, x -> (x)^m1 ≤ (∀^m4 y. y -> (y)^m3) -> α, α ≤ •
 //│ ====== (1) ======
 //│ Constr: x
 //│ Rule: C-Promote
@@ -296,43 +290,43 @@ x => x
 //│ Rule: C-Var2
 //│ Remaining constraints: 1
 //│ ====== (6) ======
-//│ Constr: α ≤ ⚫
+//│ Constr: α ≤ •
 //│ Rule: C-Var1
 //│ Premises:
 //│   (x)^m1 ≤ α ∈ B
 //│ New Constraints:
-//│  (x)^m1 ≤ ⚫
+//│  (x)^m1 ≤ •
 //│ Remaining constraints: 1
 //│ ====== (7) ======
-//│ Constr: (x)^m1 ≤ ⚫
+//│ Constr: (x)^m1 ≤ •
 //│ Rule: C-Unwrap
 //│ New Constraints:
-//│  x ≤[m1] ⚫
+//│  x ≤[m1] •
 //│ Remaining constraints: 1
 //│ ====== (8) ======
-//│ Constr: x ≤[m1] ⚫
+//│ Constr: x ≤[m1] •
 //│ Rule: C-Var1
 //│ Premises:
 //│   ∀^m4 y. y -> (y)^m3 ≤ x ∈ B
 //│ New Constraints:
-//│  ∀^m4 y0. y0 -> (y0)^m3 ≤[m1] ⚫
+//│  ∀^m4 y0. y0 -> (y0)^m3 ≤[m1] •
 //│ Remaining constraints: 1
 //│ ====== (9) ======
-//│ Constr: ∀^m4 y0. y0 -> (y0)^m3 ≤[m1] ⚫
+//│ Constr: ∀^m4 y0. y0 -> (y0)^m3 ≤[m1] •
 //│ Rule: C-Forall1
 //│ New Constraints:
-//│  y0 -> (y0)^m3 ≤[m1] ⚫
+//│  y0 -> (y0)^m3 ≤[m1] •
 //│ Remaining constraints: 1
 //│ ====== (10) ======
-//│ Constr: y0 -> (y0)^m3 ≤[m1] ⚫
+//│ Constr: y0 -> (y0)^m3 ≤[m1] •
 //│ Rule: C-FunForce
 //│ Remaining constraints: 0
 //│ ====== Final ======
 //│ ------ Resolved Weak Types ------
 //│ y0 -> (y0)^m3
 //│ -------- UBS --------
-//│ x ≤^[m1] ⚫
-//│ α ≤^ ⚫
+//│ x ≤^[m1] •
+//│ α ≤^ •
 //│ -------- LBS --------
 //│ x ≥^ ∀^m4 y. y -> (y)^m3
 //│ α ≥^ (x)^m1
@@ -342,7 +336,7 @@ x => x
 //│ Parsed Core Term: ((λx. x) (λy. y)) ()
 //│ Inferred: α
 //│ As term: let α0 = (λx -> x) (λy -> y) in let α = α0 () in α
-//│ |> x, α0, x -> (x)^m1 ≤ (∀^m4 y. y -> (y)^m3) -> α0, α, α0 ≤ () -> α, α ≤ ⚫
+//│ |> x, α0, x -> (x)^m1 ≤ (∀^m4 y. y -> (y)^m3) -> α0, α, α0 ≤ () -> α, α ≤ •
 //│ ====== (1) ======
 //│ Constr: x
 //│ Rule: C-Promote
@@ -414,29 +408,29 @@ x => x
 //│ Rule: C-Var2
 //│ Remaining constraints: 1
 //│ ====== (14) ======
-//│ Constr: α ≤ ⚫
+//│ Constr: α ≤ •
 //│ Rule: C-Var1
 //│ Premises:
 //│   (y0)^m3 ≤[m1] α ∈ B
 //│ New Constraints:
-//│  (y0)^m3 ≤[m1] ⚫
+//│  (y0)^m3 ≤[m1] •
 //│ Remaining constraints: 1
 //│ ====== (15) ======
-//│ Constr: (y0)^m3 ≤[m1] ⚫
+//│ Constr: (y0)^m3 ≤[m1] •
 //│ Rule: C-Unwrap
 //│ New Constraints:
-//│  y0 ≤[m3,m1] ⚫
+//│  y0 ≤[m3,m1] •
 //│ Remaining constraints: 1
 //│ ====== (16) ======
-//│ Constr: y0 ≤[m3,m1] ⚫
+//│ Constr: y0 ≤[m3,m1] •
 //│ Rule: C-Var1
 //│ Premises:
 //│   () ≤[m1] y0 ∈ B
 //│ New Constraints:
-//│  () ≤[m1,m3] ⚫
+//│  () ≤[m1,m3] •
 //│ Remaining constraints: 1
 //│ ====== (17) ======
-//│ Constr: () ≤[m1,m3] ⚫
+//│ Constr: () ≤[m1,m3] •
 //│ Rule: C-UnitForce
 //│ Remaining constraints: 0
 //│ ====== Final ======
@@ -445,8 +439,8 @@ x => x
 //│ -------- UBS --------
 //│ x ≤^[m1] () -> α
 //│ α0 ≤^ () -> α
-//│ y0 ≤^[m3,m1] ⚫
-//│ α ≤^ ⚫
+//│ y0 ≤^[m3,m1] •
+//│ α ≤^ •
 //│ -------- LBS --------
 //│ x ≥^ ∀^m4 y. y -> (y)^m3
 //│ α0 ≥^ (x)^m1
@@ -458,7 +452,7 @@ x => x
 //│ Parsed Core Term: ((λx. x x) (λy. y)) ()
 //│ Inferred: α
 //│ As term: let α1 = (λx -> (let α0 = x x in α0)) (λy -> y) in let α = α1 () in α
-//│ |> x, α1, x -> ∀^m3 α0. ((x)^m1 ≤ (x)^m2 -> α0) => α0 ≤ (∀^m6 y. y -> (y)^m5) -> α1, α, α1 ≤ () -> α, α ≤ ⚫
+//│ |> x, α1, x -> ∀^m3 α0. ((x)^m1 ≤ (x)^m2 -> α0) => α0 ≤ (∀^m6 y. y -> (y)^m5) -> α1, α, α1 ≤ () -> α, α ≤ •
 //│ ====== (1) ======
 //│ Constr: x
 //│ Rule: C-Promote
@@ -600,29 +594,29 @@ x => x
 //│ Rule: C-Var2
 //│ Remaining constraints: 1
 //│ ====== (25) ======
-//│ Constr: α ≤ ⚫
+//│ Constr: α ≤ •
 //│ Rule: C-Var1
 //│ Premises:
 //│   (y1)^m5 ≤[m2,m1,m5] α ∈ B
 //│ New Constraints:
-//│  (y1)^m5 ≤[m2,m1,m5] ⚫
+//│  (y1)^m5 ≤[m2,m1,m5] •
 //│ Remaining constraints: 1
 //│ ====== (26) ======
-//│ Constr: (y1)^m5 ≤[m2,m1,m5] ⚫
+//│ Constr: (y1)^m5 ≤[m2,m1,m5] •
 //│ Rule: C-Unwrap
 //│ New Constraints:
-//│  y1 ≤[m5,m2,m1] ⚫
+//│  y1 ≤[m5,m2,m1] •
 //│ Remaining constraints: 1
 //│ ====== (27) ======
-//│ Constr: y1 ≤[m5,m2,m1] ⚫
+//│ Constr: y1 ≤[m5,m2,m1] •
 //│ Rule: C-Var1
 //│ Premises:
 //│   () ≤[m2,m1,m5] y1 ∈ B
 //│ New Constraints:
-//│  () ≤[m2,m1,m5] ⚫
+//│  () ≤[m2,m1,m5] •
 //│ Remaining constraints: 1
 //│ ====== (28) ======
-//│ Constr: () ≤[m2,m1,m5] ⚫
+//│ Constr: () ≤[m2,m1,m5] •
 //│ Rule: C-UnitForce
 //│ Remaining constraints: 0
 //│ ====== Final ======
@@ -634,8 +628,8 @@ x => x
 //│ α1 ≤^ () -> α
 //│ y0 ≤^[m5,m1] () -> α
 //│ α2 ≤^ () -> α
-//│ y1 ≤^[m5,m2,m1] ⚫
-//│ α ≤^ ⚫
+//│ y1 ≤^[m5,m2,m1] •
+//│ α ≤^ •
 //│ -------- LBS --------
 //│ x ≥^ ∀^m6 y. y -> (y)^m5
 //│ α1 ≥^ ∀^m3 α0. ((x)^m1 ≤ (x)^m2 -> α0) => α0
@@ -645,14 +639,11 @@ x => x
 //│ α ≥^[m2,m1,m5] (y1)^m5
 //│ ---------------------
 
-:re
-// (x => x)(1(2))
-
 (x => x)((y => y)(()))
 //│ Parsed Core Term: (λx. x) ((λy. y) ())
 //│ Inferred: α
 //│ As term: let α = (λx -> x) (let α0 = (λy -> y) () in α0) in α
-//│ |> x, α, x -> (x)^m1 ≤ (∀^m4 y. ∀^m5 α0. (y -> (y)^m3 ≤ () -> α0) => α0) -> α, α ≤ ⚫
+//│ |> x, α, x -> (x)^m1 ≤ (∀^m4 y. ∀^m5 α0. (y -> (y)^m3 ≤ () -> α0) => α0) -> α, α ≤ •
 //│ ====== (1) ======
 //│ Constr: x
 //│ Rule: C-Promote
@@ -677,45 +668,45 @@ x => x
 //│ Rule: C-Var2
 //│ Remaining constraints: 1
 //│ ====== (6) ======
-//│ Constr: α ≤ ⚫
+//│ Constr: α ≤ •
 //│ Rule: C-Var1
 //│ Premises:
 //│   (x)^m1 ≤ α ∈ B
 //│ New Constraints:
-//│  (x)^m1 ≤ ⚫
+//│  (x)^m1 ≤ •
 //│ Remaining constraints: 1
 //│ ====== (7) ======
-//│ Constr: (x)^m1 ≤ ⚫
+//│ Constr: (x)^m1 ≤ •
 //│ Rule: C-Unwrap
 //│ New Constraints:
-//│  x ≤[m1] ⚫
+//│  x ≤[m1] •
 //│ Remaining constraints: 1
 //│ ====== (8) ======
-//│ Constr: x ≤[m1] ⚫
+//│ Constr: x ≤[m1] •
 //│ Rule: C-Var1
 //│ Premises:
 //│   ∀^m4 y. ∀^m5 α0. (y -> (y)^m3 ≤ () -> α0) => α0 ≤ x ∈ B
 //│ New Constraints:
-//│  ∀^m4 y0. ∀^m5 α1. (y0 -> (y0)^m3 ≤ () -> α1) => α1 ≤[m1] ⚫
+//│  ∀^m4 y0. ∀^m5 α1. (y0 -> (y0)^m3 ≤ () -> α1) => α1 ≤[m1] •
 //│ Remaining constraints: 1
 //│ ====== (9) ======
-//│ Constr: ∀^m4 y0. ∀^m5 α1. (y0 -> (y0)^m3 ≤ () -> α1) => α1 ≤[m1] ⚫
+//│ Constr: ∀^m4 y0. ∀^m5 α1. (y0 -> (y0)^m3 ≤ () -> α1) => α1 ≤[m1] •
 //│ Rule: C-Forall1
 //│ New Constraints:
-//│  ∀^m5 α1. (y0 -> (y0)^m3 ≤ () -> α1) => α1 ≤[m1] ⚫
+//│  ∀^m5 α1. (y0 -> (y0)^m3 ≤ () -> α1) => α1 ≤[m1] •
 //│ Remaining constraints: 1
 //│ ====== (10) ======
-//│ Constr: ∀^m5 α1. (y0 -> (y0)^m3 ≤ () -> α1) => α1 ≤[m1] ⚫
+//│ Constr: ∀^m5 α1. (y0 -> (y0)^m3 ≤ () -> α1) => α1 ≤[m1] •
 //│ Rule: C-Forall1
 //│ New Constraints:
-//│  (y0 -> (y0)^m3 ≤ () -> α1) => α1 ≤[m1] ⚫
+//│  (y0 -> (y0)^m3 ≤ () -> α1) => α1 ≤[m1] •
 //│ Remaining constraints: 1
 //│ ====== (11) ======
-//│ Constr: (y0 -> (y0)^m3 ≤ () -> α1) => α1 ≤[m1] ⚫
+//│ Constr: (y0 -> (y0)^m3 ≤ () -> α1) => α1 ≤[m1] •
 //│ Rule: C-Constr
 //│ New Constraints:
 //│  y0 -> (y0)^m3 ≤[m1] () -> α1
-//│  α1 ≤[m1] ⚫
+//│  α1 ≤[m1] •
 //│ Remaining constraints: 2
 //│ ====== (12) ======
 //│ Constr: y0 -> (y0)^m3 ≤[m1] () -> α1
@@ -733,39 +724,39 @@ x => x
 //│ Rule: C-Var2
 //│ Remaining constraints: 1
 //│ ====== (15) ======
-//│ Constr: α1 ≤[m1] ⚫
+//│ Constr: α1 ≤[m1] •
 //│ Rule: C-Var1
 //│ Premises:
 //│   (y0)^m3 ≤[m1] α1 ∈ B
 //│ New Constraints:
-//│  (y0)^m3 ≤[m1] ⚫
+//│  (y0)^m3 ≤[m1] •
 //│ Remaining constraints: 1
 //│ ====== (16) ======
-//│ Constr: (y0)^m3 ≤[m1] ⚫
+//│ Constr: (y0)^m3 ≤[m1] •
 //│ Rule: C-Unwrap
 //│ New Constraints:
-//│  y0 ≤[m3,m1] ⚫
+//│  y0 ≤[m3,m1] •
 //│ Remaining constraints: 1
 //│ ====== (17) ======
-//│ Constr: y0 ≤[m3,m1] ⚫
+//│ Constr: y0 ≤[m3,m1] •
 //│ Rule: C-Var1
 //│ Premises:
 //│   () ≤[m1] y0 ∈ B
 //│ New Constraints:
-//│  () ≤[m1,m3] ⚫
+//│  () ≤[m1,m3] •
 //│ Remaining constraints: 1
 //│ ====== (18) ======
-//│ Constr: () ≤[m1,m3] ⚫
+//│ Constr: () ≤[m1,m3] •
 //│ Rule: C-UnitForce
 //│ Remaining constraints: 0
 //│ ====== Final ======
 //│ ------ Resolved Weak Types ------
 //│ ()
 //│ -------- UBS --------
-//│ x ≤^[m1] ⚫
-//│ α ≤^ ⚫
-//│ y0 ≤^[m3,m1] ⚫
-//│ α1 ≤^[m1] ⚫
+//│ x ≤^[m1] •
+//│ α ≤^ •
+//│ y0 ≤^[m3,m1] •
+//│ α1 ≤^[m1] •
 //│ -------- LBS --------
 //│ x ≥^ ∀^m4 y. ∀^m5 α0. (y -> (y)^m3 ≤ () -> α0) => α0
 //│ α ≥^ (x)^m1
@@ -778,13 +769,13 @@ thunk => (x => x(x))(y => y(y))
 //│ Parsed Core Term: λthunk. (λx. x x) (λy. y y)
 //│ Inferred: thunk -> ∀^m4 x. ∀^m9 α. (x -> ∀^m3 α0. ((x)^m1 ≤ (x)^m2 -> α0) => α0 ≤ (∀^m8 y. y -> ∀^m7 α1. ((y)^m5 ≤ (y)^m6 -> α1) => α1) -> α) => α
 //│ As term: λthunk -> (let α = (λx -> (let α0 = x x in α0)) (λy -> (let α1 = y y in α1)) in α)
-//│ |> thunk, thunk -> ∀^m4 x. ∀^m9 α. (x -> ∀^m3 α0. ((x)^m1 ≤ (x)^m2 -> α0) => α0 ≤ (∀^m8 y. y -> ∀^m7 α1. ((y)^m5 ≤ (y)^m6 -> α1) => α1) -> α) => α ≤ ⚫
+//│ |> thunk, thunk -> ∀^m4 x. ∀^m9 α. (x -> ∀^m3 α0. ((x)^m1 ≤ (x)^m2 -> α0) => α0 ≤ (∀^m8 y. y -> ∀^m7 α1. ((y)^m5 ≤ (y)^m6 -> α1) => α1) -> α) => α ≤ •
 //│ ====== (1) ======
 //│ Constr: thunk
 //│ Rule: C-Promote
 //│ Remaining constraints: 1
 //│ ====== (2) ======
-//│ Constr: thunk -> ∀^m4 x. ∀^m9 α. (x -> ∀^m3 α0. ((x)^m1 ≤ (x)^m2 -> α0) => α0 ≤ (∀^m8 y. y -> ∀^m7 α1. ((y)^m5 ≤ (y)^m6 -> α1) => α1) -> α) => α ≤ ⚫
+//│ Constr: thunk -> ∀^m4 x. ∀^m9 α. (x -> ∀^m3 α0. ((x)^m1 ≤ (x)^m2 -> α0) => α0 ≤ (∀^m8 y. y -> ∀^m7 α1. ((y)^m5 ≤ (y)^m6 -> α1) => α1) -> α) => α ≤ •
 //│ Rule: C-FunForce
 //│ Remaining constraints: 0
 //│ ====== Final ======
@@ -796,7 +787,7 @@ thunk => (x => x(x))(y => y(y))
 //│ Parsed Core Term: ((λx. x x) (λy. y y)) ()
 //│ Inferred: α
 //│ As term: let α2 = (λx -> (let α0 = x x in α0)) (λy -> (let α1 = y y in α1)) in let α = α2 () in α
-//│ |> x, α2, x -> ∀^m3 α0. ((x)^m1 ≤ (x)^m2 -> α0) => α0 ≤ (∀^m8 y. y -> ∀^m7 α1. ((y)^m5 ≤ (y)^m6 -> α1) => α1) -> α2, α, α2 ≤ () -> α, α ≤ ⚫
+//│ |> x, α2, x -> ∀^m3 α0. ((x)^m1 ≤ (x)^m2 -> α0) => α0 ≤ (∀^m8 y. y -> ∀^m7 α1. ((y)^m5 ≤ (y)^m6 -> α1) => α1) -> α2, α, α2 ≤ () -> α, α ≤ •
 //│ ====== (1) ======
 //│ Constr: x
 //│ Rule: C-Promote
@@ -1218,7 +1209,7 @@ thunk => (x => x(x))(y => y(y))
 //│   α9 ≤[m2,m1,m6,m5] () -> α ∈ B
 //│ Remaining constraints: 1
 //│ ====== (67) ======
-//│ Constr: α ≤ ⚫
+//│ Constr: α ≤ •
 //│ Rule: C-Var1
 //│ Remaining constraints: 0
 //│ ====== Final ======
@@ -1240,7 +1231,7 @@ thunk => (x => x(x))(y => y(y))
 //│ y2 ≤^[m6,m2,m1,m5] (y2)^m6 -> α9
 //│ α7 ≤^[m2,m1,m5] () -> α
 //│ α9 ≤^[m2,m1,m6,m5] () -> α
-//│ α ≤^ ⚫
+//│ α ≤^ •
 //│ -------- LBS --------
 //│ x ≥^ ∀^m8 y. y -> ∀^m7 α1. ((y)^m5 ≤ (y)^m6 -> α1) => α1
 //│ α2 ≥^ ∀^m3 α0. ((x)^m1 ≤ (x)^m2 -> α0) => α0
@@ -1258,7 +1249,7 @@ thunk => (x => x(x))(y => y(y))
 //│ Parsed Core Term: () ()
 //│ Inferred: α
 //│ As term: let α = () () in α
-//│ |> α, () ≤ () -> α, α ≤ ⚫
+//│ |> α, () ≤ () -> α, α ≤ •
 //│ ====== (1) ======
 //│ Constr: α
 //│ Rule: C-Promote
@@ -1266,15 +1257,12 @@ thunk => (x => x(x))(y => y(y))
 //│ ====== (2) ======
 //│ Constr: () ≤ () -> α
 //│ Rule: C-Err
-//│ Remaining constraints: 1
-//│ ====== Remaining ======
-//│ α ≤ ⚫
 
 (x => x)( ()( () ))
 //│ Parsed Core Term: (λx. x) (() ())
 //│ Inferred: α
 //│ As term: let α = (λx -> x) (let α0 = () () in α0) in α
-//│ |> x, α, x -> (x)^m1 ≤ (∀^m3 α0. (() ≤ () -> α0) => α0) -> α, α ≤ ⚫
+//│ |> x, α, x -> (x)^m1 ≤ (∀^m3 α0. (() ≤ () -> α0) => α0) -> α, α ≤ •
 //│ ====== (1) ======
 //│ Constr: x
 //│ Rule: C-Promote
@@ -1299,45 +1287,42 @@ thunk => (x => x(x))(y => y(y))
 //│ Rule: C-Var2
 //│ Remaining constraints: 1
 //│ ====== (6) ======
-//│ Constr: α ≤ ⚫
+//│ Constr: α ≤ •
 //│ Rule: C-Var1
 //│ Premises:
 //│   (x)^m1 ≤ α ∈ B
 //│ New Constraints:
-//│  (x)^m1 ≤ ⚫
+//│  (x)^m1 ≤ •
 //│ Remaining constraints: 1
 //│ ====== (7) ======
-//│ Constr: (x)^m1 ≤ ⚫
+//│ Constr: (x)^m1 ≤ •
 //│ Rule: C-Unwrap
 //│ New Constraints:
-//│  x ≤[m1] ⚫
+//│  x ≤[m1] •
 //│ Remaining constraints: 1
 //│ ====== (8) ======
-//│ Constr: x ≤[m1] ⚫
+//│ Constr: x ≤[m1] •
 //│ Rule: C-Var1
 //│ Premises:
 //│   ∀^m3 α0. (() ≤ () -> α0) => α0 ≤ x ∈ B
 //│ New Constraints:
-//│  ∀^m3 α1. (() ≤ () -> α1) => α1 ≤[m1] ⚫
+//│  ∀^m3 α1. (() ≤ () -> α1) => α1 ≤[m1] •
 //│ Remaining constraints: 1
 //│ ====== (9) ======
-//│ Constr: ∀^m3 α1. (() ≤ () -> α1) => α1 ≤[m1] ⚫
+//│ Constr: ∀^m3 α1. (() ≤ () -> α1) => α1 ≤[m1] •
 //│ Rule: C-Forall1
 //│ New Constraints:
-//│  (() ≤ () -> α1) => α1 ≤[m1] ⚫
+//│  (() ≤ () -> α1) => α1 ≤[m1] •
 //│ Remaining constraints: 1
 //│ ====== (10) ======
-//│ Constr: (() ≤ () -> α1) => α1 ≤[m1] ⚫
+//│ Constr: (() ≤ () -> α1) => α1 ≤[m1] •
 //│ Rule: C-Constr
 //│ New Constraints:
 //│  () ≤[m1] () -> α1
-//│  α1 ≤[m1] ⚫
+//│  α1 ≤[m1] •
 //│ Remaining constraints: 2
 //│ ====== (11) ======
 //│ Constr: () ≤[m1] () -> α1
 //│ Rule: C-Err
-//│ Remaining constraints: 1
-//│ ====== Remaining ======
-//│ α1 ≤[m1] ⚫
 
 

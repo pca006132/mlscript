@@ -89,12 +89,12 @@ sealed trait Type:
       case NegType.App(sigma, al) => 
         doc"${sigma.showAsTypeImpl(ArrowLhsPrec)} -> ${al.show}"
           |> parens(ArrowLhsPrec)
-      case _: NegType.Force => "⚫"
+      case _: NegType.Force => "•"
 
-  def showAsTypeLatex(using NamingCtx): Document = showAsTypeLatexImpl(TopPrec, 0)
+  def showAsTypeLatex(using NamingCtx): Document = showAsTypeLatexImpl(TopPrec)
   // newline is Some(indent) if we need to have anewline with indent level of indentation
   // indent is the current level of indentation, regardless of wether we need to break the line or not
-  def showAsTypeLatexImpl(prec: Int, indent: Int)(using ctx: NamingCtx): Document =
+  def showAsTypeLatexImpl(prec: Int)(using ctx: NamingCtx): Document =
     def parens(p: Int)(d: Document): Document =
       if p < prec then doc"(${d})" else d
     def varAsLatex(v: String): Document =
@@ -104,38 +104,38 @@ sealed trait Type:
         case i => i
       val name = v.substring(0, firstDigitIndex) match
         case "α" => doc"\alpha"
-        case other => doc"$other"
+        case other => if other.length == 1 then doc"$other" else doc"\text{$other}"
       val subscript = v.substring(firstDigitIndex)
-      doc"$$${name}_{${subscript}}$$"
+      doc"${name}_{${subscript}}"
     this match
       case al: TypeVar => varAsLatex(ctx.lookupTypeVar(al))
-      case QuantType.Base(ty) => ty.showAsTypeLatexImpl(prec, indent)
+      case QuantType.Base(ty) => ty.showAsTypeLatexImpl(prec)
       case QuantType.Forall(al, mrk, ty) =>
         val rest = ty match
-          case _: (QuantType.Base | QuantType.Forall) => ty.showAsTypeLatexImpl(ForallPrec, indent)
+          case _: (QuantType.Base | QuantType.Forall) => ty.showAsTypeLatexImpl(ForallPrec)
           case _: QuantType.Constr =>
-            doc"\n${"  "*(indent+1)}${ty.showAsTypeLatexImpl(ForallPrec, indent+1)}"
-        doc"$$\forall^{${mrk.uid}}$$${al.showLatex}.$rest"
+            doc"${ty.showAsTypeLatexImpl(ForallPrec)}"
+        doc"\forall ${al.showLatex}^{${mrk.uid}}.\,$rest"
       case QuantType.Constr(c, ty) =>
-        val rest = ty.showAsTypeLatexImpl(ForallPrec, indent)
-        doc"${c.showLatex(indent)} $$\implies$$\n${"  "*indent}$rest"
-      case PosType.Unit() => doc"$$\tyUnit$$"
-      case PosType.Const(i) => doc"$$${i}$$"
+        val rest = ty.showAsTypeLatexImpl(ForallPrec)
+        doc"${c.showLatex} \Rightarrow $rest"
+      case PosType.Unit() => doc"()"
+      case PosType.Const(i) => doc"${i}"
       case PosType.Var(al) => al.showLatex
       case PosType.Lam(al, sigma) =>
         val rhs = sigma match
-          case _: (QuantType.Base | QuantType.Forall) => sigma.showAsTypeLatexImpl(ArrowRhsPrec, indent)
+          case _: (QuantType.Base | QuantType.Forall) => sigma.showAsTypeLatexImpl(ArrowRhsPrec)
           case _: QuantType.Constr =>
-            doc"\n${"  "*(indent+1)}${sigma.showAsTypeLatexImpl(ArrowRhsPrec, indent+1)}"
+            doc"${sigma.showAsTypeLatexImpl(ArrowRhsPrec)}"
         al match
-          case a: TypeVar => doc"${a.showLatex} $$\rightarrow$$ $rhs"
-          case a: NegType.Force => doc"${a.showAsTypeLatexImpl(ArrowLhsPrec, indent)} $$\rightarrow$$ $rhs"
+          case a: TypeVar => doc"${a.showLatex} \rightarrow $rhs"
+          case a: NegType.Force => doc"${a.showAsTypeLatexImpl(ArrowLhsPrec)} \rightarrow $rhs"
       case PosType.Mrked(al, m) =>
-        if ctx.showMarks then doc"${al.showLatex}$$^{${m.uid}}$$" else al.showLatex
+        if ctx.showMarks then doc"${al.showLatex}^{${m.uid}}" else al.showLatex
       case NegType.Var(al) => al.showLatex
       case NegType.App(sigma, al) =>
-        doc"${sigma.showAsTypeLatexImpl(ArrowLhsPrec, indent)} $$\rightarrow$$ ${al.showLatex}"
-      case _:NegType.Force => doc"$$\bullet$$"
+        doc"${sigma.showAsTypeLatexImpl(ArrowLhsPrec)} \rightarrow ${al.showLatex}"
+      case _:NegType.Force => doc"\bullet"
 
   def showAsTerm(using ctx: NamingCtx) = showAsTermImpl(TopPrec)
   def showAsTermImpl(prec: Int)(using ctx: NamingCtx): Document =
@@ -169,7 +169,7 @@ sealed trait Type:
         doc"λ${al.showAsTermImpl(LamPrec)} -> ${sigma.showAsTermImpl(LamPrec)}"
           |> parens(LamPrec)
       case PosType.Mrked(al, m) => al.show
-      case NegType.Force(_) => "⚫"
+      case NegType.Force(_) => "•"
       case _ => "???"
 
 // m
@@ -193,22 +193,22 @@ class Constraint(val lb: QuantType, val ub: NegType, val mrks: List[Mark]) deriv
       distinctMrks.map(m => f"m${m.uid}").mkString("[", ",","]") else ""
     doc"${lb.showAsTypeImpl(TopPrec)} ≤${s} ${ub.showAsTypeImpl(TopPrec)}"
 
-  def showLatex(using ctx: NamingCtx)(indent: Int) =
+  def showLatex(using ctx: NamingCtx) =
     val s = if ctx.showMarks && !mrks.isEmpty then
       distinctMrks.map(m => f"${m.uid}").mkString("", ",","") else ""
     (lb, ub) match
       case (_, _: NegType.Var) =>
-        val lhs = ub.showAsTypeLatexImpl(TopPrec, indent)
-        val rhs = lb.showAsTypeLatexImpl(TopPrec, indent+1)
-        doc"${lhs} $$\geq^{${s}}$$ ${rhs}"
+        val lhs = lb.showAsTypeLatexImpl(TopPrec)
+        val rhs = ub.showAsTypeLatexImpl(TopPrec)
+        doc"${lhs} \leq^{${s}} ${rhs}"
       case (QuantType.Base(_:(PosType.Mrked | PosType.Var)), _) =>
-        val lhs = lb.showAsTypeLatexImpl(TopPrec, indent)
-        val rhs = ub.showAsTypeLatexImpl(TopPrec, indent+1)
-        doc"${lhs} $$\leq^{${s}}$$ (${rhs})"
+        val lhs = lb.showAsTypeLatexImpl(TopPrec)
+        val rhs = ub.showAsTypeLatexImpl(TopPrec)
+        doc"${lhs} \leq^{${s}} (${rhs})"
       case (_, _) =>
-        val lhs = lb.showAsTypeLatexImpl(TopPrec, indent)
-        val rhs = ub.showAsTypeLatexImpl(TopPrec, indent+1)
-        doc"(${lhs}) $$\leq^{${s}}$$ (${rhs})"
+        val lhs = lb.showAsTypeLatexImpl(TopPrec)
+        val rhs = ub.showAsTypeLatexImpl(TopPrec)
+        doc"(${lhs}) \leq^{${s}} (${rhs})"
 
   def showAsTerm(using ctx: NamingCtx): Document = 
     def parens(p: Int)(d: Document): Document =
@@ -218,7 +218,7 @@ class Constraint(val lb: QuantType, val ub: NegType, val mrks: List[Mark]) deriv
       case NegType.App(sigma, al) => (al,
         doc"${lb.showAsTermImpl(FunPrec)} ${sigma.showAsTermImpl(ArgPrec)}"
           |> parens(BindingPrec))
-      case NegType.Force(_) => return doc"⚫"
+      case NegType.Force(_) => return doc"•"
     doc"${beta.show} = ${rhs}"
 
 // α, β
@@ -231,7 +231,7 @@ class TypeVar(val prefix: String, val uid: Int) extends Type:
 
   def show(using NamingCtx) = showAsTypeImpl(TopPrec)
 
-  def showLatex(using NamingCtx): Document = showAsTypeLatexImpl(TopPrec, 0)
+  def showLatex(using NamingCtx): Document = showAsTypeLatexImpl(TopPrec)
 
   override def equals(that: Any) = that match
     case al: TypeVar => uid == al.uid
@@ -455,7 +455,7 @@ class CtxSolver(var unresolved: List[CtxElem])(using rai: Raise, naming: NamingC
 
   def showFrontLatex(using NamingCtx) = unresolved match
     case (al: TypeVar, _) :: _ => al.showLatex
-    case (c: Constraint) :: _ => c.showLatex(0)
+    case (c: Constraint) :: _ => c.showLatex
     case _ => ""
 
   def step = unresolved match

@@ -292,7 +292,7 @@ abstract class MLsDiffMaker extends DiffMaker:
 
       if showTypeLatex.isSet then
         output("|>\n" + cons.map(s => s match
-          case c: Constraint => c.showLatex(0)
+          case c: Constraint => c.showLatex
           case (al: TypeVar, _) => al.showLatex
         ).mkString("\n"))
       else
@@ -331,6 +331,7 @@ abstract class MLsDiffMaker extends DiffMaker:
               output(s"${al.show} ≥^${ss} ${ty.showAsType}")
         if ubs + lbs > 0 then
           output("---------------------")
+
       while iter < fuel && !solver.unresolved.isEmpty do
         iter += 1
         output(s"====== (${iter}) ======")
@@ -353,13 +354,13 @@ abstract class MLsDiffMaker extends DiffMaker:
           output(s"New Constraints:")
         for con <- newCons do
           if showTypeLatex.isSet then
-            output(s"\n${con.showLatex(0)}")
+            output(s"\n${con.showLatex}")
           else
             output(s" ${con.show}")
         if iter == fuel then
           output(s"==== Out of fuel ====")
         if rule == "C-Err" then
-          iter = fuel
+          return
         // if rule.startsWith("C-Forall") then
         //   for (key, value) <- solver.quantCache.iterator do
         //     val mrks = key.iterator.map(m => s"m${m.uid}").mkString(",")
@@ -376,7 +377,7 @@ abstract class MLsDiffMaker extends DiffMaker:
         output(s"====== Remaining ======")
         for elem <- solver.unresolved do elem match
           case (al: TypeVar, _) => output(s"${if showTypeLatex.isSet then al.showLatex else al.show}")
-          case c : Constraint => output(s"${if showTypeLatex.isSet then c.showLatex(0) else c.show}")
+          case c : Constraint => output(s"${if showTypeLatex.isSet then c.showLatex else c.show}")
       else
         output(s"====== Final ======")
         output(s"------ Resolved Weak Types ------")
