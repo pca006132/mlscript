@@ -85,6 +85,316 @@ let b = ()
 //│ b ≥^ ()
 //│ ---------------------
 
+(x =>
+  fun y = x(y)
+  y )
+//│ Parsed Core Term: λx. (let y = x y in y)
+//│ Inferred: x -> ∀^m5 y. (∀^m3 α. ((x)^m1 ≤ (y)^m2 -> α) => α ≤ y) => (y)^m4
+//│ As term: λx -> (let y = (let α = x y in α) in y)
+//│ |> x, x -> ∀^m5 y. (∀^m3 α. ((x)^m1 ≤ (y)^m2 -> α) => α ≤ y) => (y)^m4 ≤ ⚫
+//│ ====== (1) ======
+//│ Constr: x
+//│ Rule: C-Promote
+//│ Remaining constraints: 1
+//│ ====== (2) ======
+//│ Constr: x -> ∀^m5 y. (∀^m3 α. ((x)^m1 ≤ (y)^m2 -> α) => α ≤ y) => (y)^m4 ≤ ⚫
+//│ Rule: C-FunForce
+//│ Remaining constraints: 0
+//│ ====== Final ======
+//│ ------ Resolved Weak Types ------
+//│ x -> ∀^m5 y. (∀^m3 α. ((x)^m1 ≤ (y)^m2 -> α) => α ≤ y) => (y)^m4
+
+let a = b
+let b = let d = a in b
+let c = b in c
+//│ Parsed Core Term: let a = b; b = (let d = a in b); c = b in c
+//│ Inferred: (c)^m6
+//│ As term: let a = b; b = (let d = a in b); c = b in c
+//│ |> a, b, c, (b)^m1 ≤ a, ∀^m4 d. ((a)^m2 ≤ d) => (b)^m3 ≤ b, (b)^m5 ≤ c, (c)^m6 ≤ ⚫
+//│ ====== (1) ======
+//│ Constr: a
+//│ Rule: C-Promote
+//│ Remaining constraints: 6
+//│ ====== (2) ======
+//│ Constr: b
+//│ Rule: C-Promote
+//│ Remaining constraints: 5
+//│ ====== (3) ======
+//│ Constr: c
+//│ Rule: C-Promote
+//│ Remaining constraints: 4
+//│ ====== (4) ======
+//│ Constr: (b)^m1 ≤ a
+//│ Rule: C-Var2
+//│ Remaining constraints: 3
+//│ ====== (5) ======
+//│ Constr: ∀^m4 d. ((a)^m2 ≤ d) => (b)^m3 ≤ b
+//│ Rule: C-Var2
+//│ Remaining constraints: 2
+//│ ====== (6) ======
+//│ Constr: (b)^m5 ≤ c
+//│ Rule: C-Var2
+//│ Remaining constraints: 1
+//│ ====== (7) ======
+//│ Constr: (c)^m6 ≤ ⚫
+//│ Rule: C-Unwrap
+//│ New Constraints:
+//│  c ≤[m6] ⚫
+//│ Remaining constraints: 1
+//│ ====== (8) ======
+//│ Constr: c ≤[m6] ⚫
+//│ Rule: C-Var1
+//│ Premises:
+//│   (b)^m5 ≤ c ∈ B
+//│ New Constraints:
+//│  (b)^m5 ≤[m6] ⚫
+//│ Remaining constraints: 1
+//│ ====== (9) ======
+//│ Constr: (b)^m5 ≤[m6] ⚫
+//│ Rule: C-Unwrap
+//│ New Constraints:
+//│  b ≤[m5,m6] ⚫
+//│ Remaining constraints: 1
+//│ ====== (10) ======
+//│ Constr: b ≤[m5,m6] ⚫
+//│ Rule: C-Var1
+//│ Premises:
+//│   ∀^m4 d. ((a)^m2 ≤ d) => (b)^m3 ≤ b ∈ B
+//│ New Constraints:
+//│  ∀^m4 d0. ((a)^m2 ≤ d0) => (b)^m3 ≤[m5,m6] ⚫
+//│ Remaining constraints: 1
+//│ ====== (11) ======
+//│ Constr: ∀^m4 d0. ((a)^m2 ≤ d0) => (b)^m3 ≤[m5,m6] ⚫
+//│ Rule: C-Forall1
+//│ New Constraints:
+//│  ((a)^m2 ≤ d0) => (b)^m3 ≤[m5,m6] ⚫
+//│ Remaining constraints: 1
+//│ ====== (12) ======
+//│ Constr: ((a)^m2 ≤ d0) => (b)^m3 ≤[m5,m6] ⚫
+//│ Rule: C-Constr
+//│ New Constraints:
+//│  (a)^m2 ≤[m5,m6] d0
+//│  (b)^m3 ≤[m5,m6] ⚫
+//│ Remaining constraints: 2
+//│ ====== (13) ======
+//│ Constr: (a)^m2 ≤[m5,m6] d0
+//│ Rule: C-Var2
+//│ Remaining constraints: 1
+//│ ====== (14) ======
+//│ Constr: (b)^m3 ≤[m5,m6] ⚫
+//│ Rule: C-Unwrap
+//│ New Constraints:
+//│  b ≤[m3,m5,m6] ⚫
+//│ Remaining constraints: 1
+//│ ====== (15) ======
+//│ Constr: b ≤[m3,m5,m6] ⚫
+//│ Rule: C-Var1
+//│ Premises:
+//│   ∀^m4 d. ((a)^m2 ≤ d) => (b)^m3 ≤ b ∈ B
+//│ New Constraints:
+//│  ∀^m4 d1. ((a)^m2 ≤ d1) => (b)^m3 ≤[m3,m5,m6] ⚫
+//│ Remaining constraints: 1
+//│ ====== (16) ======
+//│ Constr: ∀^m4 d1. ((a)^m2 ≤ d1) => (b)^m3 ≤[m3,m5,m6] ⚫
+//│ Rule: C-Forall1
+//│ New Constraints:
+//│  ((a)^m2 ≤ d1) => (b)^m3 ≤[m3,m5,m6] ⚫
+//│ Remaining constraints: 1
+//│ ====== (17) ======
+//│ Constr: ((a)^m2 ≤ d1) => (b)^m3 ≤[m3,m5,m6] ⚫
+//│ Rule: C-Constr
+//│ New Constraints:
+//│  (a)^m2 ≤[m3,m5,m6] d1
+//│  (b)^m3 ≤[m3,m5,m6] ⚫
+//│ Remaining constraints: 2
+//│ ====== (18) ======
+//│ Constr: (a)^m2 ≤[m3,m5,m6] d1
+//│ Rule: C-Var2
+//│ Remaining constraints: 1
+//│ ====== (19) ======
+//│ Constr: (b)^m3 ≤[m3,m5,m6] ⚫
+//│ Rule: C-Unwrap
+//│ New Constraints:
+//│  b ≤[m3,m5,m6] ⚫
+//│ Remaining constraints: 1
+//│ ====== (20) ======
+//│ Constr: b ≤[m3,m5,m6] ⚫
+//│ Rule: C-Skip
+//│ Premises:
+//│   b ≤[m3,m5,m6] ⚫ ∈ B
+//│ Remaining constraints: 0
+//│ ====== Final ======
+//│ ------ Resolved Weak Types ------
+//│ -------- UBS --------
+//│ b ≤^[m5,m6] ⚫
+//│ b ≤^[m3,m5,m6] ⚫
+//│ c ≤^[m6] ⚫
+//│ -------- LBS --------
+//│ a ≥^ (b)^m1
+//│ b ≥^ ∀^m4 d. ((a)^m2 ≤ d) => (b)^m3
+//│ c ≥^ (b)^m5
+//│ d0 ≥^[m5,m6] (a)^m2
+//│ d1 ≥^[m3,m5,m6] (a)^m2
+//│ ---------------------
+
+// invalid term
+// let a = b
+// let b = let d = a in b
+// let c = b 
+// let d = () in c
+
+(x =>
+  fun y = x(y)
+  y )
+//│ Parsed Core Term: λx. (let y = x y in y)
+//│ Inferred: x -> ∀^m5 y. (∀^m3 α. ((x)^m1 ≤ (y)^m2 -> α) => α ≤ y) => (y)^m4
+//│ As term: λx -> (let y = (let α = x y in α) in y)
+//│ |> x, x -> ∀^m5 y. (∀^m3 α. ((x)^m1 ≤ (y)^m2 -> α) => α ≤ y) => (y)^m4 ≤ ⚫
+//│ ====== (1) ======
+//│ Constr: x
+//│ Rule: C-Promote
+//│ Remaining constraints: 1
+//│ ====== (2) ======
+//│ Constr: x -> ∀^m5 y. (∀^m3 α. ((x)^m1 ≤ (y)^m2 -> α) => α ≤ y) => (y)^m4 ≤ ⚫
+//│ Rule: C-FunForce
+//│ Remaining constraints: 0
+//│ ====== Final ======
+//│ ------ Resolved Weak Types ------
+//│ x -> ∀^m5 y. (∀^m3 α. ((x)^m1 ≤ (y)^m2 -> α) => α ≤ y) => (y)^m4
+
+let a = b
+let b = let d = a in b
+let c = b in c
+//│ Parsed Core Term: let a = b; b = (let d = a in b); c = b in c
+//│ Inferred: (c)^m6
+//│ As term: let a = b; b = (let d = a in b); c = b in c
+//│ |> a, b, c, (b)^m1 ≤ a, ∀^m4 d. ((a)^m2 ≤ d) => (b)^m3 ≤ b, (b)^m5 ≤ c, (c)^m6 ≤ ⚫
+//│ ====== (1) ======
+//│ Constr: a
+//│ Rule: C-Promote
+//│ Remaining constraints: 6
+//│ ====== (2) ======
+//│ Constr: b
+//│ Rule: C-Promote
+//│ Remaining constraints: 5
+//│ ====== (3) ======
+//│ Constr: c
+//│ Rule: C-Promote
+//│ Remaining constraints: 4
+//│ ====== (4) ======
+//│ Constr: (b)^m1 ≤ a
+//│ Rule: C-Var2
+//│ Remaining constraints: 3
+//│ ====== (5) ======
+//│ Constr: ∀^m4 d. ((a)^m2 ≤ d) => (b)^m3 ≤ b
+//│ Rule: C-Var2
+//│ Remaining constraints: 2
+//│ ====== (6) ======
+//│ Constr: (b)^m5 ≤ c
+//│ Rule: C-Var2
+//│ Remaining constraints: 1
+//│ ====== (7) ======
+//│ Constr: (c)^m6 ≤ ⚫
+//│ Rule: C-Unwrap
+//│ New Constraints:
+//│  c ≤[m6] ⚫
+//│ Remaining constraints: 1
+//│ ====== (8) ======
+//│ Constr: c ≤[m6] ⚫
+//│ Rule: C-Var1
+//│ Premises:
+//│   (b)^m5 ≤ c ∈ B
+//│ New Constraints:
+//│  (b)^m5 ≤[m6] ⚫
+//│ Remaining constraints: 1
+//│ ====== (9) ======
+//│ Constr: (b)^m5 ≤[m6] ⚫
+//│ Rule: C-Unwrap
+//│ New Constraints:
+//│  b ≤[m5,m6] ⚫
+//│ Remaining constraints: 1
+//│ ====== (10) ======
+//│ Constr: b ≤[m5,m6] ⚫
+//│ Rule: C-Var1
+//│ Premises:
+//│   ∀^m4 d. ((a)^m2 ≤ d) => (b)^m3 ≤ b ∈ B
+//│ New Constraints:
+//│  ∀^m4 d0. ((a)^m2 ≤ d0) => (b)^m3 ≤[m5,m6] ⚫
+//│ Remaining constraints: 1
+//│ ====== (11) ======
+//│ Constr: ∀^m4 d0. ((a)^m2 ≤ d0) => (b)^m3 ≤[m5,m6] ⚫
+//│ Rule: C-Forall1
+//│ New Constraints:
+//│  ((a)^m2 ≤ d0) => (b)^m3 ≤[m5,m6] ⚫
+//│ Remaining constraints: 1
+//│ ====== (12) ======
+//│ Constr: ((a)^m2 ≤ d0) => (b)^m3 ≤[m5,m6] ⚫
+//│ Rule: C-Constr
+//│ New Constraints:
+//│  (a)^m2 ≤[m5,m6] d0
+//│  (b)^m3 ≤[m5,m6] ⚫
+//│ Remaining constraints: 2
+//│ ====== (13) ======
+//│ Constr: (a)^m2 ≤[m5,m6] d0
+//│ Rule: C-Var2
+//│ Remaining constraints: 1
+//│ ====== (14) ======
+//│ Constr: (b)^m3 ≤[m5,m6] ⚫
+//│ Rule: C-Unwrap
+//│ New Constraints:
+//│  b ≤[m3,m5,m6] ⚫
+//│ Remaining constraints: 1
+//│ ====== (15) ======
+//│ Constr: b ≤[m3,m5,m6] ⚫
+//│ Rule: C-Var1
+//│ Premises:
+//│   ∀^m4 d. ((a)^m2 ≤ d) => (b)^m3 ≤ b ∈ B
+//│ New Constraints:
+//│  ∀^m4 d1. ((a)^m2 ≤ d1) => (b)^m3 ≤[m3,m5,m6] ⚫
+//│ Remaining constraints: 1
+//│ ====== (16) ======
+//│ Constr: ∀^m4 d1. ((a)^m2 ≤ d1) => (b)^m3 ≤[m3,m5,m6] ⚫
+//│ Rule: C-Forall1
+//│ New Constraints:
+//│  ((a)^m2 ≤ d1) => (b)^m3 ≤[m3,m5,m6] ⚫
+//│ Remaining constraints: 1
+//│ ====== (17) ======
+//│ Constr: ((a)^m2 ≤ d1) => (b)^m3 ≤[m3,m5,m6] ⚫
+//│ Rule: C-Constr
+//│ New Constraints:
+//│  (a)^m2 ≤[m3,m5,m6] d1
+//│  (b)^m3 ≤[m3,m5,m6] ⚫
+//│ Remaining constraints: 2
+//│ ====== (18) ======
+//│ Constr: (a)^m2 ≤[m3,m5,m6] d1
+//│ Rule: C-Var2
+//│ Remaining constraints: 1
+//│ ====== (19) ======
+//│ Constr: (b)^m3 ≤[m3,m5,m6] ⚫
+//│ Rule: C-Unwrap
+//│ New Constraints:
+//│  b ≤[m3,m5,m6] ⚫
+//│ Remaining constraints: 1
+//│ ====== (20) ======
+//│ Constr: b ≤[m3,m5,m6] ⚫
+//│ Rule: C-Skip
+//│ Premises:
+//│   b ≤[m3,m5,m6] ⚫ ∈ B
+//│ Remaining constraints: 0
+//│ ====== Final ======
+//│ ------ Resolved Weak Types ------
+//│ -------- UBS --------
+//│ b ≤^[m5,m6] ⚫
+//│ b ≤^[m3,m5,m6] ⚫
+//│ c ≤^[m6] ⚫
+//│ -------- LBS --------
+//│ a ≥^ (b)^m1
+//│ b ≥^ ∀^m4 d. ((a)^m2 ≤ d) => (b)^m3
+//│ c ≥^ (b)^m5
+//│ d0 ≥^[m5,m6] (a)^m2
+//│ d1 ≥^[m3,m5,m6] (a)^m2
+//│ ---------------------
+
 let a = ()
 let b =
   let d = (e => a(e))(a)
