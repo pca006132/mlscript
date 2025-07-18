@@ -302,7 +302,7 @@ abstract class MLsDiffMaker extends DiffMaker:
         ).mkString(", "))
 
       var solver = CtxSolver(cons)
-      var fuel = 100
+      var fuel = 1000
       var iter = 0
       def printBounds = 
         val ubs = solver.upperBounds.valuesIterator.map(_.size).sum
@@ -378,11 +378,11 @@ abstract class MLsDiffMaker extends DiffMaker:
         for elem <- solver.unresolved do elem match
           case (al: TypeVar, _) => output(s"${if showTypeLatex.isSet then al.showLatex else al.show}")
           case c : Constraint => output(s"${if showTypeLatex.isSet then c.showLatex else c.show}")
+        printBounds
       else
         output(s"====== Final ======")
         output(s"------ Resolved Weak Types ------")
         for ty <- solver.results do
           output(s"${(if showTypeLatex.isSet then ty.showAsTypeLatex else ty.showAsType)}")
-        printBounds
 
 
