@@ -1,6 +1,7 @@
 package hkmc2
 
 import scala.collection.mutable
+import scala.collection.mutable.{LinkedHashMap => MutMap, LinkedHashSet => MutSet}
 
 import mlscript.utils.*, shorthands.*
 import utils.*
@@ -280,7 +281,7 @@ abstract class MLsDiffMaker extends DiffMaker:
       import typing.*
       import typing.supremef.*
       val typer = Typer()
-      given NamingCtx = NamingCtx(true)
+      given NamingCtx = NamingCtx(false)
       given InferenceCtx = InferenceCtx(None, Map.empty)
       val ctrm = typer.fromTerm(trm)
       output("Parsed Core Term: " + ctrm.show)
@@ -314,7 +315,7 @@ abstract class MLsDiffMaker extends DiffMaker:
         if ubs > 0 then
           output("-------- UBS --------")
         for al <- bounded do
-          for ((_, s), ty) <- solver.upperBounds.getOrElse(al, Map.empty[(NegType, List[Mark]), NegType]) do
+          for ((ty, s), _) <- solver.upperBounds.getOrElse(al, Map.empty[(NegType, List[Mark]), NegType]) do
             val ss = (if !s.isEmpty then s.map(m => f"m${m.uid}").mkString("[", ",","]") else "")
             if showTypeLatex.isSet then
               output(s"${al.showLatex} $$\\leq$$ ${ty.showAsTypeLatex}")
@@ -323,7 +324,7 @@ abstract class MLsDiffMaker extends DiffMaker:
         if lbs > 0 then
           output("-------- LBS --------")
         for al <- bounded do
-          for ((_, s), ty) <- solver.lowerBounds.getOrElse(al, Map.empty[(QuantType, List[Mark]), QuantType]) do
+          for ((ty, s), _) <- solver.lowerBounds.getOrElse(al, Map.empty[(QuantType, List[Mark]), QuantType]) do
             val ss = (if !s.isEmpty then s.map(m => f"m${m.uid}").mkString("[", ",","]") else "")
             if showTypeLatex.isSet then
               output(s"${al.showLatex} $$\\geq$$ ${ty.showAsTypeLatex}")

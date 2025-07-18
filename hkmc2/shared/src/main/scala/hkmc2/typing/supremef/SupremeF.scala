@@ -3,6 +3,7 @@ package typing.supremef
 
 import scala.language.strictEquality
 import scala.collection.mutable.{LinkedHashMap => MutMap, LinkedHashSet => MutSet}
+import scala.util.hashing.MurmurHash3.mix
 
 import mlscript.utils.GenHelper
 import mlscript.utils.shorthands.*
@@ -179,6 +180,12 @@ class Mark(val uid: Int) extends Ordered[Mark] derives CanEqual:
 // c
 class Constraint(val lb: QuantType, val ub: NegType, val mrks: List[Mark]) derives CanEqual:
   lazy val distinctMrks = mrks.distinct
+
+  override def equals(other: Any) = other match 
+    case other: Constraint => lb == other.lb && ub == other.ub
+    case _ => false
+
+  override def hashCode(): Int = mix(lb.hashCode(), ub.hashCode())
   
   def refresh(using InferenceCtx, Map[Int, TypeVar]) =
     Constraint(lb.refresh, ub.refresh, mrks)
@@ -221,6 +228,8 @@ class Constraint(val lb: QuantType, val ub: NegType, val mrks: List[Mark]) deriv
       case NegType.Force(_) => return doc"•"
     doc"${beta.show} = ${rhs}"
 
+given CanEqual[TypeVar, TypeVar] = CanEqual.derived
+
 // α, β
 class TypeVar(val prefix: String, val uid: Int) extends Type:
   def refresh(using ctx: InferenceCtx, mapping: Map[Int, TypeVar]) =
@@ -244,6 +253,19 @@ enum QuantType extends Type derives CanEqual:
   case Base(ty: PosType)
   case Forall(al: TypeVar, mrk: Mark, ty: QuantType)
   case Constr(c: Constraint, ty: QuantType)
+
+  override def equals(other: Any) = (this, other) match
+    case (QuantType.Base(ty1), QuantType.Base(ty2)) => ty1 == ty2
+    case (QuantType.Forall(al1, m1, ty1), QuantType.Forall(al2, m2, ty2)) =>
+      al1 == al2 && m1.uid == m2.uid && ty1 == ty2
+    case (QuantType.Constr(c1, ty1), QuantType.Constr(c2, ty2)) =>
+      c1 == c2 && ty1 == ty2
+    case _ => false
+
+  override def hashCode(): Int = this match
+    case Base(ty) => ty.hashCode
+    case Forall(al, mrk, ty) => mix(mix(al.hashCode, mrk.uid), ty.hashCode)
+    case Constr(c, ty) => mix(c.hashCode, ty.hashCode)
 
   def canonicalize(using ctx: CanonicalizeCtx): QuantType = this match
     case Base(ty) => Base(ty.canonicalize)
@@ -270,13 +292,32 @@ enum PosType extends Type derives CanEqual:
   case Lam(al: TypeVar | NegType.Force, sigma: QuantType)
   case Mrked(al: TypeVar, m: Mark)
 
+  override def hashCode(): Int = this match
+    case Unit() => 0
+    case Const(i) => i.hashCode
+    case Var(al) => al.hashCode
+    case Lam(al: TypeVar, sigma) => mix(al.hashCode, sigma.hashCode)
+    case Lam(al: NegType.Force, sigma) => mix(al.hashCode, sigma.hashCode)
+    case Mrked(al, m) => mix(al.hashCode, m.uid.hashCode)
+
+  override def equals(other: Any) = (this, other) match
+    case (Unit(), Unit()) => true
+    case (Const(i1), Const(i2)) => i1 == i2
+    case (Var(a1), Var(a2)) => a1 == a2
+    case (Lam(a1: TypeVar, s1), Lam(a2: TypeVar, s2)) =>
+      a1 == a2 && s1 == s2
+    case (Lam(_: NegType.Force, s1), Lam(_: NegType.Force, s2)) =>
+      s1 == s2
+    case (Mrked(a1, _), Mrked(a2, _)) => a1 == a2
+    case _ => false
+
   def canonicalize(using ctx: CanonicalizeCtx): PosType = this match
     case Unit() => Unit()
     case x: Const => x
     case Var(al) => Var(al.canonicalize)
     case Lam(al: TypeVar, sigma) => Lam(al.canonicalize, sigma.canonicalize)
     case Lam(al: NegType.Force, sigma) => Lam(al, sigma.canonicalize)
-    case Mrked(al, m) => Var(al.canonicalize)
+    case Mrked(al, m) => Mrked(al.canonicalize, m)
 
   def refresh(using InferenceCtx, Map[Int, TypeVar]): PosType = this match
     case Unit() => Unit()
@@ -291,6 +332,17 @@ enum NegType extends Type derives CanEqual:
   case Var(al: TypeVar)
   case App(sigma: QuantType, al: TypeVar)
   case Force(toplevel: Boolean)
+
+  override def equals(other: Any) = (this, other) match
+    case (Var(a1), Var(a2)) => a1 == a2
+    case (App(s1, a1), App(s2, a2)) => s1 == s2 && a1 == a2
+    case (Force(x), Force(y)) if x == y => true
+    case _ => false
+
+  override def hashCode(): Int = this match
+    case Var(al) => al.hashCode
+    case App(sigma, al) => mix(sigma.hashCode, al.hashCode)
+    case Force(toplevel) => toplevel.hashCode
 
   def canonicalize(using ctx: CanonicalizeCtx): NegType = this match
     case Var(al) => Var(al.canonicalize)

@@ -172,7 +172,7 @@ object Main:
         case c: Constraint => outputLatex("‣", c.showLatex.toString)
         case (al: TypeVar, _) => outputLatex("‣", al.showLatex.toString)
     var solver = CtxSolver(cons)
-    var fuel = 500
+    var fuel = 1000
     var iter = 0
     var errored = false
     while iter < fuel && !solver.unresolved.isEmpty do
