@@ -1,0 +1,12 @@
+// Applying self-application with the identity function, and then applied with a unit.
+// The result is a unit.
+(x => x(x))(y => y)(())
+
+// Deferred diverging term, which is just a function type.
+thunk => (x => x(x))(y => y(y))
+
+// Diverging term applied, which never returns anything.
+// Type inference yields a type variable with no upper/lower bounds,
+// so the set of inferred weak types is empty.
+(x => x(x))(y => y(y))(())
+

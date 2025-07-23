@@ -12,13 +12,37 @@ fun removeDiffTests(source) =
   source.replaceAll(diffTestPattern, "").trim()
 
 examples |> MutMap.insert of
-  "Basics.mls"
-  name: "Basics"
+  "identity.mls"
+  name: "Identity"
   source: removeDiffTests of
-    import "hkmc2/shared/src/test/mlscript/supremef/Basics.mls"
+    import "hkmc2/shared/src/test/mlscript/supremef/identity.mls"
 
 examples |> MutMap.insert of
-  "Bindings.mls"
-  name: "Bindings"
+  "self-app.mls"
+  name: "Self-Application"
   source: removeDiffTests of
-    import "hkmc2/shared/src/test/mlscript/supremef/Bindings.mls"
+    import "hkmc2/shared/src/test/mlscript/supremef/self-app.mls"
+
+examples |> MutMap.insert of
+  "stuck.mls"
+  name: "Stuck Terms"
+  source: removeDiffTests of
+    import "hkmc2/shared/src/test/mlscript/supremef/stuck.mls"
+
+examples |> MutMap.insert of
+  "cond.mls"
+  name: "Cond Approximation"
+  source: removeDiffTests of
+    import "hkmc2/shared/src/test/mlscript/supremef/cond.mls"
+
+examples |> MutMap.insert of
+  "rec1.mls"
+  name: "Recursion Example 1"
+  source: removeDiffTests of
+    import "hkmc2/shared/src/test/mlscript/supremef/rec1.mls"
+
+examples |> MutMap.insert of
+  "rec2.mls"
+  name: "Recursion Example 2"
+  source: removeDiffTests of
+    import "hkmc2/shared/src/test/mlscript/supremef/rec2.mls"

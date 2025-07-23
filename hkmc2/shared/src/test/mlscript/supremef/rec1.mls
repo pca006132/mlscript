@@ -1,0 +1,17 @@
+// Simple recursion example, which uses lambda encoding of Booleans, list,
+// and the y-combinator for recursion.
+// Note that this is rather simple (O(n) in the size of the program), so we have enough
+// marks to infer the precise result.
+let
+  tru = a => b => a
+  fals = a => b => b
+  mkpair = a => b => c => c(a)(b)
+  nil = fals
+  head = p => p(tru)
+  tail = p => p(fals)
+  isEmpty = p => p(x => y => z => fals)(tru)
+  fix = f => (x => f(x(x)))(x => f(x(x)))
+  concatImpl = f => l1 => l2 => isEmpty(l1)(l2)( mkpair(head(l1))(f(tail(l1)(l2))) )
+  concat = fix(concatImpl)
+head(concat(mkpair(2)(mkpair(1)(nil)))(mkpair(3)(nil)))
+

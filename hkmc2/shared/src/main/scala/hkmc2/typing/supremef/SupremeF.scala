@@ -17,7 +17,7 @@ private val TopPrec = 0
 
 private val ArrowLhsPrec = 10
 private val ArrowRhsPrec = 9
-private val ForallPrec = 9
+private val ForallPrec = 11
 private val ConstrPrec = 11
 
 private val BindingPrec = 1
@@ -93,13 +93,13 @@ sealed trait Type:
       case _: NegType.Force => "•"
 
   def showAsTypeLatex(using NamingCtx): Document = showAsTypeLatexImpl(TopPrec)
-  // newline is Some(indent) if we need to have anewline with indent level of indentation
-  // indent is the current level of indentation, regardless of wether we need to break the line or not
+  // newline is Some(indent) if we need to have a newline with indent level of indentation
+  // indent is the current level of indentation, regardless of whether we need to break the line or not
   def showAsTypeLatexImpl(prec: Int)(using ctx: NamingCtx): Document =
     def parens(p: Int)(d: Document): Document =
       if p < prec then doc"(${d})" else d
     def varAsLatex(v: String): Document =
-      // we assmue that v match [a-Z]*[0-9]*
+      // we assume that v match [a-Z]*[0-9]*
       val firstDigitIndex = v.indexWhere(_.isDigit) match
         case -1 => v.length()
         case i => i
@@ -117,9 +117,11 @@ sealed trait Type:
           case _: QuantType.Constr =>
             doc"${ty.showAsTypeLatexImpl(ForallPrec)}"
         doc"\forall ${al.showLatex}^{${mrk.uid}}.\,$rest"
+          |> parens(ForallPrec)
       case QuantType.Constr(c, ty) =>
         val rest = ty.showAsTypeLatexImpl(ForallPrec)
         doc"${c.showLatex} \Rightarrow $rest"
+          |> parens(ForallPrec)
       case PosType.Unit() => doc"()"
       case PosType.Const(i) => doc"${i}"
       case PosType.Var(al) => al.showLatex
@@ -129,13 +131,14 @@ sealed trait Type:
           case _: QuantType.Constr =>
             doc"${sigma.showAsTypeLatexImpl(ArrowRhsPrec)}"
         al match
-          case a: TypeVar => doc"${a.showLatex} \rightarrow $rhs"
-          case a: NegType.Force => doc"${a.showAsTypeLatexImpl(ArrowLhsPrec)} \rightarrow $rhs"
+          case a: TypeVar => doc"${a.showLatex} \rightarrow $rhs" |> parens(ArrowRhsPrec)
+          case a: NegType.Force => doc"${a.showAsTypeLatexImpl(ArrowLhsPrec)} \rightarrow $rhs" |> parens(ArrowRhsPrec)
       case PosType.Mrked(al, m) =>
         if ctx.showMarks then doc"${al.showLatex}^{${m.uid}}" else al.showLatex
       case NegType.Var(al) => al.showLatex
       case NegType.App(sigma, al) =>
         doc"${sigma.showAsTypeLatexImpl(ArrowLhsPrec)} \rightarrow ${al.showLatex}"
+          |> parens(ArrowLhsPrec)
       case _:NegType.Force => doc"\bullet"
 
   def showAsTerm(using ctx: NamingCtx) = showAsTermImpl(TopPrec)
@@ -164,10 +167,10 @@ sealed trait Type:
       case PosType.Const(i) => i.toString
       case PosType.Var(al) => al.show
       case PosType.Lam(al: TypeVar, sigma) =>
-        doc"λ${al.show} -> ${sigma.showAsTermImpl(LamPrec)}"
+        doc"λ${al.show}. ${sigma.showAsTermImpl(LamPrec)}"
           |> parens(LamPrec)
       case PosType.Lam(al: NegType.Force, sigma) =>
-        doc"λ${al.showAsTermImpl(LamPrec)} -> ${sigma.showAsTermImpl(LamPrec)}"
+        doc"λ${al.showAsTermImpl(LamPrec)}. ${sigma.showAsTermImpl(LamPrec)}"
           |> parens(LamPrec)
       case PosType.Mrked(al, m) => al.show
       case NegType.Force(_) => "•"

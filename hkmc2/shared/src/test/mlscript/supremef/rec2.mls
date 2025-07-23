@@ -1,0 +1,19 @@
+// Another recursion example that uses lambda encoding of natural numbers
+// and exponentiation.
+// This triggers the C-Forall2 rule to perform approximation because
+// the trace is a lot more complex and we do not have enough precision budget
+// for full evaluation in the constraint solving.
+let
+  tru = a => b => a
+  fals = a => b => b
+  mkpair = a => b => c => c(a)(b)
+  head = p => p(tru)
+  succ = n => f => x => f(n(f)(x))
+  mult = m => n => f => x => m(n(f))(x)
+  exp = b => n => n(b)
+  zero = f => x => x
+  two = succ(succ(zero))
+  four = mult(two)(two)
+  addFront = ls => mkpair(1)(ls)
+head(exp(four)(four)(addFront)(fals))
+

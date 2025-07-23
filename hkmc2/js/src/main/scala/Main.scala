@@ -165,12 +165,12 @@ object Main:
     val (ty, cons_) = typer.inferType(ctrm)
     val cons = cons_ ++ (Constraint(QuantType.Base(ty), NegType.Force(true), Nil) :: Nil)
     outputLatex("Inferred positive type: ", ty.showAsTypeLatex.toString)
-    outputSimpl("As term: ", typer.wrap((ty, cons_)).showAsTerm.toString)
     if cons.nonEmpty then
       outputS("Top-level Constraints: ")
       for c <- cons do c match
         case c: Constraint => outputLatex("‣", c.showLatex.toString)
         case (al: TypeVar, _) => outputLatex("‣", al.showLatex.toString)
+    outputSimpl("Constraints as term: ", typer.wrap((ty, cons_)).showAsTerm.toString)
     var solver = CtxSolver(cons)
     var fuel = 1000
     var iter = 0

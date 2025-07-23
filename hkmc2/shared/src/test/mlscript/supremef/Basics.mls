@@ -15,8 +15,8 @@
 if (()) then (x => x) else ()
 //│ Parsed Core Term: ((cond ()) (λx. x)) ()
 //│ Inferred: α
-//│ As term: let α1 = (λ• -> λα0 -> λα0 -> α0) () in let α2 = α1 (λx -> x) in let α = α2 () in α
-//│ |> α0, α1, • -> α0 -> α0 -> α0 ≤ () -> α1, α2, α1 ≤ (∀^m4 x. x -> x) -> α2, α, α2 ≤ () -> α, α ≤ •
+//│ As term: let α1 = (λ•. λα0. λα0. α0) () in let α2 = α1 (λx. x) in let α = α2 () in α
+//│ |> α0, α1, • -> α0 -> α0 -> α0 ≤ () -> α1, α2, α1 ≤ ∀^m4 x. (x -> x) -> α2, α, α2 ≤ () -> α, α ≤ •
 //│ ====== (1) ======
 //│ Constr: α0
 //│ Rule: C-Promote
@@ -45,22 +45,22 @@ if (()) then (x => x) else ()
 //│ Rule: C-Promote
 //│ Remaining constraints: 4
 //│ ====== (7) ======
-//│ Constr: α1 ≤ (∀^m4 x. x -> x) -> α2
+//│ Constr: α1 ≤ ∀^m4 x. (x -> x) -> α2
 //│ Rule: C-Var1
 //│ Premises:
 //│   α0 -> α0 -> α0 ≤ α1 ∈ B
 //│ New Constraints:
-//│  α0 -> α0 -> α0 ≤ (∀^m4 x. x -> x) -> α2
+//│  α0 -> α0 -> α0 ≤ ∀^m4 x. (x -> x) -> α2
 //│ Remaining constraints: 4
 //│ ====== (8) ======
-//│ Constr: α0 -> α0 -> α0 ≤ (∀^m4 x. x -> x) -> α2
+//│ Constr: α0 -> α0 -> α0 ≤ ∀^m4 x. (x -> x) -> α2
 //│ Rule: C-Fun
 //│ New Constraints:
-//│  ∀^m4 x. x -> x ≤ α0
+//│  ∀^m4 x. (x -> x) ≤ α0
 //│  α0 -> α0 ≤ α2
 //│ Remaining constraints: 5
 //│ ====== (9) ======
-//│ Constr: ∀^m4 x. x -> x ≤ α0
+//│ Constr: ∀^m4 x. (x -> x) ≤ α0
 //│ Rule: C-Var2
 //│ Remaining constraints: 4
 //│ ====== (10) ======
@@ -94,14 +94,14 @@ if (()) then (x => x) else ()
 //│ Constr: α0 ≤ α
 //│ Rule: C-Var1
 //│ Premises:
-//│   ∀^m4 x. x -> x ≤ α0 ∈ B
+//│   ∀^m4 x. (x -> x) ≤ α0 ∈ B
 //│   () ≤ α0 ∈ B
 //│ New Constraints:
-//│  ∀^m4 x0. x0 -> x0 ≤ α
+//│  ∀^m4 x0. (x0 -> x0) ≤ α
 //│  () ≤ α
 //│ Remaining constraints: 3
 //│ ====== (16) ======
-//│ Constr: ∀^m4 x0. x0 -> x0 ≤ α
+//│ Constr: ∀^m4 x0. (x0 -> x0) ≤ α
 //│ Rule: C-Var2
 //│ Remaining constraints: 2
 //│ ====== (17) ======
@@ -113,25 +113,25 @@ if (()) then (x => x) else ()
 //│ Rule: C-Var1
 //│ Premises:
 //│   α0 ≤ α ∈ B
-//│   ∀^m4 x0. x0 -> x0 ≤ α ∈ B
+//│   ∀^m4 x0. (x0 -> x0) ≤ α ∈ B
 //│   () ≤ α ∈ B
 //│ New Constraints:
 //│  α0 ≤ •
-//│  ∀^m4 x1. x1 -> x1 ≤ •
+//│  ∀^m4 x1. (x1 -> x1) ≤ •
 //│  () ≤ •
 //│ Remaining constraints: 3
 //│ ====== (19) ======
 //│ Constr: α0 ≤ •
 //│ Rule: C-Var1
 //│ Premises:
-//│   ∀^m4 x. x -> x ≤ α0 ∈ B
+//│   ∀^m4 x. (x -> x) ≤ α0 ∈ B
 //│   () ≤ α0 ∈ B
 //│ New Constraints:
-//│  ∀^m4 x2. x2 -> x2 ≤ •
+//│  ∀^m4 x2. (x2 -> x2) ≤ •
 //│  () ≤ •
 //│ Remaining constraints: 4
 //│ ====== (20) ======
-//│ Constr: ∀^m4 x2. x2 -> x2 ≤ •
+//│ Constr: ∀^m4 x2. (x2 -> x2) ≤ •
 //│ Rule: C-Forall1
 //│ New Constraints:
 //│  x2 -> x2 ≤ •
@@ -145,7 +145,7 @@ if (()) then (x => x) else ()
 //│ Rule: C-UnitForce
 //│ Remaining constraints: 2
 //│ ====== (23) ======
-//│ Constr: ∀^m4 x1. x1 -> x1 ≤ •
+//│ Constr: ∀^m4 x1. (x1 -> x1) ≤ •
 //│ Rule: C-Forall2
 //│ Premise: [m4] ↦ x2 -> x2 ∈ B
 //│ New Constraints:
@@ -167,7 +167,7 @@ if (()) then (x => x) else ()
 x => x
 //│ Parsed Core Term: λx. x
 //│ Inferred: x -> x
-//│ As term: λx -> x
+//│ As term: λx. x
 //│ |> x, x -> x ≤ •
 //│ ====== (1) ======
 //│ Constr: x
@@ -184,7 +184,7 @@ x => x
 (x => x)(())
 //│ Parsed Core Term: (λx. x) ()
 //│ Inferred: α
-//│ As term: let α = (λx -> x) () in α
+//│ As term: let α = (λx. x) () in α
 //│ |> x, α, x -> x ≤ () -> α, α ≤ •
 //│ ====== (1) ======
 //│ Constr: x
@@ -242,8 +242,8 @@ x => x
 (x => x)(y => y)
 //│ Parsed Core Term: (λx. x) (λy. y)
 //│ Inferred: α
-//│ As term: let α = (λx -> x) (λy -> y) in α
-//│ |> x, α, x -> x ≤ (∀^m4 y. y -> y) -> α, α ≤ •
+//│ As term: let α = (λx. x) (λy. y) in α
+//│ |> x, α, x -> x ≤ ∀^m4 y. (y -> y) -> α, α ≤ •
 //│ ====== (1) ======
 //│ Constr: x
 //│ Rule: C-Promote
@@ -253,14 +253,14 @@ x => x
 //│ Rule: C-Promote
 //│ Remaining constraints: 2
 //│ ====== (3) ======
-//│ Constr: x -> x ≤ (∀^m4 y. y -> y) -> α
+//│ Constr: x -> x ≤ ∀^m4 y. (y -> y) -> α
 //│ Rule: C-Fun
 //│ New Constraints:
-//│  ∀^m4 y. y -> y ≤ x
+//│  ∀^m4 y. (y -> y) ≤ x
 //│  x ≤ α
 //│ Remaining constraints: 3
 //│ ====== (4) ======
-//│ Constr: ∀^m4 y. y -> y ≤ x
+//│ Constr: ∀^m4 y. (y -> y) ≤ x
 //│ Rule: C-Var2
 //│ Remaining constraints: 2
 //│ ====== (5) ======
@@ -285,12 +285,12 @@ x => x
 //│ Constr: x ≤ •
 //│ Rule: C-Var1
 //│ Premises:
-//│   ∀^m4 y. y -> y ≤ x ∈ B
+//│   ∀^m4 y. (y -> y) ≤ x ∈ B
 //│ New Constraints:
-//│  ∀^m4 y0. y0 -> y0 ≤ •
+//│  ∀^m4 y0. (y0 -> y0) ≤ •
 //│ Remaining constraints: 1
 //│ ====== (9) ======
-//│ Constr: ∀^m4 y0. y0 -> y0 ≤ •
+//│ Constr: ∀^m4 y0. (y0 -> y0) ≤ •
 //│ Rule: C-Forall1
 //│ New Constraints:
 //│  y0 -> y0 ≤ •
@@ -306,8 +306,8 @@ x => x
 (x => x)(y => y)(())
 //│ Parsed Core Term: ((λx. x) (λy. y)) ()
 //│ Inferred: α
-//│ As term: let α0 = (λx -> x) (λy -> y) in let α = α0 () in α
-//│ |> x, α0, x -> x ≤ (∀^m4 y. y -> y) -> α0, α, α0 ≤ () -> α, α ≤ •
+//│ As term: let α0 = (λx. x) (λy. y) in let α = α0 () in α
+//│ |> x, α0, x -> x ≤ ∀^m4 y. (y -> y) -> α0, α, α0 ≤ () -> α, α ≤ •
 //│ ====== (1) ======
 //│ Constr: x
 //│ Rule: C-Promote
@@ -317,14 +317,14 @@ x => x
 //│ Rule: C-Promote
 //│ Remaining constraints: 4
 //│ ====== (3) ======
-//│ Constr: x -> x ≤ (∀^m4 y. y -> y) -> α0
+//│ Constr: x -> x ≤ ∀^m4 y. (y -> y) -> α0
 //│ Rule: C-Fun
 //│ New Constraints:
-//│  ∀^m4 y. y -> y ≤ x
+//│  ∀^m4 y. (y -> y) ≤ x
 //│  x ≤ α0
 //│ Remaining constraints: 5
 //│ ====== (4) ======
-//│ Constr: ∀^m4 y. y -> y ≤ x
+//│ Constr: ∀^m4 y. (y -> y) ≤ x
 //│ Rule: C-Var2
 //│ Remaining constraints: 4
 //│ ====== (5) ======
@@ -353,12 +353,12 @@ x => x
 //│ Constr: x ≤ () -> α
 //│ Rule: C-Var1
 //│ Premises:
-//│   ∀^m4 y. y -> y ≤ x ∈ B
+//│   ∀^m4 y. (y -> y) ≤ x ∈ B
 //│ New Constraints:
-//│  ∀^m4 y0. y0 -> y0 ≤ () -> α
+//│  ∀^m4 y0. (y0 -> y0) ≤ () -> α
 //│ Remaining constraints: 2
 //│ ====== (10) ======
-//│ Constr: ∀^m4 y0. y0 -> y0 ≤ () -> α
+//│ Constr: ∀^m4 y0. (y0 -> y0) ≤ () -> α
 //│ Rule: C-Forall1
 //│ New Constraints:
 //│  y0 -> y0 ≤ () -> α
@@ -411,8 +411,8 @@ x => x
 (x => x(x))(y => y)(())
 //│ Parsed Core Term: ((λx. x x) (λy. y)) ()
 //│ Inferred: α
-//│ As term: let α1 = (λx -> (let α0 = x x in α0)) (λy -> y) in let α = α1 () in α
-//│ |> x, α1, x -> ∀^m3 α0. (x ≤ x -> α0) => α0 ≤ (∀^m6 y. y -> y) -> α1, α, α1 ≤ () -> α, α ≤ •
+//│ As term: let α1 = (λx. (let α0 = x x in α0)) (λy. y) in let α = α1 () in α
+//│ |> x, α1, x -> ∀^m3 α0. (x ≤ x -> α0) => α0 ≤ ∀^m6 y. (y -> y) -> α1, α, α1 ≤ () -> α, α ≤ •
 //│ ====== (1) ======
 //│ Constr: x
 //│ Rule: C-Promote
@@ -422,14 +422,14 @@ x => x
 //│ Rule: C-Promote
 //│ Remaining constraints: 4
 //│ ====== (3) ======
-//│ Constr: x -> ∀^m3 α0. (x ≤ x -> α0) => α0 ≤ (∀^m6 y. y -> y) -> α1
+//│ Constr: x -> ∀^m3 α0. (x ≤ x -> α0) => α0 ≤ ∀^m6 y. (y -> y) -> α1
 //│ Rule: C-Fun
 //│ New Constraints:
-//│  ∀^m6 y. y -> y ≤ x
+//│  ∀^m6 y. (y -> y) ≤ x
 //│  ∀^m3 α0. (x ≤ x -> α0) => α0 ≤ α1
 //│ Remaining constraints: 5
 //│ ====== (4) ======
-//│ Constr: ∀^m6 y. y -> y ≤ x
+//│ Constr: ∀^m6 y. (y -> y) ≤ x
 //│ Rule: C-Var2
 //│ Remaining constraints: 4
 //│ ====== (5) ======
@@ -471,12 +471,12 @@ x => x
 //│ Constr: x ≤ x -> α2
 //│ Rule: C-Var1
 //│ Premises:
-//│   ∀^m6 y. y -> y ≤ x ∈ B
+//│   ∀^m6 y. (y -> y) ≤ x ∈ B
 //│ New Constraints:
-//│  ∀^m6 y0. y0 -> y0 ≤ x -> α2
+//│  ∀^m6 y0. (y0 -> y0) ≤ x -> α2
 //│ Remaining constraints: 3
 //│ ====== (12) ======
-//│ Constr: ∀^m6 y0. y0 -> y0 ≤ x -> α2
+//│ Constr: ∀^m6 y0. (y0 -> y0) ≤ x -> α2
 //│ Rule: C-Forall1
 //│ New Constraints:
 //│  y0 -> y0 ≤ x -> α2
@@ -528,12 +528,12 @@ x => x
 //│ Constr: x ≤ () -> α
 //│ Rule: C-Var1
 //│ Premises:
-//│   ∀^m6 y. y -> y ≤ x ∈ B
+//│   ∀^m6 y. (y -> y) ≤ x ∈ B
 //│ New Constraints:
-//│  ∀^m6 y1. y1 -> y1 ≤ () -> α
+//│  ∀^m6 y1. (y1 -> y1) ≤ () -> α
 //│ Remaining constraints: 2
 //│ ====== (21) ======
-//│ Constr: ∀^m6 y1. y1 -> y1 ≤ () -> α
+//│ Constr: ∀^m6 y1. (y1 -> y1) ≤ () -> α
 //│ Rule: C-Forall1
 //│ New Constraints:
 //│  y1 -> y1 ≤ () -> α
@@ -586,8 +586,8 @@ x => x
 (x => x)((y => y)(()))
 //│ Parsed Core Term: (λx. x) ((λy. y) ())
 //│ Inferred: α
-//│ As term: let α = (λx -> x) (let α0 = (λy -> y) () in α0) in α
-//│ |> x, α, x -> x ≤ (∀^m4 y. ∀^m5 α0. (y -> y ≤ () -> α0) => α0) -> α, α ≤ •
+//│ As term: let α = (λx. x) (let α0 = (λy. y) () in α0) in α
+//│ |> x, α, x -> x ≤ ∀^m4 y. ∀^m5 α0. (y -> y ≤ () -> α0) => α0 -> α, α ≤ •
 //│ ====== (1) ======
 //│ Constr: x
 //│ Rule: C-Promote
@@ -597,7 +597,7 @@ x => x
 //│ Rule: C-Promote
 //│ Remaining constraints: 2
 //│ ====== (3) ======
-//│ Constr: x -> x ≤ (∀^m4 y. ∀^m5 α0. (y -> y ≤ () -> α0) => α0) -> α
+//│ Constr: x -> x ≤ ∀^m4 y. ∀^m5 α0. (y -> y ≤ () -> α0) => α0 -> α
 //│ Rule: C-Fun
 //│ New Constraints:
 //│  ∀^m4 y. ∀^m5 α0. (y -> y ≤ () -> α0) => α0 ≤ x
@@ -700,27 +700,27 @@ x => x
 
 thunk => (x => x(x))(y => y(y))
 //│ Parsed Core Term: λthunk. (λx. x x) (λy. y y)
-//│ Inferred: thunk -> ∀^m4 x. ∀^m9 α. (x -> ∀^m3 α0. (x ≤ x -> α0) => α0 ≤ (∀^m8 y. y -> ∀^m7 α1. (y ≤ y -> α1) => α1) -> α) => α
-//│ As term: λthunk -> (let α = (λx -> (let α0 = x x in α0)) (λy -> (let α1 = y y in α1)) in α)
-//│ |> thunk, thunk -> ∀^m4 x. ∀^m9 α. (x -> ∀^m3 α0. (x ≤ x -> α0) => α0 ≤ (∀^m8 y. y -> ∀^m7 α1. (y ≤ y -> α1) => α1) -> α) => α ≤ •
+//│ Inferred: thunk -> ∀^m4 x. ∀^m9 α. (x -> ∀^m3 α0. (x ≤ x -> α0) => α0 ≤ ∀^m8 y. (y -> ∀^m7 α1. (y ≤ y -> α1) => α1) -> α) => α
+//│ As term: λthunk. (let α = (λx. (let α0 = x x in α0)) (λy. (let α1 = y y in α1)) in α)
+//│ |> thunk, thunk -> ∀^m4 x. ∀^m9 α. (x -> ∀^m3 α0. (x ≤ x -> α0) => α0 ≤ ∀^m8 y. (y -> ∀^m7 α1. (y ≤ y -> α1) => α1) -> α) => α ≤ •
 //│ ====== (1) ======
 //│ Constr: thunk
 //│ Rule: C-Promote
 //│ Remaining constraints: 1
 //│ ====== (2) ======
-//│ Constr: thunk -> ∀^m4 x. ∀^m9 α. (x -> ∀^m3 α0. (x ≤ x -> α0) => α0 ≤ (∀^m8 y. y -> ∀^m7 α1. (y ≤ y -> α1) => α1) -> α) => α ≤ •
+//│ Constr: thunk -> ∀^m4 x. ∀^m9 α. (x -> ∀^m3 α0. (x ≤ x -> α0) => α0 ≤ ∀^m8 y. (y -> ∀^m7 α1. (y ≤ y -> α1) => α1) -> α) => α ≤ •
 //│ Rule: C-FunForce
 //│ Remaining constraints: 0
 //│ ====== Final ======
 //│ ------ Resolved Weak Types ------
-//│ thunk -> ∀^m4 x. ∀^m9 α. (x -> ∀^m3 α0. (x ≤ x -> α0) => α0 ≤ (∀^m8 y. y -> ∀^m7 α1. (y ≤ y -> α1) => α1) -> α) => α
+//│ thunk -> ∀^m4 x. ∀^m9 α. (x -> ∀^m3 α0. (x ≤ x -> α0) => α0 ≤ ∀^m8 y. (y -> ∀^m7 α1. (y ≤ y -> α1) => α1) -> α) => α
 
 // :tylatex
 (x => x(x))(y => y(y))(())
 //│ Parsed Core Term: ((λx. x x) (λy. y y)) ()
 //│ Inferred: α
-//│ As term: let α2 = (λx -> (let α0 = x x in α0)) (λy -> (let α1 = y y in α1)) in let α = α2 () in α
-//│ |> x, α2, x -> ∀^m3 α0. (x ≤ x -> α0) => α0 ≤ (∀^m8 y. y -> ∀^m7 α1. (y ≤ y -> α1) => α1) -> α2, α, α2 ≤ () -> α, α ≤ •
+//│ As term: let α2 = (λx. (let α0 = x x in α0)) (λy. (let α1 = y y in α1)) in let α = α2 () in α
+//│ |> x, α2, x -> ∀^m3 α0. (x ≤ x -> α0) => α0 ≤ ∀^m8 y. (y -> ∀^m7 α1. (y ≤ y -> α1) => α1) -> α2, α, α2 ≤ () -> α, α ≤ •
 //│ ====== (1) ======
 //│ Constr: x
 //│ Rule: C-Promote
@@ -730,14 +730,14 @@ thunk => (x => x(x))(y => y(y))
 //│ Rule: C-Promote
 //│ Remaining constraints: 4
 //│ ====== (3) ======
-//│ Constr: x -> ∀^m3 α0. (x ≤ x -> α0) => α0 ≤ (∀^m8 y. y -> ∀^m7 α1. (y ≤ y -> α1) => α1) -> α2
+//│ Constr: x -> ∀^m3 α0. (x ≤ x -> α0) => α0 ≤ ∀^m8 y. (y -> ∀^m7 α1. (y ≤ y -> α1) => α1) -> α2
 //│ Rule: C-Fun
 //│ New Constraints:
-//│  ∀^m8 y. y -> ∀^m7 α1. (y ≤ y -> α1) => α1 ≤ x
+//│  ∀^m8 y. (y -> ∀^m7 α1. (y ≤ y -> α1) => α1) ≤ x
 //│  ∀^m3 α0. (x ≤ x -> α0) => α0 ≤ α2
 //│ Remaining constraints: 5
 //│ ====== (4) ======
-//│ Constr: ∀^m8 y. y -> ∀^m7 α1. (y ≤ y -> α1) => α1 ≤ x
+//│ Constr: ∀^m8 y. (y -> ∀^m7 α1. (y ≤ y -> α1) => α1) ≤ x
 //│ Rule: C-Var2
 //│ Remaining constraints: 4
 //│ ====== (5) ======
@@ -779,12 +779,12 @@ thunk => (x => x(x))(y => y(y))
 //│ Constr: x ≤ x -> α3
 //│ Rule: C-Var1
 //│ Premises:
-//│   ∀^m8 y. y -> ∀^m7 α1. (y ≤ y -> α1) => α1 ≤ x ∈ B
+//│   ∀^m8 y. (y -> ∀^m7 α1. (y ≤ y -> α1) => α1) ≤ x ∈ B
 //│ New Constraints:
-//│  ∀^m8 y0. y0 -> ∀^m7 α4. (y0 ≤ y0 -> α4) => α4 ≤ x -> α3
+//│  ∀^m8 y0. (y0 -> ∀^m7 α4. (y0 ≤ y0 -> α4) => α4) ≤ x -> α3
 //│ Remaining constraints: 3
 //│ ====== (12) ======
-//│ Constr: ∀^m8 y0. y0 -> ∀^m7 α4. (y0 ≤ y0 -> α4) => α4 ≤ x -> α3
+//│ Constr: ∀^m8 y0. (y0 -> ∀^m7 α4. (y0 ≤ y0 -> α4) => α4) ≤ x -> α3
 //│ Rule: C-Forall1
 //│ New Constraints:
 //│  y0 -> ∀^m7 α4. (y0 ≤ y0 -> α4) => α4 ≤ x -> α3
@@ -849,12 +849,12 @@ thunk => (x => x(x))(y => y(y))
 //│ Constr: x ≤ y0 -> α5
 //│ Rule: C-Var1
 //│ Premises:
-//│   ∀^m8 y. y -> ∀^m7 α1. (y ≤ y -> α1) => α1 ≤ x ∈ B
+//│   ∀^m8 y. (y -> ∀^m7 α1. (y ≤ y -> α1) => α1) ≤ x ∈ B
 //│ New Constraints:
-//│  ∀^m8 y1. y1 -> ∀^m7 α6. (y1 ≤ y1 -> α6) => α6 ≤ y0 -> α5
+//│  ∀^m8 y1. (y1 -> ∀^m7 α6. (y1 ≤ y1 -> α6) => α6) ≤ y0 -> α5
 //│ Remaining constraints: 3
 //│ ====== (23) ======
-//│ Constr: ∀^m8 y1. y1 -> ∀^m7 α6. (y1 ≤ y1 -> α6) => α6 ≤ y0 -> α5
+//│ Constr: ∀^m8 y1. (y1 -> ∀^m7 α6. (y1 ≤ y1 -> α6) => α6) ≤ y0 -> α5
 //│ Rule: C-Forall1
 //│ New Constraints:
 //│  y1 -> ∀^m7 α6. (y1 ≤ y1 -> α6) => α6 ≤ y0 -> α5
@@ -933,12 +933,12 @@ thunk => (x => x(x))(y => y(y))
 //│ Constr: x ≤ y1 -> α7
 //│ Rule: C-Var1
 //│ Premises:
-//│   ∀^m8 y. y -> ∀^m7 α1. (y ≤ y -> α1) => α1 ≤ x ∈ B
+//│   ∀^m8 y. (y -> ∀^m7 α1. (y ≤ y -> α1) => α1) ≤ x ∈ B
 //│ New Constraints:
-//│  ∀^m8 y2. y2 -> ∀^m7 α8. (y2 ≤ y2 -> α8) => α8 ≤ y1 -> α7
+//│  ∀^m8 y2. (y2 -> ∀^m7 α8. (y2 ≤ y2 -> α8) => α8) ≤ y1 -> α7
 //│ Remaining constraints: 3
 //│ ====== (36) ======
-//│ Constr: ∀^m8 y2. y2 -> ∀^m7 α8. (y2 ≤ y2 -> α8) => α8 ≤ y1 -> α7
+//│ Constr: ∀^m8 y2. (y2 -> ∀^m7 α8. (y2 ≤ y2 -> α8) => α8) ≤ y1 -> α7
 //│ Rule: C-Forall1
 //│ New Constraints:
 //│  y2 -> ∀^m7 α8. (y2 ≤ y2 -> α8) => α8 ≤ y1 -> α7
@@ -1031,12 +1031,12 @@ thunk => (x => x(x))(y => y(y))
 //│ Constr: x ≤ y2 -> α9
 //│ Rule: C-Var1
 //│ Premises:
-//│   ∀^m8 y. y -> ∀^m7 α1. (y ≤ y -> α1) => α1 ≤ x ∈ B
+//│   ∀^m8 y. (y -> ∀^m7 α1. (y ≤ y -> α1) => α1) ≤ x ∈ B
 //│ New Constraints:
-//│  ∀^m8 y3. y3 -> ∀^m7 α10. (y3 ≤ y3 -> α10) => α10 ≤ y2 -> α9
+//│  ∀^m8 y3. (y3 -> ∀^m7 α10. (y3 ≤ y3 -> α10) => α10) ≤ y2 -> α9
 //│ Remaining constraints: 3
 //│ ====== (51) ======
-//│ Constr: ∀^m8 y3. y3 -> ∀^m7 α10. (y3 ≤ y3 -> α10) => α10 ≤ y2 -> α9
+//│ Constr: ∀^m8 y3. (y3 -> ∀^m7 α10. (y3 ≤ y3 -> α10) => α10) ≤ y2 -> α9
 //│ Rule: C-Forall2
 //│ Premise: [m2,m1,m6,m5,m8] ↦ y2 -> ∀^m7 α8. (y2 ≤ y2 -> α8) => α8 ∈ B
 //│ New Constraints:
@@ -1164,8 +1164,8 @@ thunk => (x => x(x))(y => y(y))
 (x => x)( ()( () ))
 //│ Parsed Core Term: (λx. x) (() ())
 //│ Inferred: α
-//│ As term: let α = (λx -> x) (let α0 = () () in α0) in α
-//│ |> x, α, x -> x ≤ (∀^m3 α0. (() ≤ () -> α0) => α0) -> α, α ≤ •
+//│ As term: let α = (λx. x) (let α0 = () () in α0) in α
+//│ |> x, α, x -> x ≤ ∀^m3 α0. (() ≤ () -> α0) => α0 -> α, α ≤ •
 //│ ====== (1) ======
 //│ Constr: x
 //│ Rule: C-Promote
@@ -1175,7 +1175,7 @@ thunk => (x => x(x))(y => y(y))
 //│ Rule: C-Promote
 //│ Remaining constraints: 2
 //│ ====== (3) ======
-//│ Constr: x -> x ≤ (∀^m3 α0. (() ≤ () -> α0) => α0) -> α
+//│ Constr: x -> x ≤ ∀^m3 α0. (() ≤ () -> α0) => α0 -> α
 //│ Rule: C-Fun
 //│ New Constraints:
 //│  ∀^m3 α0. (() ≤ () -> α0) => α0 ≤ x
@@ -1244,8 +1244,8 @@ let
 head(concat(mkpair(2)(mkpair(1)(nil)))(mkpair(3)(nil)))
 //│ Parsed Core Term: let tru = λa. λb. a; fals = λa. λb. b; mkpair = λa. λb. λc. (c a) b; nil = fals; head = λp. p tru; tail = λp. p fals; isEmpty = λp. (p (λx. λy. λz. fals)) tru; concatImpl = λf. λl1. λl2. ((isEmpty l1) l2) l1; fix = λf. (λx. f (x x)) (λx. f (x x)); concat = fix concatImpl in head ((concat ((mkpair 2) ((mkpair 1) nil))) ((mkpair 3) nil))
 //│ Inferred: α
-//│ As term: let tru = λa -> λb -> a; fals = λa0 -> λb0 -> b0; mkpair = λa1 -> λb1 -> λc -> (let α0 = c a1 in let α1 = α0 b1 in α1); nil = fals; head = λp -> (let α2 = p tru in α2); tail = λp0 -> (let α3 = p0 fals in α3); isEmpty = λp1 -> (let α4 = p1 (λx -> λy -> λz -> fals) in let α5 = α4 tru in α5); concatImpl = λf -> λl1 -> λl2 -> (let α6 = isEmpty l1 in let α7 = α6 l2 in let α8 = α7 l1 in α8); fix = λf0 -> (let α13 = (λx0 -> (let α10 = f0 (let α9 = x0 x0 in α9) in α10)) (λx1 -> (let α12 = f0 (let α11 = x1 x1 in α11) in α12)) in α13); concat = (let α14 = fix concatImpl in α14) in let α = head (let α19 = concat (let α15 = mkpair 2 in let α18 = α15 (let α16 = mkpair 1 in let α17 = α16 nil in α17) in α18) in let α22 = α19 (let α20 = mkpair 3 in let α21 = α20 nil in α21) in α22) in α
-//│ |> concatImpl, head, tail, tru, nil, mkpair, fals, isEmpty, fix, concat, ∀^m3 a. a -> ∀^m2 b. b -> a ≤ tru, ∀^m6 a0. a0 -> ∀^m5 b0. b0 -> b0 ≤ fals, ∀^m14 a1. a1 -> ∀^m13 b1. b1 -> ∀^m12 c. c -> ∀^m9 α0. (c ≤ a1 -> α0) => ∀^m11 α1. (α0 ≤ b1 -> α1) => α1 ≤ mkpair, fals ≤ nil, ∀^m19 p. p -> ∀^m18 α2. (p ≤ tru -> α2) => α2 ≤ head, ∀^m23 p0. p0 -> ∀^m22 α3. (p0 ≤ fals -> α3) => α3 ≤ tail, ∀^m32 p1. p1 -> ∀^m29 α4. (p1 ≤ (∀^m28 x. x -> ∀^m27 y. y -> ∀^m26 z. z -> fals) -> α4) => ∀^m31 α5. (α4 ≤ tru -> α5) => α5 ≤ isEmpty, ∀^m42 f. f -> ∀^m41 l1. l1 -> ∀^m40 l2. l2 -> ∀^m35 α6. (isEmpty ≤ l1 -> α6) => ∀^m37 α7. (α6 ≤ l2 -> α7) => ∀^m39 α8. (α7 ≤ l1 -> α8) => α8 ≤ concatImpl, ∀^m56 f0. f0 -> ∀^m48 x0. ∀^m55 α13. (x0 -> ∀^m47 α10. (f0 ≤ (∀^m46 α9. (x0 ≤ x0 -> α9) => α9) -> α10) => α10 ≤ (∀^m54 x1. x1 -> ∀^m53 α12. (f0 ≤ (∀^m52 α11. (x1 ≤ x1 -> α11) => α11) -> α12) => α12) -> α13) => α13 ≤ fix, ∀^m59 α14. (fix ≤ concatImpl -> α14) => α14 ≤ concat, α, head ≤ (∀^m69 α19. (concat ≤ (∀^m63 α15. (mkpair ≤ 2 -> α15) => ∀^m68 α18. (α15 ≤ (∀^m65 α16. (mkpair ≤ 1 -> α16) => ∀^m67 α17. (α16 ≤ nil -> α17) => α17) -> α18) => α18) -> α19) => ∀^m74 α22. (α19 ≤ (∀^m71 α20. (mkpair ≤ 3 -> α20) => ∀^m73 α21. (α20 ≤ nil -> α21) => α21) -> α22) => α22) -> α, α ≤ •
+//│ As term: let tru = λa. λb. a; fals = λa0. λb0. b0; mkpair = λa1. λb1. λc. (let α0 = c a1 in let α1 = α0 b1 in α1); nil = fals; head = λp. (let α2 = p tru in α2); tail = λp0. (let α3 = p0 fals in α3); isEmpty = λp1. (let α4 = p1 (λx. λy. λz. fals) in let α5 = α4 tru in α5); concatImpl = λf. λl1. λl2. (let α6 = isEmpty l1 in let α7 = α6 l2 in let α8 = α7 l1 in α8); fix = λf0. (let α13 = (λx0. (let α10 = f0 (let α9 = x0 x0 in α9) in α10)) (λx1. (let α12 = f0 (let α11 = x1 x1 in α11) in α12)) in α13); concat = (let α14 = fix concatImpl in α14) in let α = head (let α19 = concat (let α15 = mkpair 2 in let α18 = α15 (let α16 = mkpair 1 in let α17 = α16 nil in α17) in α18) in let α22 = α19 (let α20 = mkpair 3 in let α21 = α20 nil in α21) in α22) in α
+//│ |> concatImpl, head, tail, tru, nil, mkpair, fals, isEmpty, fix, concat, ∀^m3 a. (a -> ∀^m2 b. (b -> a)) ≤ tru, ∀^m6 a0. (a0 -> ∀^m5 b0. (b0 -> b0)) ≤ fals, ∀^m14 a1. (a1 -> ∀^m13 b1. (b1 -> ∀^m12 c. (c -> ∀^m9 α0. (c ≤ a1 -> α0) => ∀^m11 α1. (α0 ≤ b1 -> α1) => α1))) ≤ mkpair, fals ≤ nil, ∀^m19 p. (p -> ∀^m18 α2. (p ≤ tru -> α2) => α2) ≤ head, ∀^m23 p0. (p0 -> ∀^m22 α3. (p0 ≤ fals -> α3) => α3) ≤ tail, ∀^m32 p1. (p1 -> ∀^m29 α4. (p1 ≤ ∀^m28 x. (x -> ∀^m27 y. (y -> ∀^m26 z. (z -> fals))) -> α4) => ∀^m31 α5. (α4 ≤ tru -> α5) => α5) ≤ isEmpty, ∀^m42 f. (f -> ∀^m41 l1. (l1 -> ∀^m40 l2. (l2 -> ∀^m35 α6. (isEmpty ≤ l1 -> α6) => ∀^m37 α7. (α6 ≤ l2 -> α7) => ∀^m39 α8. (α7 ≤ l1 -> α8) => α8))) ≤ concatImpl, ∀^m56 f0. (f0 -> ∀^m48 x0. ∀^m55 α13. (x0 -> ∀^m47 α10. (f0 ≤ ∀^m46 α9. (x0 ≤ x0 -> α9) => α9 -> α10) => α10 ≤ ∀^m54 x1. (x1 -> ∀^m53 α12. (f0 ≤ ∀^m52 α11. (x1 ≤ x1 -> α11) => α11 -> α12) => α12) -> α13) => α13) ≤ fix, ∀^m59 α14. (fix ≤ concatImpl -> α14) => α14 ≤ concat, α, head ≤ ∀^m69 α19. (concat ≤ ∀^m63 α15. (mkpair ≤ 2 -> α15) => ∀^m68 α18. (α15 ≤ ∀^m65 α16. (mkpair ≤ 1 -> α16) => ∀^m67 α17. (α16 ≤ nil -> α17) => α17 -> α18) => α18 -> α19) => ∀^m74 α22. (α19 ≤ ∀^m71 α20. (mkpair ≤ 3 -> α20) => ∀^m73 α21. (α20 ≤ nil -> α21) => α21 -> α22) => α22 -> α, α ≤ •
 //│ ====== (1) ======
 //│ Constr: concatImpl
 //│ Rule: C-Promote
@@ -1287,15 +1287,15 @@ head(concat(mkpair(2)(mkpair(1)(nil)))(mkpair(3)(nil)))
 //│ Rule: C-Promote
 //│ Remaining constraints: 13
 //│ ====== (11) ======
-//│ Constr: ∀^m3 a. a -> ∀^m2 b. b -> a ≤ tru
+//│ Constr: ∀^m3 a. (a -> ∀^m2 b. (b -> a)) ≤ tru
 //│ Rule: C-Var2
 //│ Remaining constraints: 12
 //│ ====== (12) ======
-//│ Constr: ∀^m6 a0. a0 -> ∀^m5 b0. b0 -> b0 ≤ fals
+//│ Constr: ∀^m6 a0. (a0 -> ∀^m5 b0. (b0 -> b0)) ≤ fals
 //│ Rule: C-Var2
 //│ Remaining constraints: 11
 //│ ====== (13) ======
-//│ Constr: ∀^m14 a1. a1 -> ∀^m13 b1. b1 -> ∀^m12 c. c -> ∀^m9 α0. (c ≤ a1 -> α0) => ∀^m11 α1. (α0 ≤ b1 -> α1) => α1 ≤ mkpair
+//│ Constr: ∀^m14 a1. (a1 -> ∀^m13 b1. (b1 -> ∀^m12 c. (c -> ∀^m9 α0. (c ≤ a1 -> α0) => ∀^m11 α1. (α0 ≤ b1 -> α1) => α1))) ≤ mkpair
 //│ Rule: C-Var2
 //│ Remaining constraints: 10
 //│ ====== (14) ======
@@ -1303,23 +1303,23 @@ head(concat(mkpair(2)(mkpair(1)(nil)))(mkpair(3)(nil)))
 //│ Rule: C-Var2
 //│ Remaining constraints: 9
 //│ ====== (15) ======
-//│ Constr: ∀^m19 p. p -> ∀^m18 α2. (p ≤ tru -> α2) => α2 ≤ head
+//│ Constr: ∀^m19 p. (p -> ∀^m18 α2. (p ≤ tru -> α2) => α2) ≤ head
 //│ Rule: C-Var2
 //│ Remaining constraints: 8
 //│ ====== (16) ======
-//│ Constr: ∀^m23 p0. p0 -> ∀^m22 α3. (p0 ≤ fals -> α3) => α3 ≤ tail
+//│ Constr: ∀^m23 p0. (p0 -> ∀^m22 α3. (p0 ≤ fals -> α3) => α3) ≤ tail
 //│ Rule: C-Var2
 //│ Remaining constraints: 7
 //│ ====== (17) ======
-//│ Constr: ∀^m32 p1. p1 -> ∀^m29 α4. (p1 ≤ (∀^m28 x. x -> ∀^m27 y. y -> ∀^m26 z. z -> fals) -> α4) => ∀^m31 α5. (α4 ≤ tru -> α5) => α5 ≤ isEmpty
+//│ Constr: ∀^m32 p1. (p1 -> ∀^m29 α4. (p1 ≤ ∀^m28 x. (x -> ∀^m27 y. (y -> ∀^m26 z. (z -> fals))) -> α4) => ∀^m31 α5. (α4 ≤ tru -> α5) => α5) ≤ isEmpty
 //│ Rule: C-Var2
 //│ Remaining constraints: 6
 //│ ====== (18) ======
-//│ Constr: ∀^m42 f. f -> ∀^m41 l1. l1 -> ∀^m40 l2. l2 -> ∀^m35 α6. (isEmpty ≤ l1 -> α6) => ∀^m37 α7. (α6 ≤ l2 -> α7) => ∀^m39 α8. (α7 ≤ l1 -> α8) => α8 ≤ concatImpl
+//│ Constr: ∀^m42 f. (f -> ∀^m41 l1. (l1 -> ∀^m40 l2. (l2 -> ∀^m35 α6. (isEmpty ≤ l1 -> α6) => ∀^m37 α7. (α6 ≤ l2 -> α7) => ∀^m39 α8. (α7 ≤ l1 -> α8) => α8))) ≤ concatImpl
 //│ Rule: C-Var2
 //│ Remaining constraints: 5
 //│ ====== (19) ======
-//│ Constr: ∀^m56 f0. f0 -> ∀^m48 x0. ∀^m55 α13. (x0 -> ∀^m47 α10. (f0 ≤ (∀^m46 α9. (x0 ≤ x0 -> α9) => α9) -> α10) => α10 ≤ (∀^m54 x1. x1 -> ∀^m53 α12. (f0 ≤ (∀^m52 α11. (x1 ≤ x1 -> α11) => α11) -> α12) => α12) -> α13) => α13 ≤ fix
+//│ Constr: ∀^m56 f0. (f0 -> ∀^m48 x0. ∀^m55 α13. (x0 -> ∀^m47 α10. (f0 ≤ ∀^m46 α9. (x0 ≤ x0 -> α9) => α9 -> α10) => α10 ≤ ∀^m54 x1. (x1 -> ∀^m53 α12. (f0 ≤ ∀^m52 α11. (x1 ≤ x1 -> α11) => α11 -> α12) => α12) -> α13) => α13) ≤ fix
 //│ Rule: C-Var2
 //│ Remaining constraints: 4
 //│ ====== (20) ======
@@ -1331,34 +1331,34 @@ head(concat(mkpair(2)(mkpair(1)(nil)))(mkpair(3)(nil)))
 //│ Rule: C-Promote
 //│ Remaining constraints: 2
 //│ ====== (22) ======
-//│ Constr: head ≤ (∀^m69 α19. (concat ≤ (∀^m63 α15. (mkpair ≤ 2 -> α15) => ∀^m68 α18. (α15 ≤ (∀^m65 α16. (mkpair ≤ 1 -> α16) => ∀^m67 α17. (α16 ≤ nil -> α17) => α17) -> α18) => α18) -> α19) => ∀^m74 α22. (α19 ≤ (∀^m71 α20. (mkpair ≤ 3 -> α20) => ∀^m73 α21. (α20 ≤ nil -> α21) => α21) -> α22) => α22) -> α
+//│ Constr: head ≤ ∀^m69 α19. (concat ≤ ∀^m63 α15. (mkpair ≤ 2 -> α15) => ∀^m68 α18. (α15 ≤ ∀^m65 α16. (mkpair ≤ 1 -> α16) => ∀^m67 α17. (α16 ≤ nil -> α17) => α17 -> α18) => α18 -> α19) => ∀^m74 α22. (α19 ≤ ∀^m71 α20. (mkpair ≤ 3 -> α20) => ∀^m73 α21. (α20 ≤ nil -> α21) => α21 -> α22) => α22 -> α
 //│ Rule: C-Unwrap
 //│ New Constraints:
-//│  head ≤ (∀^m69 α19. (concat ≤ (∀^m63 α15. (mkpair ≤ 2 -> α15) => ∀^m68 α18. (α15 ≤ (∀^m65 α16. (mkpair ≤ 1 -> α16) => ∀^m67 α17. (α16 ≤ nil -> α17) => α17) -> α18) => α18) -> α19) => ∀^m74 α22. (α19 ≤ (∀^m71 α20. (mkpair ≤ 3 -> α20) => ∀^m73 α21. (α20 ≤ nil -> α21) => α21) -> α22) => α22) -> α
+//│  head ≤ ∀^m69 α19. (concat ≤ ∀^m63 α15. (mkpair ≤ 2 -> α15) => ∀^m68 α18. (α15 ≤ ∀^m65 α16. (mkpair ≤ 1 -> α16) => ∀^m67 α17. (α16 ≤ nil -> α17) => α17 -> α18) => α18 -> α19) => ∀^m74 α22. (α19 ≤ ∀^m71 α20. (mkpair ≤ 3 -> α20) => ∀^m73 α21. (α20 ≤ nil -> α21) => α21 -> α22) => α22 -> α
 //│ Remaining constraints: 2
 //│ ====== (23) ======
-//│ Constr: head ≤ (∀^m69 α19. (concat ≤ (∀^m63 α15. (mkpair ≤ 2 -> α15) => ∀^m68 α18. (α15 ≤ (∀^m65 α16. (mkpair ≤ 1 -> α16) => ∀^m67 α17. (α16 ≤ nil -> α17) => α17) -> α18) => α18) -> α19) => ∀^m74 α22. (α19 ≤ (∀^m71 α20. (mkpair ≤ 3 -> α20) => ∀^m73 α21. (α20 ≤ nil -> α21) => α21) -> α22) => α22) -> α
+//│ Constr: head ≤ ∀^m69 α19. (concat ≤ ∀^m63 α15. (mkpair ≤ 2 -> α15) => ∀^m68 α18. (α15 ≤ ∀^m65 α16. (mkpair ≤ 1 -> α16) => ∀^m67 α17. (α16 ≤ nil -> α17) => α17 -> α18) => α18 -> α19) => ∀^m74 α22. (α19 ≤ ∀^m71 α20. (mkpair ≤ 3 -> α20) => ∀^m73 α21. (α20 ≤ nil -> α21) => α21 -> α22) => α22 -> α
 //│ Rule: C-Var1
 //│ Premises:
-//│   ∀^m19 p. p -> ∀^m18 α2. (p ≤ tru -> α2) => α2 ≤ head ∈ B
+//│   ∀^m19 p. (p -> ∀^m18 α2. (p ≤ tru -> α2) => α2) ≤ head ∈ B
 //│ New Constraints:
-//│  ∀^m19 p2. p2 -> ∀^m18 α23. (p2 ≤ tru -> α23) => α23 ≤ (∀^m69 α19. (concat ≤ (∀^m63 α15. (mkpair ≤ 2 -> α15) => ∀^m68 α18. (α15 ≤ (∀^m65 α16. (mkpair ≤ 1 -> α16) => ∀^m67 α17. (α16 ≤ nil -> α17) => α17) -> α18) => α18) -> α19) => ∀^m74 α22. (α19 ≤ (∀^m71 α20. (mkpair ≤ 3 -> α20) => ∀^m73 α21. (α20 ≤ nil -> α21) => α21) -> α22) => α22) -> α
+//│  ∀^m19 p2. (p2 -> ∀^m18 α23. (p2 ≤ tru -> α23) => α23) ≤ ∀^m69 α19. (concat ≤ ∀^m63 α15. (mkpair ≤ 2 -> α15) => ∀^m68 α18. (α15 ≤ ∀^m65 α16. (mkpair ≤ 1 -> α16) => ∀^m67 α17. (α16 ≤ nil -> α17) => α17 -> α18) => α18 -> α19) => ∀^m74 α22. (α19 ≤ ∀^m71 α20. (mkpair ≤ 3 -> α20) => ∀^m73 α21. (α20 ≤ nil -> α21) => α21 -> α22) => α22 -> α
 //│ Remaining constraints: 2
 //│ ====== (24) ======
-//│ Constr: ∀^m19 p2. p2 -> ∀^m18 α23. (p2 ≤ tru -> α23) => α23 ≤ (∀^m69 α19. (concat ≤ (∀^m63 α15. (mkpair ≤ 2 -> α15) => ∀^m68 α18. (α15 ≤ (∀^m65 α16. (mkpair ≤ 1 -> α16) => ∀^m67 α17. (α16 ≤ nil -> α17) => α17) -> α18) => α18) -> α19) => ∀^m74 α22. (α19 ≤ (∀^m71 α20. (mkpair ≤ 3 -> α20) => ∀^m73 α21. (α20 ≤ nil -> α21) => α21) -> α22) => α22) -> α
+//│ Constr: ∀^m19 p2. (p2 -> ∀^m18 α23. (p2 ≤ tru -> α23) => α23) ≤ ∀^m69 α19. (concat ≤ ∀^m63 α15. (mkpair ≤ 2 -> α15) => ∀^m68 α18. (α15 ≤ ∀^m65 α16. (mkpair ≤ 1 -> α16) => ∀^m67 α17. (α16 ≤ nil -> α17) => α17 -> α18) => α18 -> α19) => ∀^m74 α22. (α19 ≤ ∀^m71 α20. (mkpair ≤ 3 -> α20) => ∀^m73 α21. (α20 ≤ nil -> α21) => α21 -> α22) => α22 -> α
 //│ Rule: C-Forall1
 //│ New Constraints:
-//│  p2 -> ∀^m18 α23. (p2 ≤ tru -> α23) => α23 ≤ (∀^m69 α19. (concat ≤ (∀^m63 α15. (mkpair ≤ 2 -> α15) => ∀^m68 α18. (α15 ≤ (∀^m65 α16. (mkpair ≤ 1 -> α16) => ∀^m67 α17. (α16 ≤ nil -> α17) => α17) -> α18) => α18) -> α19) => ∀^m74 α22. (α19 ≤ (∀^m71 α20. (mkpair ≤ 3 -> α20) => ∀^m73 α21. (α20 ≤ nil -> α21) => α21) -> α22) => α22) -> α
+//│  p2 -> ∀^m18 α23. (p2 ≤ tru -> α23) => α23 ≤ ∀^m69 α19. (concat ≤ ∀^m63 α15. (mkpair ≤ 2 -> α15) => ∀^m68 α18. (α15 ≤ ∀^m65 α16. (mkpair ≤ 1 -> α16) => ∀^m67 α17. (α16 ≤ nil -> α17) => α17 -> α18) => α18 -> α19) => ∀^m74 α22. (α19 ≤ ∀^m71 α20. (mkpair ≤ 3 -> α20) => ∀^m73 α21. (α20 ≤ nil -> α21) => α21 -> α22) => α22 -> α
 //│ Remaining constraints: 2
 //│ ====== (25) ======
-//│ Constr: p2 -> ∀^m18 α23. (p2 ≤ tru -> α23) => α23 ≤ (∀^m69 α19. (concat ≤ (∀^m63 α15. (mkpair ≤ 2 -> α15) => ∀^m68 α18. (α15 ≤ (∀^m65 α16. (mkpair ≤ 1 -> α16) => ∀^m67 α17. (α16 ≤ nil -> α17) => α17) -> α18) => α18) -> α19) => ∀^m74 α22. (α19 ≤ (∀^m71 α20. (mkpair ≤ 3 -> α20) => ∀^m73 α21. (α20 ≤ nil -> α21) => α21) -> α22) => α22) -> α
+//│ Constr: p2 -> ∀^m18 α23. (p2 ≤ tru -> α23) => α23 ≤ ∀^m69 α19. (concat ≤ ∀^m63 α15. (mkpair ≤ 2 -> α15) => ∀^m68 α18. (α15 ≤ ∀^m65 α16. (mkpair ≤ 1 -> α16) => ∀^m67 α17. (α16 ≤ nil -> α17) => α17 -> α18) => α18 -> α19) => ∀^m74 α22. (α19 ≤ ∀^m71 α20. (mkpair ≤ 3 -> α20) => ∀^m73 α21. (α20 ≤ nil -> α21) => α21 -> α22) => α22 -> α
 //│ Rule: C-Fun
 //│ New Constraints:
-//│  ∀^m69 α19. (concat ≤ (∀^m63 α15. (mkpair ≤ 2 -> α15) => ∀^m68 α18. (α15 ≤ (∀^m65 α16. (mkpair ≤ 1 -> α16) => ∀^m67 α17. (α16 ≤ nil -> α17) => α17) -> α18) => α18) -> α19) => ∀^m74 α22. (α19 ≤ (∀^m71 α20. (mkpair ≤ 3 -> α20) => ∀^m73 α21. (α20 ≤ nil -> α21) => α21) -> α22) => α22 ≤ p2
+//│  ∀^m69 α19. (concat ≤ ∀^m63 α15. (mkpair ≤ 2 -> α15) => ∀^m68 α18. (α15 ≤ ∀^m65 α16. (mkpair ≤ 1 -> α16) => ∀^m67 α17. (α16 ≤ nil -> α17) => α17 -> α18) => α18 -> α19) => ∀^m74 α22. (α19 ≤ ∀^m71 α20. (mkpair ≤ 3 -> α20) => ∀^m73 α21. (α20 ≤ nil -> α21) => α21 -> α22) => α22 ≤ p2
 //│  ∀^m18 α23. (p2 ≤ tru -> α23) => α23 ≤ α
 //│ Remaining constraints: 3
 //│ ====== (26) ======
-//│ Constr: ∀^m69 α19. (concat ≤ (∀^m63 α15. (mkpair ≤ 2 -> α15) => ∀^m68 α18. (α15 ≤ (∀^m65 α16. (mkpair ≤ 1 -> α16) => ∀^m67 α17. (α16 ≤ nil -> α17) => α17) -> α18) => α18) -> α19) => ∀^m74 α22. (α19 ≤ (∀^m71 α20. (mkpair ≤ 3 -> α20) => ∀^m73 α21. (α20 ≤ nil -> α21) => α21) -> α22) => α22 ≤ p2
+//│ Constr: ∀^m69 α19. (concat ≤ ∀^m63 α15. (mkpair ≤ 2 -> α15) => ∀^m68 α18. (α15 ≤ ∀^m65 α16. (mkpair ≤ 1 -> α16) => ∀^m67 α17. (α16 ≤ nil -> α17) => α17 -> α18) => α18 -> α19) => ∀^m74 α22. (α19 ≤ ∀^m71 α20. (mkpair ≤ 3 -> α20) => ∀^m73 α21. (α20 ≤ nil -> α21) => α21 -> α22) => α22 ≤ p2
 //│ Rule: C-Var2
 //│ Remaining constraints: 2
 //│ ====== (27) ======
@@ -1396,49 +1396,49 @@ head(concat(mkpair(2)(mkpair(1)(nil)))(mkpair(3)(nil)))
 //│ Constr: p2 ≤ tru -> α24
 //│ Rule: C-Var1
 //│ Premises:
-//│   ∀^m69 α19. (concat ≤ (∀^m63 α15. (mkpair ≤ 2 -> α15) => ∀^m68 α18. (α15 ≤ (∀^m65 α16. (mkpair ≤ 1 -> α16) => ∀^m67 α17. (α16 ≤ nil -> α17) => α17) -> α18) => α18) -> α19) => ∀^m74 α22. (α19 ≤ (∀^m71 α20. (mkpair ≤ 3 -> α20) => ∀^m73 α21. (α20 ≤ nil -> α21) => α21) -> α22) => α22 ≤ p2 ∈ B
+//│   ∀^m69 α19. (concat ≤ ∀^m63 α15. (mkpair ≤ 2 -> α15) => ∀^m68 α18. (α15 ≤ ∀^m65 α16. (mkpair ≤ 1 -> α16) => ∀^m67 α17. (α16 ≤ nil -> α17) => α17 -> α18) => α18 -> α19) => ∀^m74 α22. (α19 ≤ ∀^m71 α20. (mkpair ≤ 3 -> α20) => ∀^m73 α21. (α20 ≤ nil -> α21) => α21 -> α22) => α22 ≤ p2 ∈ B
 //│ New Constraints:
-//│  ∀^m69 α25. (concat ≤ (∀^m63 α26. (mkpair ≤ 2 -> α26) => ∀^m68 α27. (α26 ≤ (∀^m65 α28. (mkpair ≤ 1 -> α28) => ∀^m67 α29. (α28 ≤ nil -> α29) => α29) -> α27) => α27) -> α25) => ∀^m74 α30. (α25 ≤ (∀^m71 α31. (mkpair ≤ 3 -> α31) => ∀^m73 α32. (α31 ≤ nil -> α32) => α32) -> α30) => α30 ≤ tru -> α24
+//│  ∀^m69 α25. (concat ≤ ∀^m63 α26. (mkpair ≤ 2 -> α26) => ∀^m68 α27. (α26 ≤ ∀^m65 α28. (mkpair ≤ 1 -> α28) => ∀^m67 α29. (α28 ≤ nil -> α29) => α29 -> α27) => α27 -> α25) => ∀^m74 α30. (α25 ≤ ∀^m71 α31. (mkpair ≤ 3 -> α31) => ∀^m73 α32. (α31 ≤ nil -> α32) => α32 -> α30) => α30 ≤ tru -> α24
 //│ Remaining constraints: 2
 //│ ====== (33) ======
-//│ Constr: ∀^m69 α25. (concat ≤ (∀^m63 α26. (mkpair ≤ 2 -> α26) => ∀^m68 α27. (α26 ≤ (∀^m65 α28. (mkpair ≤ 1 -> α28) => ∀^m67 α29. (α28 ≤ nil -> α29) => α29) -> α27) => α27) -> α25) => ∀^m74 α30. (α25 ≤ (∀^m71 α31. (mkpair ≤ 3 -> α31) => ∀^m73 α32. (α31 ≤ nil -> α32) => α32) -> α30) => α30 ≤ tru -> α24
+//│ Constr: ∀^m69 α25. (concat ≤ ∀^m63 α26. (mkpair ≤ 2 -> α26) => ∀^m68 α27. (α26 ≤ ∀^m65 α28. (mkpair ≤ 1 -> α28) => ∀^m67 α29. (α28 ≤ nil -> α29) => α29 -> α27) => α27 -> α25) => ∀^m74 α30. (α25 ≤ ∀^m71 α31. (mkpair ≤ 3 -> α31) => ∀^m73 α32. (α31 ≤ nil -> α32) => α32 -> α30) => α30 ≤ tru -> α24
 //│ Rule: C-Forall1
 //│ New Constraints:
-//│  (concat ≤ (∀^m63 α26. (mkpair ≤ 2 -> α26) => ∀^m68 α27. (α26 ≤ (∀^m65 α28. (mkpair ≤ 1 -> α28) => ∀^m67 α29. (α28 ≤ nil -> α29) => α29) -> α27) => α27) -> α25) => ∀^m74 α30. (α25 ≤ (∀^m71 α31. (mkpair ≤ 3 -> α31) => ∀^m73 α32. (α31 ≤ nil -> α32) => α32) -> α30) => α30 ≤ tru -> α24
+//│  (concat ≤ ∀^m63 α26. (mkpair ≤ 2 -> α26) => ∀^m68 α27. (α26 ≤ ∀^m65 α28. (mkpair ≤ 1 -> α28) => ∀^m67 α29. (α28 ≤ nil -> α29) => α29 -> α27) => α27 -> α25) => ∀^m74 α30. (α25 ≤ ∀^m71 α31. (mkpair ≤ 3 -> α31) => ∀^m73 α32. (α31 ≤ nil -> α32) => α32 -> α30) => α30 ≤ tru -> α24
 //│ Remaining constraints: 2
 //│ ====== (34) ======
-//│ Constr: (concat ≤ (∀^m63 α26. (mkpair ≤ 2 -> α26) => ∀^m68 α27. (α26 ≤ (∀^m65 α28. (mkpair ≤ 1 -> α28) => ∀^m67 α29. (α28 ≤ nil -> α29) => α29) -> α27) => α27) -> α25) => ∀^m74 α30. (α25 ≤ (∀^m71 α31. (mkpair ≤ 3 -> α31) => ∀^m73 α32. (α31 ≤ nil -> α32) => α32) -> α30) => α30 ≤ tru -> α24
+//│ Constr: (concat ≤ ∀^m63 α26. (mkpair ≤ 2 -> α26) => ∀^m68 α27. (α26 ≤ ∀^m65 α28. (mkpair ≤ 1 -> α28) => ∀^m67 α29. (α28 ≤ nil -> α29) => α29 -> α27) => α27 -> α25) => ∀^m74 α30. (α25 ≤ ∀^m71 α31. (mkpair ≤ 3 -> α31) => ∀^m73 α32. (α31 ≤ nil -> α32) => α32 -> α30) => α30 ≤ tru -> α24
 //│ Rule: C-Constr
 //│ New Constraints:
-//│  concat ≤ (∀^m63 α26. (mkpair ≤ 2 -> α26) => ∀^m68 α27. (α26 ≤ (∀^m65 α28. (mkpair ≤ 1 -> α28) => ∀^m67 α29. (α28 ≤ nil -> α29) => α29) -> α27) => α27) -> α25
-//│  ∀^m74 α30. (α25 ≤ (∀^m71 α31. (mkpair ≤ 3 -> α31) => ∀^m73 α32. (α31 ≤ nil -> α32) => α32) -> α30) => α30 ≤ tru -> α24
+//│  concat ≤ ∀^m63 α26. (mkpair ≤ 2 -> α26) => ∀^m68 α27. (α26 ≤ ∀^m65 α28. (mkpair ≤ 1 -> α28) => ∀^m67 α29. (α28 ≤ nil -> α29) => α29 -> α27) => α27 -> α25
+//│  ∀^m74 α30. (α25 ≤ ∀^m71 α31. (mkpair ≤ 3 -> α31) => ∀^m73 α32. (α31 ≤ nil -> α32) => α32 -> α30) => α30 ≤ tru -> α24
 //│ Remaining constraints: 3
 //│ ====== (35) ======
-//│ Constr: concat ≤ (∀^m63 α26. (mkpair ≤ 2 -> α26) => ∀^m68 α27. (α26 ≤ (∀^m65 α28. (mkpair ≤ 1 -> α28) => ∀^m67 α29. (α28 ≤ nil -> α29) => α29) -> α27) => α27) -> α25
+//│ Constr: concat ≤ ∀^m63 α26. (mkpair ≤ 2 -> α26) => ∀^m68 α27. (α26 ≤ ∀^m65 α28. (mkpair ≤ 1 -> α28) => ∀^m67 α29. (α28 ≤ nil -> α29) => α29 -> α27) => α27 -> α25
 //│ Rule: C-Unwrap
 //│ New Constraints:
-//│  concat ≤ (∀^m63 α26. (mkpair ≤ 2 -> α26) => ∀^m68 α27. (α26 ≤ (∀^m65 α28. (mkpair ≤ 1 -> α28) => ∀^m67 α29. (α28 ≤ nil -> α29) => α29) -> α27) => α27) -> α25
+//│  concat ≤ ∀^m63 α26. (mkpair ≤ 2 -> α26) => ∀^m68 α27. (α26 ≤ ∀^m65 α28. (mkpair ≤ 1 -> α28) => ∀^m67 α29. (α28 ≤ nil -> α29) => α29 -> α27) => α27 -> α25
 //│ Remaining constraints: 3
 //│ ====== (36) ======
-//│ Constr: concat ≤ (∀^m63 α26. (mkpair ≤ 2 -> α26) => ∀^m68 α27. (α26 ≤ (∀^m65 α28. (mkpair ≤ 1 -> α28) => ∀^m67 α29. (α28 ≤ nil -> α29) => α29) -> α27) => α27) -> α25
+//│ Constr: concat ≤ ∀^m63 α26. (mkpair ≤ 2 -> α26) => ∀^m68 α27. (α26 ≤ ∀^m65 α28. (mkpair ≤ 1 -> α28) => ∀^m67 α29. (α28 ≤ nil -> α29) => α29 -> α27) => α27 -> α25
 //│ Rule: C-Var1
 //│ Premises:
 //│   ∀^m59 α14. (fix ≤ concatImpl -> α14) => α14 ≤ concat ∈ B
 //│ New Constraints:
-//│  ∀^m59 α33. (fix ≤ concatImpl -> α33) => α33 ≤ (∀^m63 α26. (mkpair ≤ 2 -> α26) => ∀^m68 α27. (α26 ≤ (∀^m65 α28. (mkpair ≤ 1 -> α28) => ∀^m67 α29. (α28 ≤ nil -> α29) => α29) -> α27) => α27) -> α25
+//│  ∀^m59 α33. (fix ≤ concatImpl -> α33) => α33 ≤ ∀^m63 α26. (mkpair ≤ 2 -> α26) => ∀^m68 α27. (α26 ≤ ∀^m65 α28. (mkpair ≤ 1 -> α28) => ∀^m67 α29. (α28 ≤ nil -> α29) => α29 -> α27) => α27 -> α25
 //│ Remaining constraints: 3
 //│ ====== (37) ======
-//│ Constr: ∀^m59 α33. (fix ≤ concatImpl -> α33) => α33 ≤ (∀^m63 α26. (mkpair ≤ 2 -> α26) => ∀^m68 α27. (α26 ≤ (∀^m65 α28. (mkpair ≤ 1 -> α28) => ∀^m67 α29. (α28 ≤ nil -> α29) => α29) -> α27) => α27) -> α25
+//│ Constr: ∀^m59 α33. (fix ≤ concatImpl -> α33) => α33 ≤ ∀^m63 α26. (mkpair ≤ 2 -> α26) => ∀^m68 α27. (α26 ≤ ∀^m65 α28. (mkpair ≤ 1 -> α28) => ∀^m67 α29. (α28 ≤ nil -> α29) => α29 -> α27) => α27 -> α25
 //│ Rule: C-Forall1
 //│ New Constraints:
-//│  (fix ≤ concatImpl -> α33) => α33 ≤ (∀^m63 α26. (mkpair ≤ 2 -> α26) => ∀^m68 α27. (α26 ≤ (∀^m65 α28. (mkpair ≤ 1 -> α28) => ∀^m67 α29. (α28 ≤ nil -> α29) => α29) -> α27) => α27) -> α25
+//│  (fix ≤ concatImpl -> α33) => α33 ≤ ∀^m63 α26. (mkpair ≤ 2 -> α26) => ∀^m68 α27. (α26 ≤ ∀^m65 α28. (mkpair ≤ 1 -> α28) => ∀^m67 α29. (α28 ≤ nil -> α29) => α29 -> α27) => α27 -> α25
 //│ Remaining constraints: 3
 //│ ====== (38) ======
-//│ Constr: (fix ≤ concatImpl -> α33) => α33 ≤ (∀^m63 α26. (mkpair ≤ 2 -> α26) => ∀^m68 α27. (α26 ≤ (∀^m65 α28. (mkpair ≤ 1 -> α28) => ∀^m67 α29. (α28 ≤ nil -> α29) => α29) -> α27) => α27) -> α25
+//│ Constr: (fix ≤ concatImpl -> α33) => α33 ≤ ∀^m63 α26. (mkpair ≤ 2 -> α26) => ∀^m68 α27. (α26 ≤ ∀^m65 α28. (mkpair ≤ 1 -> α28) => ∀^m67 α29. (α28 ≤ nil -> α29) => α29 -> α27) => α27 -> α25
 //│ Rule: C-Constr
 //│ New Constraints:
 //│  fix ≤ concatImpl -> α33
-//│  α33 ≤ (∀^m63 α26. (mkpair ≤ 2 -> α26) => ∀^m68 α27. (α26 ≤ (∀^m65 α28. (mkpair ≤ 1 -> α28) => ∀^m67 α29. (α28 ≤ nil -> α29) => α29) -> α27) => α27) -> α25
+//│  α33 ≤ ∀^m63 α26. (mkpair ≤ 2 -> α26) => ∀^m68 α27. (α26 ≤ ∀^m65 α28. (mkpair ≤ 1 -> α28) => ∀^m67 α29. (α28 ≤ nil -> α29) => α29 -> α27) => α27 -> α25
 //│ Remaining constraints: 4
 //│ ====== (39) ======
 //│ Constr: fix ≤ concatImpl -> α33
@@ -1450,201 +1450,201 @@ head(concat(mkpair(2)(mkpair(1)(nil)))(mkpair(3)(nil)))
 //│ Constr: fix ≤ concatImpl -> α33
 //│ Rule: C-Var1
 //│ Premises:
-//│   ∀^m56 f0. f0 -> ∀^m48 x0. ∀^m55 α13. (x0 -> ∀^m47 α10. (f0 ≤ (∀^m46 α9. (x0 ≤ x0 -> α9) => α9) -> α10) => α10 ≤ (∀^m54 x1. x1 -> ∀^m53 α12. (f0 ≤ (∀^m52 α11. (x1 ≤ x1 -> α11) => α11) -> α12) => α12) -> α13) => α13 ≤ fix ∈ B
+//│   ∀^m56 f0. (f0 -> ∀^m48 x0. ∀^m55 α13. (x0 -> ∀^m47 α10. (f0 ≤ ∀^m46 α9. (x0 ≤ x0 -> α9) => α9 -> α10) => α10 ≤ ∀^m54 x1. (x1 -> ∀^m53 α12. (f0 ≤ ∀^m52 α11. (x1 ≤ x1 -> α11) => α11 -> α12) => α12) -> α13) => α13) ≤ fix ∈ B
 //│ New Constraints:
-//│  ∀^m56 f1. f1 -> ∀^m48 x2. ∀^m55 α34. (x2 -> ∀^m47 α35. (f1 ≤ (∀^m46 α36. (x2 ≤ x2 -> α36) => α36) -> α35) => α35 ≤ (∀^m54 x3. x3 -> ∀^m53 α37. (f1 ≤ (∀^m52 α38. (x3 ≤ x3 -> α38) => α38) -> α37) => α37) -> α34) => α34 ≤ concatImpl -> α33
+//│  ∀^m56 f1. (f1 -> ∀^m48 x2. ∀^m55 α34. (x2 -> ∀^m47 α35. (f1 ≤ ∀^m46 α36. (x2 ≤ x2 -> α36) => α36 -> α35) => α35 ≤ ∀^m54 x3. (x3 -> ∀^m53 α37. (f1 ≤ ∀^m52 α38. (x3 ≤ x3 -> α38) => α38 -> α37) => α37) -> α34) => α34) ≤ concatImpl -> α33
 //│ Remaining constraints: 4
 //│ ====== (41) ======
-//│ Constr: ∀^m56 f1. f1 -> ∀^m48 x2. ∀^m55 α34. (x2 -> ∀^m47 α35. (f1 ≤ (∀^m46 α36. (x2 ≤ x2 -> α36) => α36) -> α35) => α35 ≤ (∀^m54 x3. x3 -> ∀^m53 α37. (f1 ≤ (∀^m52 α38. (x3 ≤ x3 -> α38) => α38) -> α37) => α37) -> α34) => α34 ≤ concatImpl -> α33
+//│ Constr: ∀^m56 f1. (f1 -> ∀^m48 x2. ∀^m55 α34. (x2 -> ∀^m47 α35. (f1 ≤ ∀^m46 α36. (x2 ≤ x2 -> α36) => α36 -> α35) => α35 ≤ ∀^m54 x3. (x3 -> ∀^m53 α37. (f1 ≤ ∀^m52 α38. (x3 ≤ x3 -> α38) => α38 -> α37) => α37) -> α34) => α34) ≤ concatImpl -> α33
 //│ Rule: C-Forall1
 //│ New Constraints:
-//│  f1 -> ∀^m48 x2. ∀^m55 α34. (x2 -> ∀^m47 α35. (f1 ≤ (∀^m46 α36. (x2 ≤ x2 -> α36) => α36) -> α35) => α35 ≤ (∀^m54 x3. x3 -> ∀^m53 α37. (f1 ≤ (∀^m52 α38. (x3 ≤ x3 -> α38) => α38) -> α37) => α37) -> α34) => α34 ≤ concatImpl -> α33
+//│  f1 -> ∀^m48 x2. ∀^m55 α34. (x2 -> ∀^m47 α35. (f1 ≤ ∀^m46 α36. (x2 ≤ x2 -> α36) => α36 -> α35) => α35 ≤ ∀^m54 x3. (x3 -> ∀^m53 α37. (f1 ≤ ∀^m52 α38. (x3 ≤ x3 -> α38) => α38 -> α37) => α37) -> α34) => α34 ≤ concatImpl -> α33
 //│ Remaining constraints: 4
 //│ ====== (42) ======
-//│ Constr: f1 -> ∀^m48 x2. ∀^m55 α34. (x2 -> ∀^m47 α35. (f1 ≤ (∀^m46 α36. (x2 ≤ x2 -> α36) => α36) -> α35) => α35 ≤ (∀^m54 x3. x3 -> ∀^m53 α37. (f1 ≤ (∀^m52 α38. (x3 ≤ x3 -> α38) => α38) -> α37) => α37) -> α34) => α34 ≤ concatImpl -> α33
+//│ Constr: f1 -> ∀^m48 x2. ∀^m55 α34. (x2 -> ∀^m47 α35. (f1 ≤ ∀^m46 α36. (x2 ≤ x2 -> α36) => α36 -> α35) => α35 ≤ ∀^m54 x3. (x3 -> ∀^m53 α37. (f1 ≤ ∀^m52 α38. (x3 ≤ x3 -> α38) => α38 -> α37) => α37) -> α34) => α34 ≤ concatImpl -> α33
 //│ Rule: C-Fun
 //│ New Constraints:
 //│  concatImpl ≤ f1
-//│  ∀^m48 x2. ∀^m55 α34. (x2 -> ∀^m47 α35. (f1 ≤ (∀^m46 α36. (x2 ≤ x2 -> α36) => α36) -> α35) => α35 ≤ (∀^m54 x3. x3 -> ∀^m53 α37. (f1 ≤ (∀^m52 α38. (x3 ≤ x3 -> α38) => α38) -> α37) => α37) -> α34) => α34 ≤ α33
+//│  ∀^m48 x2. ∀^m55 α34. (x2 -> ∀^m47 α35. (f1 ≤ ∀^m46 α36. (x2 ≤ x2 -> α36) => α36 -> α35) => α35 ≤ ∀^m54 x3. (x3 -> ∀^m53 α37. (f1 ≤ ∀^m52 α38. (x3 ≤ x3 -> α38) => α38 -> α37) => α37) -> α34) => α34 ≤ α33
 //│ Remaining constraints: 5
 //│ ====== (43) ======
 //│ Constr: concatImpl ≤ f1
 //│ Rule: C-Var2
 //│ Remaining constraints: 4
 //│ ====== (44) ======
-//│ Constr: ∀^m48 x2. ∀^m55 α34. (x2 -> ∀^m47 α35. (f1 ≤ (∀^m46 α36. (x2 ≤ x2 -> α36) => α36) -> α35) => α35 ≤ (∀^m54 x3. x3 -> ∀^m53 α37. (f1 ≤ (∀^m52 α38. (x3 ≤ x3 -> α38) => α38) -> α37) => α37) -> α34) => α34 ≤ α33
+//│ Constr: ∀^m48 x2. ∀^m55 α34. (x2 -> ∀^m47 α35. (f1 ≤ ∀^m46 α36. (x2 ≤ x2 -> α36) => α36 -> α35) => α35 ≤ ∀^m54 x3. (x3 -> ∀^m53 α37. (f1 ≤ ∀^m52 α38. (x3 ≤ x3 -> α38) => α38 -> α37) => α37) -> α34) => α34 ≤ α33
 //│ Rule: C-Var2
 //│ Remaining constraints: 3
 //│ ====== (45) ======
-//│ Constr: α33 ≤ (∀^m63 α26. (mkpair ≤ 2 -> α26) => ∀^m68 α27. (α26 ≤ (∀^m65 α28. (mkpair ≤ 1 -> α28) => ∀^m67 α29. (α28 ≤ nil -> α29) => α29) -> α27) => α27) -> α25
+//│ Constr: α33 ≤ ∀^m63 α26. (mkpair ≤ 2 -> α26) => ∀^m68 α27. (α26 ≤ ∀^m65 α28. (mkpair ≤ 1 -> α28) => ∀^m67 α29. (α28 ≤ nil -> α29) => α29 -> α27) => α27 -> α25
 //│ Rule: C-Var1
 //│ Premises:
-//│   ∀^m48 x2. ∀^m55 α34. (x2 -> ∀^m47 α35. (f1 ≤ (∀^m46 α36. (x2 ≤ x2 -> α36) => α36) -> α35) => α35 ≤ (∀^m54 x3. x3 -> ∀^m53 α37. (f1 ≤ (∀^m52 α38. (x3 ≤ x3 -> α38) => α38) -> α37) => α37) -> α34) => α34 ≤ α33 ∈ B
+//│   ∀^m48 x2. ∀^m55 α34. (x2 -> ∀^m47 α35. (f1 ≤ ∀^m46 α36. (x2 ≤ x2 -> α36) => α36 -> α35) => α35 ≤ ∀^m54 x3. (x3 -> ∀^m53 α37. (f1 ≤ ∀^m52 α38. (x3 ≤ x3 -> α38) => α38 -> α37) => α37) -> α34) => α34 ≤ α33 ∈ B
 //│ New Constraints:
-//│  ∀^m48 x4. ∀^m55 α39. (x4 -> ∀^m47 α40. (f1 ≤ (∀^m46 α41. (x4 ≤ x4 -> α41) => α41) -> α40) => α40 ≤ (∀^m54 x5. x5 -> ∀^m53 α42. (f1 ≤ (∀^m52 α43. (x5 ≤ x5 -> α43) => α43) -> α42) => α42) -> α39) => α39 ≤ (∀^m63 α26. (mkpair ≤ 2 -> α26) => ∀^m68 α27. (α26 ≤ (∀^m65 α28. (mkpair ≤ 1 -> α28) => ∀^m67 α29. (α28 ≤ nil -> α29) => α29) -> α27) => α27) -> α25
+//│  ∀^m48 x4. ∀^m55 α39. (x4 -> ∀^m47 α40. (f1 ≤ ∀^m46 α41. (x4 ≤ x4 -> α41) => α41 -> α40) => α40 ≤ ∀^m54 x5. (x5 -> ∀^m53 α42. (f1 ≤ ∀^m52 α43. (x5 ≤ x5 -> α43) => α43 -> α42) => α42) -> α39) => α39 ≤ ∀^m63 α26. (mkpair ≤ 2 -> α26) => ∀^m68 α27. (α26 ≤ ∀^m65 α28. (mkpair ≤ 1 -> α28) => ∀^m67 α29. (α28 ≤ nil -> α29) => α29 -> α27) => α27 -> α25
 //│ Remaining constraints: 3
 //│ ====== (46) ======
-//│ Constr: ∀^m48 x4. ∀^m55 α39. (x4 -> ∀^m47 α40. (f1 ≤ (∀^m46 α41. (x4 ≤ x4 -> α41) => α41) -> α40) => α40 ≤ (∀^m54 x5. x5 -> ∀^m53 α42. (f1 ≤ (∀^m52 α43. (x5 ≤ x5 -> α43) => α43) -> α42) => α42) -> α39) => α39 ≤ (∀^m63 α26. (mkpair ≤ 2 -> α26) => ∀^m68 α27. (α26 ≤ (∀^m65 α28. (mkpair ≤ 1 -> α28) => ∀^m67 α29. (α28 ≤ nil -> α29) => α29) -> α27) => α27) -> α25
+//│ Constr: ∀^m48 x4. ∀^m55 α39. (x4 -> ∀^m47 α40. (f1 ≤ ∀^m46 α41. (x4 ≤ x4 -> α41) => α41 -> α40) => α40 ≤ ∀^m54 x5. (x5 -> ∀^m53 α42. (f1 ≤ ∀^m52 α43. (x5 ≤ x5 -> α43) => α43 -> α42) => α42) -> α39) => α39 ≤ ∀^m63 α26. (mkpair ≤ 2 -> α26) => ∀^m68 α27. (α26 ≤ ∀^m65 α28. (mkpair ≤ 1 -> α28) => ∀^m67 α29. (α28 ≤ nil -> α29) => α29 -> α27) => α27 -> α25
 //│ Rule: C-Forall1
 //│ New Constraints:
-//│  ∀^m55 α39. (x4 -> ∀^m47 α40. (f1 ≤ (∀^m46 α41. (x4 ≤ x4 -> α41) => α41) -> α40) => α40 ≤ (∀^m54 x5. x5 -> ∀^m53 α42. (f1 ≤ (∀^m52 α43. (x5 ≤ x5 -> α43) => α43) -> α42) => α42) -> α39) => α39 ≤ (∀^m63 α26. (mkpair ≤ 2 -> α26) => ∀^m68 α27. (α26 ≤ (∀^m65 α28. (mkpair ≤ 1 -> α28) => ∀^m67 α29. (α28 ≤ nil -> α29) => α29) -> α27) => α27) -> α25
+//│  ∀^m55 α39. (x4 -> ∀^m47 α40. (f1 ≤ ∀^m46 α41. (x4 ≤ x4 -> α41) => α41 -> α40) => α40 ≤ ∀^m54 x5. (x5 -> ∀^m53 α42. (f1 ≤ ∀^m52 α43. (x5 ≤ x5 -> α43) => α43 -> α42) => α42) -> α39) => α39 ≤ ∀^m63 α26. (mkpair ≤ 2 -> α26) => ∀^m68 α27. (α26 ≤ ∀^m65 α28. (mkpair ≤ 1 -> α28) => ∀^m67 α29. (α28 ≤ nil -> α29) => α29 -> α27) => α27 -> α25
 //│ Remaining constraints: 3
 //│ ====== (47) ======
-//│ Constr: ∀^m55 α39. (x4 -> ∀^m47 α40. (f1 ≤ (∀^m46 α41. (x4 ≤ x4 -> α41) => α41) -> α40) => α40 ≤ (∀^m54 x5. x5 -> ∀^m53 α42. (f1 ≤ (∀^m52 α43. (x5 ≤ x5 -> α43) => α43) -> α42) => α42) -> α39) => α39 ≤ (∀^m63 α26. (mkpair ≤ 2 -> α26) => ∀^m68 α27. (α26 ≤ (∀^m65 α28. (mkpair ≤ 1 -> α28) => ∀^m67 α29. (α28 ≤ nil -> α29) => α29) -> α27) => α27) -> α25
+//│ Constr: ∀^m55 α39. (x4 -> ∀^m47 α40. (f1 ≤ ∀^m46 α41. (x4 ≤ x4 -> α41) => α41 -> α40) => α40 ≤ ∀^m54 x5. (x5 -> ∀^m53 α42. (f1 ≤ ∀^m52 α43. (x5 ≤ x5 -> α43) => α43 -> α42) => α42) -> α39) => α39 ≤ ∀^m63 α26. (mkpair ≤ 2 -> α26) => ∀^m68 α27. (α26 ≤ ∀^m65 α28. (mkpair ≤ 1 -> α28) => ∀^m67 α29. (α28 ≤ nil -> α29) => α29 -> α27) => α27 -> α25
 //│ Rule: C-Forall1
 //│ New Constraints:
-//│  (x4 -> ∀^m47 α40. (f1 ≤ (∀^m46 α41. (x4 ≤ x4 -> α41) => α41) -> α40) => α40 ≤ (∀^m54 x5. x5 -> ∀^m53 α42. (f1 ≤ (∀^m52 α43. (x5 ≤ x5 -> α43) => α43) -> α42) => α42) -> α39) => α39 ≤ (∀^m63 α26. (mkpair ≤ 2 -> α26) => ∀^m68 α27. (α26 ≤ (∀^m65 α28. (mkpair ≤ 1 -> α28) => ∀^m67 α29. (α28 ≤ nil -> α29) => α29) -> α27) => α27) -> α25
+//│  (x4 -> ∀^m47 α40. (f1 ≤ ∀^m46 α41. (x4 ≤ x4 -> α41) => α41 -> α40) => α40 ≤ ∀^m54 x5. (x5 -> ∀^m53 α42. (f1 ≤ ∀^m52 α43. (x5 ≤ x5 -> α43) => α43 -> α42) => α42) -> α39) => α39 ≤ ∀^m63 α26. (mkpair ≤ 2 -> α26) => ∀^m68 α27. (α26 ≤ ∀^m65 α28. (mkpair ≤ 1 -> α28) => ∀^m67 α29. (α28 ≤ nil -> α29) => α29 -> α27) => α27 -> α25
 //│ Remaining constraints: 3
 //│ ====== (48) ======
-//│ Constr: (x4 -> ∀^m47 α40. (f1 ≤ (∀^m46 α41. (x4 ≤ x4 -> α41) => α41) -> α40) => α40 ≤ (∀^m54 x5. x5 -> ∀^m53 α42. (f1 ≤ (∀^m52 α43. (x5 ≤ x5 -> α43) => α43) -> α42) => α42) -> α39) => α39 ≤ (∀^m63 α26. (mkpair ≤ 2 -> α26) => ∀^m68 α27. (α26 ≤ (∀^m65 α28. (mkpair ≤ 1 -> α28) => ∀^m67 α29. (α28 ≤ nil -> α29) => α29) -> α27) => α27) -> α25
+//│ Constr: (x4 -> ∀^m47 α40. (f1 ≤ ∀^m46 α41. (x4 ≤ x4 -> α41) => α41 -> α40) => α40 ≤ ∀^m54 x5. (x5 -> ∀^m53 α42. (f1 ≤ ∀^m52 α43. (x5 ≤ x5 -> α43) => α43 -> α42) => α42) -> α39) => α39 ≤ ∀^m63 α26. (mkpair ≤ 2 -> α26) => ∀^m68 α27. (α26 ≤ ∀^m65 α28. (mkpair ≤ 1 -> α28) => ∀^m67 α29. (α28 ≤ nil -> α29) => α29 -> α27) => α27 -> α25
 //│ Rule: C-Constr
 //│ New Constraints:
-//│  x4 -> ∀^m47 α40. (f1 ≤ (∀^m46 α41. (x4 ≤ x4 -> α41) => α41) -> α40) => α40 ≤ (∀^m54 x5. x5 -> ∀^m53 α42. (f1 ≤ (∀^m52 α43. (x5 ≤ x5 -> α43) => α43) -> α42) => α42) -> α39
-//│  α39 ≤ (∀^m63 α26. (mkpair ≤ 2 -> α26) => ∀^m68 α27. (α26 ≤ (∀^m65 α28. (mkpair ≤ 1 -> α28) => ∀^m67 α29. (α28 ≤ nil -> α29) => α29) -> α27) => α27) -> α25
+//│  x4 -> ∀^m47 α40. (f1 ≤ ∀^m46 α41. (x4 ≤ x4 -> α41) => α41 -> α40) => α40 ≤ ∀^m54 x5. (x5 -> ∀^m53 α42. (f1 ≤ ∀^m52 α43. (x5 ≤ x5 -> α43) => α43 -> α42) => α42) -> α39
+//│  α39 ≤ ∀^m63 α26. (mkpair ≤ 2 -> α26) => ∀^m68 α27. (α26 ≤ ∀^m65 α28. (mkpair ≤ 1 -> α28) => ∀^m67 α29. (α28 ≤ nil -> α29) => α29 -> α27) => α27 -> α25
 //│ Remaining constraints: 4
 //│ ====== (49) ======
-//│ Constr: x4 -> ∀^m47 α40. (f1 ≤ (∀^m46 α41. (x4 ≤ x4 -> α41) => α41) -> α40) => α40 ≤ (∀^m54 x5. x5 -> ∀^m53 α42. (f1 ≤ (∀^m52 α43. (x5 ≤ x5 -> α43) => α43) -> α42) => α42) -> α39
+//│ Constr: x4 -> ∀^m47 α40. (f1 ≤ ∀^m46 α41. (x4 ≤ x4 -> α41) => α41 -> α40) => α40 ≤ ∀^m54 x5. (x5 -> ∀^m53 α42. (f1 ≤ ∀^m52 α43. (x5 ≤ x5 -> α43) => α43 -> α42) => α42) -> α39
 //│ Rule: C-Fun
 //│ New Constraints:
-//│  ∀^m54 x5. x5 -> ∀^m53 α42. (f1 ≤ (∀^m52 α43. (x5 ≤ x5 -> α43) => α43) -> α42) => α42 ≤ x4
-//│  ∀^m47 α40. (f1 ≤ (∀^m46 α41. (x4 ≤ x4 -> α41) => α41) -> α40) => α40 ≤ α39
+//│  ∀^m54 x5. (x5 -> ∀^m53 α42. (f1 ≤ ∀^m52 α43. (x5 ≤ x5 -> α43) => α43 -> α42) => α42) ≤ x4
+//│  ∀^m47 α40. (f1 ≤ ∀^m46 α41. (x4 ≤ x4 -> α41) => α41 -> α40) => α40 ≤ α39
 //│ Remaining constraints: 5
 //│ ====== (50) ======
-//│ Constr: ∀^m54 x5. x5 -> ∀^m53 α42. (f1 ≤ (∀^m52 α43. (x5 ≤ x5 -> α43) => α43) -> α42) => α42 ≤ x4
+//│ Constr: ∀^m54 x5. (x5 -> ∀^m53 α42. (f1 ≤ ∀^m52 α43. (x5 ≤ x5 -> α43) => α43 -> α42) => α42) ≤ x4
 //│ Rule: C-Var2
 //│ Remaining constraints: 4
 //│ ====== (51) ======
-//│ Constr: ∀^m47 α40. (f1 ≤ (∀^m46 α41. (x4 ≤ x4 -> α41) => α41) -> α40) => α40 ≤ α39
+//│ Constr: ∀^m47 α40. (f1 ≤ ∀^m46 α41. (x4 ≤ x4 -> α41) => α41 -> α40) => α40 ≤ α39
 //│ Rule: C-Var2
 //│ Remaining constraints: 3
 //│ ====== (52) ======
-//│ Constr: α39 ≤ (∀^m63 α26. (mkpair ≤ 2 -> α26) => ∀^m68 α27. (α26 ≤ (∀^m65 α28. (mkpair ≤ 1 -> α28) => ∀^m67 α29. (α28 ≤ nil -> α29) => α29) -> α27) => α27) -> α25
+//│ Constr: α39 ≤ ∀^m63 α26. (mkpair ≤ 2 -> α26) => ∀^m68 α27. (α26 ≤ ∀^m65 α28. (mkpair ≤ 1 -> α28) => ∀^m67 α29. (α28 ≤ nil -> α29) => α29 -> α27) => α27 -> α25
 //│ Rule: C-Var1
 //│ Premises:
-//│   ∀^m47 α40. (f1 ≤ (∀^m46 α41. (x4 ≤ x4 -> α41) => α41) -> α40) => α40 ≤ α39 ∈ B
+//│   ∀^m47 α40. (f1 ≤ ∀^m46 α41. (x4 ≤ x4 -> α41) => α41 -> α40) => α40 ≤ α39 ∈ B
 //│ New Constraints:
-//│  ∀^m47 α44. (f1 ≤ (∀^m46 α45. (x4 ≤ x4 -> α45) => α45) -> α44) => α44 ≤ (∀^m63 α26. (mkpair ≤ 2 -> α26) => ∀^m68 α27. (α26 ≤ (∀^m65 α28. (mkpair ≤ 1 -> α28) => ∀^m67 α29. (α28 ≤ nil -> α29) => α29) -> α27) => α27) -> α25
+//│  ∀^m47 α44. (f1 ≤ ∀^m46 α45. (x4 ≤ x4 -> α45) => α45 -> α44) => α44 ≤ ∀^m63 α26. (mkpair ≤ 2 -> α26) => ∀^m68 α27. (α26 ≤ ∀^m65 α28. (mkpair ≤ 1 -> α28) => ∀^m67 α29. (α28 ≤ nil -> α29) => α29 -> α27) => α27 -> α25
 //│ Remaining constraints: 3
 //│ ====== (53) ======
-//│ Constr: ∀^m47 α44. (f1 ≤ (∀^m46 α45. (x4 ≤ x4 -> α45) => α45) -> α44) => α44 ≤ (∀^m63 α26. (mkpair ≤ 2 -> α26) => ∀^m68 α27. (α26 ≤ (∀^m65 α28. (mkpair ≤ 1 -> α28) => ∀^m67 α29. (α28 ≤ nil -> α29) => α29) -> α27) => α27) -> α25
+//│ Constr: ∀^m47 α44. (f1 ≤ ∀^m46 α45. (x4 ≤ x4 -> α45) => α45 -> α44) => α44 ≤ ∀^m63 α26. (mkpair ≤ 2 -> α26) => ∀^m68 α27. (α26 ≤ ∀^m65 α28. (mkpair ≤ 1 -> α28) => ∀^m67 α29. (α28 ≤ nil -> α29) => α29 -> α27) => α27 -> α25
 //│ Rule: C-Forall1
 //│ New Constraints:
-//│  (f1 ≤ (∀^m46 α45. (x4 ≤ x4 -> α45) => α45) -> α44) => α44 ≤ (∀^m63 α26. (mkpair ≤ 2 -> α26) => ∀^m68 α27. (α26 ≤ (∀^m65 α28. (mkpair ≤ 1 -> α28) => ∀^m67 α29. (α28 ≤ nil -> α29) => α29) -> α27) => α27) -> α25
+//│  (f1 ≤ ∀^m46 α45. (x4 ≤ x4 -> α45) => α45 -> α44) => α44 ≤ ∀^m63 α26. (mkpair ≤ 2 -> α26) => ∀^m68 α27. (α26 ≤ ∀^m65 α28. (mkpair ≤ 1 -> α28) => ∀^m67 α29. (α28 ≤ nil -> α29) => α29 -> α27) => α27 -> α25
 //│ Remaining constraints: 3
 //│ ====== (54) ======
-//│ Constr: (f1 ≤ (∀^m46 α45. (x4 ≤ x4 -> α45) => α45) -> α44) => α44 ≤ (∀^m63 α26. (mkpair ≤ 2 -> α26) => ∀^m68 α27. (α26 ≤ (∀^m65 α28. (mkpair ≤ 1 -> α28) => ∀^m67 α29. (α28 ≤ nil -> α29) => α29) -> α27) => α27) -> α25
+//│ Constr: (f1 ≤ ∀^m46 α45. (x4 ≤ x4 -> α45) => α45 -> α44) => α44 ≤ ∀^m63 α26. (mkpair ≤ 2 -> α26) => ∀^m68 α27. (α26 ≤ ∀^m65 α28. (mkpair ≤ 1 -> α28) => ∀^m67 α29. (α28 ≤ nil -> α29) => α29 -> α27) => α27 -> α25
 //│ Rule: C-Constr
 //│ New Constraints:
-//│  f1 ≤ (∀^m46 α45. (x4 ≤ x4 -> α45) => α45) -> α44
-//│  α44 ≤ (∀^m63 α26. (mkpair ≤ 2 -> α26) => ∀^m68 α27. (α26 ≤ (∀^m65 α28. (mkpair ≤ 1 -> α28) => ∀^m67 α29. (α28 ≤ nil -> α29) => α29) -> α27) => α27) -> α25
+//│  f1 ≤ ∀^m46 α45. (x4 ≤ x4 -> α45) => α45 -> α44
+//│  α44 ≤ ∀^m63 α26. (mkpair ≤ 2 -> α26) => ∀^m68 α27. (α26 ≤ ∀^m65 α28. (mkpair ≤ 1 -> α28) => ∀^m67 α29. (α28 ≤ nil -> α29) => α29 -> α27) => α27 -> α25
 //│ Remaining constraints: 4
 //│ ====== (55) ======
-//│ Constr: f1 ≤ (∀^m46 α45. (x4 ≤ x4 -> α45) => α45) -> α44
+//│ Constr: f1 ≤ ∀^m46 α45. (x4 ≤ x4 -> α45) => α45 -> α44
 //│ Rule: C-Unwrap
 //│ New Constraints:
-//│  f1 ≤ (∀^m46 α45. (x4 ≤ x4 -> α45) => α45) -> α44
+//│  f1 ≤ ∀^m46 α45. (x4 ≤ x4 -> α45) => α45 -> α44
 //│ Remaining constraints: 4
 //│ ====== (56) ======
-//│ Constr: f1 ≤ (∀^m46 α45. (x4 ≤ x4 -> α45) => α45) -> α44
+//│ Constr: f1 ≤ ∀^m46 α45. (x4 ≤ x4 -> α45) => α45 -> α44
 //│ Rule: C-Var1
 //│ Premises:
 //│   concatImpl ≤ f1 ∈ B
 //│ New Constraints:
-//│  concatImpl ≤ (∀^m46 α45. (x4 ≤ x4 -> α45) => α45) -> α44
+//│  concatImpl ≤ ∀^m46 α45. (x4 ≤ x4 -> α45) => α45 -> α44
 //│ Remaining constraints: 4
 //│ ====== (57) ======
-//│ Constr: concatImpl ≤ (∀^m46 α45. (x4 ≤ x4 -> α45) => α45) -> α44
+//│ Constr: concatImpl ≤ ∀^m46 α45. (x4 ≤ x4 -> α45) => α45 -> α44
 //│ Rule: C-Unwrap
 //│ New Constraints:
-//│  concatImpl ≤ (∀^m46 α45. (x4 ≤ x4 -> α45) => α45) -> α44
+//│  concatImpl ≤ ∀^m46 α45. (x4 ≤ x4 -> α45) => α45 -> α44
 //│ Remaining constraints: 4
 //│ ====== (58) ======
-//│ Constr: concatImpl ≤ (∀^m46 α45. (x4 ≤ x4 -> α45) => α45) -> α44
+//│ Constr: concatImpl ≤ ∀^m46 α45. (x4 ≤ x4 -> α45) => α45 -> α44
 //│ Rule: C-Var1
 //│ Premises:
-//│   ∀^m42 f. f -> ∀^m41 l1. l1 -> ∀^m40 l2. l2 -> ∀^m35 α6. (isEmpty ≤ l1 -> α6) => ∀^m37 α7. (α6 ≤ l2 -> α7) => ∀^m39 α8. (α7 ≤ l1 -> α8) => α8 ≤ concatImpl ∈ B
+//│   ∀^m42 f. (f -> ∀^m41 l1. (l1 -> ∀^m40 l2. (l2 -> ∀^m35 α6. (isEmpty ≤ l1 -> α6) => ∀^m37 α7. (α6 ≤ l2 -> α7) => ∀^m39 α8. (α7 ≤ l1 -> α8) => α8))) ≤ concatImpl ∈ B
 //│ New Constraints:
-//│  ∀^m42 f2. f2 -> ∀^m41 l10. l10 -> ∀^m40 l20. l20 -> ∀^m35 α46. (isEmpty ≤ l10 -> α46) => ∀^m37 α47. (α46 ≤ l20 -> α47) => ∀^m39 α48. (α47 ≤ l10 -> α48) => α48 ≤ (∀^m46 α45. (x4 ≤ x4 -> α45) => α45) -> α44
+//│  ∀^m42 f2. (f2 -> ∀^m41 l10. (l10 -> ∀^m40 l20. (l20 -> ∀^m35 α46. (isEmpty ≤ l10 -> α46) => ∀^m37 α47. (α46 ≤ l20 -> α47) => ∀^m39 α48. (α47 ≤ l10 -> α48) => α48))) ≤ ∀^m46 α45. (x4 ≤ x4 -> α45) => α45 -> α44
 //│ Remaining constraints: 4
 //│ ====== (59) ======
-//│ Constr: ∀^m42 f2. f2 -> ∀^m41 l10. l10 -> ∀^m40 l20. l20 -> ∀^m35 α46. (isEmpty ≤ l10 -> α46) => ∀^m37 α47. (α46 ≤ l20 -> α47) => ∀^m39 α48. (α47 ≤ l10 -> α48) => α48 ≤ (∀^m46 α45. (x4 ≤ x4 -> α45) => α45) -> α44
+//│ Constr: ∀^m42 f2. (f2 -> ∀^m41 l10. (l10 -> ∀^m40 l20. (l20 -> ∀^m35 α46. (isEmpty ≤ l10 -> α46) => ∀^m37 α47. (α46 ≤ l20 -> α47) => ∀^m39 α48. (α47 ≤ l10 -> α48) => α48))) ≤ ∀^m46 α45. (x4 ≤ x4 -> α45) => α45 -> α44
 //│ Rule: C-Forall1
 //│ New Constraints:
-//│  f2 -> ∀^m41 l10. l10 -> ∀^m40 l20. l20 -> ∀^m35 α46. (isEmpty ≤ l10 -> α46) => ∀^m37 α47. (α46 ≤ l20 -> α47) => ∀^m39 α48. (α47 ≤ l10 -> α48) => α48 ≤ (∀^m46 α45. (x4 ≤ x4 -> α45) => α45) -> α44
+//│  f2 -> ∀^m41 l10. (l10 -> ∀^m40 l20. (l20 -> ∀^m35 α46. (isEmpty ≤ l10 -> α46) => ∀^m37 α47. (α46 ≤ l20 -> α47) => ∀^m39 α48. (α47 ≤ l10 -> α48) => α48)) ≤ ∀^m46 α45. (x4 ≤ x4 -> α45) => α45 -> α44
 //│ Remaining constraints: 4
 //│ ====== (60) ======
-//│ Constr: f2 -> ∀^m41 l10. l10 -> ∀^m40 l20. l20 -> ∀^m35 α46. (isEmpty ≤ l10 -> α46) => ∀^m37 α47. (α46 ≤ l20 -> α47) => ∀^m39 α48. (α47 ≤ l10 -> α48) => α48 ≤ (∀^m46 α45. (x4 ≤ x4 -> α45) => α45) -> α44
+//│ Constr: f2 -> ∀^m41 l10. (l10 -> ∀^m40 l20. (l20 -> ∀^m35 α46. (isEmpty ≤ l10 -> α46) => ∀^m37 α47. (α46 ≤ l20 -> α47) => ∀^m39 α48. (α47 ≤ l10 -> α48) => α48)) ≤ ∀^m46 α45. (x4 ≤ x4 -> α45) => α45 -> α44
 //│ Rule: C-Fun
 //│ New Constraints:
 //│  ∀^m46 α45. (x4 ≤ x4 -> α45) => α45 ≤ f2
-//│  ∀^m41 l10. l10 -> ∀^m40 l20. l20 -> ∀^m35 α46. (isEmpty ≤ l10 -> α46) => ∀^m37 α47. (α46 ≤ l20 -> α47) => ∀^m39 α48. (α47 ≤ l10 -> α48) => α48 ≤ α44
+//│  ∀^m41 l10. (l10 -> ∀^m40 l20. (l20 -> ∀^m35 α46. (isEmpty ≤ l10 -> α46) => ∀^m37 α47. (α46 ≤ l20 -> α47) => ∀^m39 α48. (α47 ≤ l10 -> α48) => α48)) ≤ α44
 //│ Remaining constraints: 5
 //│ ====== (61) ======
 //│ Constr: ∀^m46 α45. (x4 ≤ x4 -> α45) => α45 ≤ f2
 //│ Rule: C-Var2
 //│ Remaining constraints: 4
 //│ ====== (62) ======
-//│ Constr: ∀^m41 l10. l10 -> ∀^m40 l20. l20 -> ∀^m35 α46. (isEmpty ≤ l10 -> α46) => ∀^m37 α47. (α46 ≤ l20 -> α47) => ∀^m39 α48. (α47 ≤ l10 -> α48) => α48 ≤ α44
+//│ Constr: ∀^m41 l10. (l10 -> ∀^m40 l20. (l20 -> ∀^m35 α46. (isEmpty ≤ l10 -> α46) => ∀^m37 α47. (α46 ≤ l20 -> α47) => ∀^m39 α48. (α47 ≤ l10 -> α48) => α48)) ≤ α44
 //│ Rule: C-Var2
 //│ Remaining constraints: 3
 //│ ====== (63) ======
-//│ Constr: α44 ≤ (∀^m63 α26. (mkpair ≤ 2 -> α26) => ∀^m68 α27. (α26 ≤ (∀^m65 α28. (mkpair ≤ 1 -> α28) => ∀^m67 α29. (α28 ≤ nil -> α29) => α29) -> α27) => α27) -> α25
+//│ Constr: α44 ≤ ∀^m63 α26. (mkpair ≤ 2 -> α26) => ∀^m68 α27. (α26 ≤ ∀^m65 α28. (mkpair ≤ 1 -> α28) => ∀^m67 α29. (α28 ≤ nil -> α29) => α29 -> α27) => α27 -> α25
 //│ Rule: C-Var1
 //│ Premises:
-//│   ∀^m41 l10. l10 -> ∀^m40 l20. l20 -> ∀^m35 α46. (isEmpty ≤ l10 -> α46) => ∀^m37 α47. (α46 ≤ l20 -> α47) => ∀^m39 α48. (α47 ≤ l10 -> α48) => α48 ≤ α44 ∈ B
+//│   ∀^m41 l10. (l10 -> ∀^m40 l20. (l20 -> ∀^m35 α46. (isEmpty ≤ l10 -> α46) => ∀^m37 α47. (α46 ≤ l20 -> α47) => ∀^m39 α48. (α47 ≤ l10 -> α48) => α48)) ≤ α44 ∈ B
 //│ New Constraints:
-//│  ∀^m41 l11. l11 -> ∀^m40 l21. l21 -> ∀^m35 α49. (isEmpty ≤ l11 -> α49) => ∀^m37 α50. (α49 ≤ l21 -> α50) => ∀^m39 α51. (α50 ≤ l11 -> α51) => α51 ≤ (∀^m63 α26. (mkpair ≤ 2 -> α26) => ∀^m68 α27. (α26 ≤ (∀^m65 α28. (mkpair ≤ 1 -> α28) => ∀^m67 α29. (α28 ≤ nil -> α29) => α29) -> α27) => α27) -> α25
+//│  ∀^m41 l11. (l11 -> ∀^m40 l21. (l21 -> ∀^m35 α49. (isEmpty ≤ l11 -> α49) => ∀^m37 α50. (α49 ≤ l21 -> α50) => ∀^m39 α51. (α50 ≤ l11 -> α51) => α51)) ≤ ∀^m63 α26. (mkpair ≤ 2 -> α26) => ∀^m68 α27. (α26 ≤ ∀^m65 α28. (mkpair ≤ 1 -> α28) => ∀^m67 α29. (α28 ≤ nil -> α29) => α29 -> α27) => α27 -> α25
 //│ Remaining constraints: 3
 //│ ====== (64) ======
-//│ Constr: ∀^m41 l11. l11 -> ∀^m40 l21. l21 -> ∀^m35 α49. (isEmpty ≤ l11 -> α49) => ∀^m37 α50. (α49 ≤ l21 -> α50) => ∀^m39 α51. (α50 ≤ l11 -> α51) => α51 ≤ (∀^m63 α26. (mkpair ≤ 2 -> α26) => ∀^m68 α27. (α26 ≤ (∀^m65 α28. (mkpair ≤ 1 -> α28) => ∀^m67 α29. (α28 ≤ nil -> α29) => α29) -> α27) => α27) -> α25
+//│ Constr: ∀^m41 l11. (l11 -> ∀^m40 l21. (l21 -> ∀^m35 α49. (isEmpty ≤ l11 -> α49) => ∀^m37 α50. (α49 ≤ l21 -> α50) => ∀^m39 α51. (α50 ≤ l11 -> α51) => α51)) ≤ ∀^m63 α26. (mkpair ≤ 2 -> α26) => ∀^m68 α27. (α26 ≤ ∀^m65 α28. (mkpair ≤ 1 -> α28) => ∀^m67 α29. (α28 ≤ nil -> α29) => α29 -> α27) => α27 -> α25
 //│ Rule: C-Forall1
 //│ New Constraints:
-//│  l11 -> ∀^m40 l21. l21 -> ∀^m35 α49. (isEmpty ≤ l11 -> α49) => ∀^m37 α50. (α49 ≤ l21 -> α50) => ∀^m39 α51. (α50 ≤ l11 -> α51) => α51 ≤ (∀^m63 α26. (mkpair ≤ 2 -> α26) => ∀^m68 α27. (α26 ≤ (∀^m65 α28. (mkpair ≤ 1 -> α28) => ∀^m67 α29. (α28 ≤ nil -> α29) => α29) -> α27) => α27) -> α25
+//│  l11 -> ∀^m40 l21. (l21 -> ∀^m35 α49. (isEmpty ≤ l11 -> α49) => ∀^m37 α50. (α49 ≤ l21 -> α50) => ∀^m39 α51. (α50 ≤ l11 -> α51) => α51) ≤ ∀^m63 α26. (mkpair ≤ 2 -> α26) => ∀^m68 α27. (α26 ≤ ∀^m65 α28. (mkpair ≤ 1 -> α28) => ∀^m67 α29. (α28 ≤ nil -> α29) => α29 -> α27) => α27 -> α25
 //│ Remaining constraints: 3
 //│ ====== (65) ======
-//│ Constr: l11 -> ∀^m40 l21. l21 -> ∀^m35 α49. (isEmpty ≤ l11 -> α49) => ∀^m37 α50. (α49 ≤ l21 -> α50) => ∀^m39 α51. (α50 ≤ l11 -> α51) => α51 ≤ (∀^m63 α26. (mkpair ≤ 2 -> α26) => ∀^m68 α27. (α26 ≤ (∀^m65 α28. (mkpair ≤ 1 -> α28) => ∀^m67 α29. (α28 ≤ nil -> α29) => α29) -> α27) => α27) -> α25
+//│ Constr: l11 -> ∀^m40 l21. (l21 -> ∀^m35 α49. (isEmpty ≤ l11 -> α49) => ∀^m37 α50. (α49 ≤ l21 -> α50) => ∀^m39 α51. (α50 ≤ l11 -> α51) => α51) ≤ ∀^m63 α26. (mkpair ≤ 2 -> α26) => ∀^m68 α27. (α26 ≤ ∀^m65 α28. (mkpair ≤ 1 -> α28) => ∀^m67 α29. (α28 ≤ nil -> α29) => α29 -> α27) => α27 -> α25
 //│ Rule: C-Fun
 //│ New Constraints:
-//│  ∀^m63 α26. (mkpair ≤ 2 -> α26) => ∀^m68 α27. (α26 ≤ (∀^m65 α28. (mkpair ≤ 1 -> α28) => ∀^m67 α29. (α28 ≤ nil -> α29) => α29) -> α27) => α27 ≤ l11
-//│  ∀^m40 l21. l21 -> ∀^m35 α49. (isEmpty ≤ l11 -> α49) => ∀^m37 α50. (α49 ≤ l21 -> α50) => ∀^m39 α51. (α50 ≤ l11 -> α51) => α51 ≤ α25
+//│  ∀^m63 α26. (mkpair ≤ 2 -> α26) => ∀^m68 α27. (α26 ≤ ∀^m65 α28. (mkpair ≤ 1 -> α28) => ∀^m67 α29. (α28 ≤ nil -> α29) => α29 -> α27) => α27 ≤ l11
+//│  ∀^m40 l21. (l21 -> ∀^m35 α49. (isEmpty ≤ l11 -> α49) => ∀^m37 α50. (α49 ≤ l21 -> α50) => ∀^m39 α51. (α50 ≤ l11 -> α51) => α51) ≤ α25
 //│ Remaining constraints: 4
 //│ ====== (66) ======
-//│ Constr: ∀^m63 α26. (mkpair ≤ 2 -> α26) => ∀^m68 α27. (α26 ≤ (∀^m65 α28. (mkpair ≤ 1 -> α28) => ∀^m67 α29. (α28 ≤ nil -> α29) => α29) -> α27) => α27 ≤ l11
+//│ Constr: ∀^m63 α26. (mkpair ≤ 2 -> α26) => ∀^m68 α27. (α26 ≤ ∀^m65 α28. (mkpair ≤ 1 -> α28) => ∀^m67 α29. (α28 ≤ nil -> α29) => α29 -> α27) => α27 ≤ l11
 //│ Rule: C-Var2
 //│ Remaining constraints: 3
 //│ ====== (67) ======
-//│ Constr: ∀^m40 l21. l21 -> ∀^m35 α49. (isEmpty ≤ l11 -> α49) => ∀^m37 α50. (α49 ≤ l21 -> α50) => ∀^m39 α51. (α50 ≤ l11 -> α51) => α51 ≤ α25
+//│ Constr: ∀^m40 l21. (l21 -> ∀^m35 α49. (isEmpty ≤ l11 -> α49) => ∀^m37 α50. (α49 ≤ l21 -> α50) => ∀^m39 α51. (α50 ≤ l11 -> α51) => α51) ≤ α25
 //│ Rule: C-Var2
 //│ Remaining constraints: 2
 //│ ====== (68) ======
-//│ Constr: ∀^m74 α30. (α25 ≤ (∀^m71 α31. (mkpair ≤ 3 -> α31) => ∀^m73 α32. (α31 ≤ nil -> α32) => α32) -> α30) => α30 ≤ tru -> α24
+//│ Constr: ∀^m74 α30. (α25 ≤ ∀^m71 α31. (mkpair ≤ 3 -> α31) => ∀^m73 α32. (α31 ≤ nil -> α32) => α32 -> α30) => α30 ≤ tru -> α24
 //│ Rule: C-Forall1
 //│ New Constraints:
-//│  (α25 ≤ (∀^m71 α31. (mkpair ≤ 3 -> α31) => ∀^m73 α32. (α31 ≤ nil -> α32) => α32) -> α30) => α30 ≤ tru -> α24
+//│  (α25 ≤ ∀^m71 α31. (mkpair ≤ 3 -> α31) => ∀^m73 α32. (α31 ≤ nil -> α32) => α32 -> α30) => α30 ≤ tru -> α24
 //│ Remaining constraints: 2
 //│ ====== (69) ======
-//│ Constr: (α25 ≤ (∀^m71 α31. (mkpair ≤ 3 -> α31) => ∀^m73 α32. (α31 ≤ nil -> α32) => α32) -> α30) => α30 ≤ tru -> α24
+//│ Constr: (α25 ≤ ∀^m71 α31. (mkpair ≤ 3 -> α31) => ∀^m73 α32. (α31 ≤ nil -> α32) => α32 -> α30) => α30 ≤ tru -> α24
 //│ Rule: C-Constr
 //│ New Constraints:
-//│  α25 ≤ (∀^m71 α31. (mkpair ≤ 3 -> α31) => ∀^m73 α32. (α31 ≤ nil -> α32) => α32) -> α30
+//│  α25 ≤ ∀^m71 α31. (mkpair ≤ 3 -> α31) => ∀^m73 α32. (α31 ≤ nil -> α32) => α32 -> α30
 //│  α30 ≤ tru -> α24
 //│ Remaining constraints: 3
 //│ ====== (70) ======
-//│ Constr: α25 ≤ (∀^m71 α31. (mkpair ≤ 3 -> α31) => ∀^m73 α32. (α31 ≤ nil -> α32) => α32) -> α30
+//│ Constr: α25 ≤ ∀^m71 α31. (mkpair ≤ 3 -> α31) => ∀^m73 α32. (α31 ≤ nil -> α32) => α32 -> α30
 //│ Rule: C-Var1
 //│ Premises:
-//│   ∀^m40 l21. l21 -> ∀^m35 α49. (isEmpty ≤ l11 -> α49) => ∀^m37 α50. (α49 ≤ l21 -> α50) => ∀^m39 α51. (α50 ≤ l11 -> α51) => α51 ≤ α25 ∈ B
+//│   ∀^m40 l21. (l21 -> ∀^m35 α49. (isEmpty ≤ l11 -> α49) => ∀^m37 α50. (α49 ≤ l21 -> α50) => ∀^m39 α51. (α50 ≤ l11 -> α51) => α51) ≤ α25 ∈ B
 //│ New Constraints:
-//│  ∀^m40 l22. l22 -> ∀^m35 α52. (isEmpty ≤ l11 -> α52) => ∀^m37 α53. (α52 ≤ l22 -> α53) => ∀^m39 α54. (α53 ≤ l11 -> α54) => α54 ≤ (∀^m71 α31. (mkpair ≤ 3 -> α31) => ∀^m73 α32. (α31 ≤ nil -> α32) => α32) -> α30
+//│  ∀^m40 l22. (l22 -> ∀^m35 α52. (isEmpty ≤ l11 -> α52) => ∀^m37 α53. (α52 ≤ l22 -> α53) => ∀^m39 α54. (α53 ≤ l11 -> α54) => α54) ≤ ∀^m71 α31. (mkpair ≤ 3 -> α31) => ∀^m73 α32. (α31 ≤ nil -> α32) => α32 -> α30
 //│ Remaining constraints: 3
 //│ ====== (71) ======
-//│ Constr: ∀^m40 l22. l22 -> ∀^m35 α52. (isEmpty ≤ l11 -> α52) => ∀^m37 α53. (α52 ≤ l22 -> α53) => ∀^m39 α54. (α53 ≤ l11 -> α54) => α54 ≤ (∀^m71 α31. (mkpair ≤ 3 -> α31) => ∀^m73 α32. (α31 ≤ nil -> α32) => α32) -> α30
+//│ Constr: ∀^m40 l22. (l22 -> ∀^m35 α52. (isEmpty ≤ l11 -> α52) => ∀^m37 α53. (α52 ≤ l22 -> α53) => ∀^m39 α54. (α53 ≤ l11 -> α54) => α54) ≤ ∀^m71 α31. (mkpair ≤ 3 -> α31) => ∀^m73 α32. (α31 ≤ nil -> α32) => α32 -> α30
 //│ Rule: C-Forall1
 //│ New Constraints:
-//│  l22 -> ∀^m35 α52. (isEmpty ≤ l11 -> α52) => ∀^m37 α53. (α52 ≤ l22 -> α53) => ∀^m39 α54. (α53 ≤ l11 -> α54) => α54 ≤ (∀^m71 α31. (mkpair ≤ 3 -> α31) => ∀^m73 α32. (α31 ≤ nil -> α32) => α32) -> α30
+//│  l22 -> ∀^m35 α52. (isEmpty ≤ l11 -> α52) => ∀^m37 α53. (α52 ≤ l22 -> α53) => ∀^m39 α54. (α53 ≤ l11 -> α54) => α54 ≤ ∀^m71 α31. (mkpair ≤ 3 -> α31) => ∀^m73 α32. (α31 ≤ nil -> α32) => α32 -> α30
 //│ Remaining constraints: 3
 //│ ====== (72) ======
-//│ Constr: l22 -> ∀^m35 α52. (isEmpty ≤ l11 -> α52) => ∀^m37 α53. (α52 ≤ l22 -> α53) => ∀^m39 α54. (α53 ≤ l11 -> α54) => α54 ≤ (∀^m71 α31. (mkpair ≤ 3 -> α31) => ∀^m73 α32. (α31 ≤ nil -> α32) => α32) -> α30
+//│ Constr: l22 -> ∀^m35 α52. (isEmpty ≤ l11 -> α52) => ∀^m37 α53. (α52 ≤ l22 -> α53) => ∀^m39 α54. (α53 ≤ l11 -> α54) => α54 ≤ ∀^m71 α31. (mkpair ≤ 3 -> α31) => ∀^m73 α32. (α31 ≤ nil -> α32) => α32 -> α30
 //│ Rule: C-Fun
 //│ New Constraints:
 //│  ∀^m71 α31. (mkpair ≤ 3 -> α31) => ∀^m73 α32. (α31 ≤ nil -> α32) => α32 ≤ l22
@@ -1689,29 +1689,29 @@ head(concat(mkpair(2)(mkpair(1)(nil)))(mkpair(3)(nil)))
 //│ Constr: isEmpty ≤ l11 -> α55
 //│ Rule: C-Var1
 //│ Premises:
-//│   ∀^m32 p1. p1 -> ∀^m29 α4. (p1 ≤ (∀^m28 x. x -> ∀^m27 y. y -> ∀^m26 z. z -> fals) -> α4) => ∀^m31 α5. (α4 ≤ tru -> α5) => α5 ≤ isEmpty ∈ B
+//│   ∀^m32 p1. (p1 -> ∀^m29 α4. (p1 ≤ ∀^m28 x. (x -> ∀^m27 y. (y -> ∀^m26 z. (z -> fals))) -> α4) => ∀^m31 α5. (α4 ≤ tru -> α5) => α5) ≤ isEmpty ∈ B
 //│ New Constraints:
-//│  ∀^m32 p3. p3 -> ∀^m29 α58. (p3 ≤ (∀^m28 x6. x6 -> ∀^m27 y0. y0 -> ∀^m26 z0. z0 -> fals) -> α58) => ∀^m31 α59. (α58 ≤ tru -> α59) => α59 ≤ l11 -> α55
+//│  ∀^m32 p3. (p3 -> ∀^m29 α58. (p3 ≤ ∀^m28 x6. (x6 -> ∀^m27 y0. (y0 -> ∀^m26 z0. (z0 -> fals))) -> α58) => ∀^m31 α59. (α58 ≤ tru -> α59) => α59) ≤ l11 -> α55
 //│ Remaining constraints: 3
 //│ ====== (80) ======
-//│ Constr: ∀^m32 p3. p3 -> ∀^m29 α58. (p3 ≤ (∀^m28 x6. x6 -> ∀^m27 y0. y0 -> ∀^m26 z0. z0 -> fals) -> α58) => ∀^m31 α59. (α58 ≤ tru -> α59) => α59 ≤ l11 -> α55
+//│ Constr: ∀^m32 p3. (p3 -> ∀^m29 α58. (p3 ≤ ∀^m28 x6. (x6 -> ∀^m27 y0. (y0 -> ∀^m26 z0. (z0 -> fals))) -> α58) => ∀^m31 α59. (α58 ≤ tru -> α59) => α59) ≤ l11 -> α55
 //│ Rule: C-Forall1
 //│ New Constraints:
-//│  p3 -> ∀^m29 α58. (p3 ≤ (∀^m28 x6. x6 -> ∀^m27 y0. y0 -> ∀^m26 z0. z0 -> fals) -> α58) => ∀^m31 α59. (α58 ≤ tru -> α59) => α59 ≤ l11 -> α55
+//│  p3 -> ∀^m29 α58. (p3 ≤ ∀^m28 x6. (x6 -> ∀^m27 y0. (y0 -> ∀^m26 z0. (z0 -> fals))) -> α58) => ∀^m31 α59. (α58 ≤ tru -> α59) => α59 ≤ l11 -> α55
 //│ Remaining constraints: 3
 //│ ====== (81) ======
-//│ Constr: p3 -> ∀^m29 α58. (p3 ≤ (∀^m28 x6. x6 -> ∀^m27 y0. y0 -> ∀^m26 z0. z0 -> fals) -> α58) => ∀^m31 α59. (α58 ≤ tru -> α59) => α59 ≤ l11 -> α55
+//│ Constr: p3 -> ∀^m29 α58. (p3 ≤ ∀^m28 x6. (x6 -> ∀^m27 y0. (y0 -> ∀^m26 z0. (z0 -> fals))) -> α58) => ∀^m31 α59. (α58 ≤ tru -> α59) => α59 ≤ l11 -> α55
 //│ Rule: C-Fun
 //│ New Constraints:
 //│  l11 ≤ p3
-//│  ∀^m29 α58. (p3 ≤ (∀^m28 x6. x6 -> ∀^m27 y0. y0 -> ∀^m26 z0. z0 -> fals) -> α58) => ∀^m31 α59. (α58 ≤ tru -> α59) => α59 ≤ α55
+//│  ∀^m29 α58. (p3 ≤ ∀^m28 x6. (x6 -> ∀^m27 y0. (y0 -> ∀^m26 z0. (z0 -> fals))) -> α58) => ∀^m31 α59. (α58 ≤ tru -> α59) => α59 ≤ α55
 //│ Remaining constraints: 4
 //│ ====== (82) ======
 //│ Constr: l11 ≤ p3
 //│ Rule: C-Var2
 //│ Remaining constraints: 3
 //│ ====== (83) ======
-//│ Constr: ∀^m29 α58. (p3 ≤ (∀^m28 x6. x6 -> ∀^m27 y0. y0 -> ∀^m26 z0. z0 -> fals) -> α58) => ∀^m31 α59. (α58 ≤ tru -> α59) => α59 ≤ α55
+//│ Constr: ∀^m29 α58. (p3 ≤ ∀^m28 x6. (x6 -> ∀^m27 y0. (y0 -> ∀^m26 z0. (z0 -> fals))) -> α58) => ∀^m31 α59. (α58 ≤ tru -> α59) => α59 ≤ α55
 //│ Rule: C-Var2
 //│ Remaining constraints: 2
 //│ ====== (84) ======
@@ -1731,63 +1731,63 @@ head(concat(mkpair(2)(mkpair(1)(nil)))(mkpair(3)(nil)))
 //│ Constr: α55 ≤ l22 -> α56
 //│ Rule: C-Var1
 //│ Premises:
-//│   ∀^m29 α58. (p3 ≤ (∀^m28 x6. x6 -> ∀^m27 y0. y0 -> ∀^m26 z0. z0 -> fals) -> α58) => ∀^m31 α59. (α58 ≤ tru -> α59) => α59 ≤ α55 ∈ B
+//│   ∀^m29 α58. (p3 ≤ ∀^m28 x6. (x6 -> ∀^m27 y0. (y0 -> ∀^m26 z0. (z0 -> fals))) -> α58) => ∀^m31 α59. (α58 ≤ tru -> α59) => α59 ≤ α55 ∈ B
 //│ New Constraints:
-//│  ∀^m29 α60. (p3 ≤ (∀^m28 x7. x7 -> ∀^m27 y1. y1 -> ∀^m26 z1. z1 -> fals) -> α60) => ∀^m31 α61. (α60 ≤ tru -> α61) => α61 ≤ l22 -> α56
+//│  ∀^m29 α60. (p3 ≤ ∀^m28 x7. (x7 -> ∀^m27 y1. (y1 -> ∀^m26 z1. (z1 -> fals))) -> α60) => ∀^m31 α61. (α60 ≤ tru -> α61) => α61 ≤ l22 -> α56
 //│ Remaining constraints: 3
 //│ ====== (87) ======
-//│ Constr: ∀^m29 α60. (p3 ≤ (∀^m28 x7. x7 -> ∀^m27 y1. y1 -> ∀^m26 z1. z1 -> fals) -> α60) => ∀^m31 α61. (α60 ≤ tru -> α61) => α61 ≤ l22 -> α56
+//│ Constr: ∀^m29 α60. (p3 ≤ ∀^m28 x7. (x7 -> ∀^m27 y1. (y1 -> ∀^m26 z1. (z1 -> fals))) -> α60) => ∀^m31 α61. (α60 ≤ tru -> α61) => α61 ≤ l22 -> α56
 //│ Rule: C-Forall1
 //│ New Constraints:
-//│  (p3 ≤ (∀^m28 x7. x7 -> ∀^m27 y1. y1 -> ∀^m26 z1. z1 -> fals) -> α60) => ∀^m31 α61. (α60 ≤ tru -> α61) => α61 ≤ l22 -> α56
+//│  (p3 ≤ ∀^m28 x7. (x7 -> ∀^m27 y1. (y1 -> ∀^m26 z1. (z1 -> fals))) -> α60) => ∀^m31 α61. (α60 ≤ tru -> α61) => α61 ≤ l22 -> α56
 //│ Remaining constraints: 3
 //│ ====== (88) ======
-//│ Constr: (p3 ≤ (∀^m28 x7. x7 -> ∀^m27 y1. y1 -> ∀^m26 z1. z1 -> fals) -> α60) => ∀^m31 α61. (α60 ≤ tru -> α61) => α61 ≤ l22 -> α56
+//│ Constr: (p3 ≤ ∀^m28 x7. (x7 -> ∀^m27 y1. (y1 -> ∀^m26 z1. (z1 -> fals))) -> α60) => ∀^m31 α61. (α60 ≤ tru -> α61) => α61 ≤ l22 -> α56
 //│ Rule: C-Constr
 //│ New Constraints:
-//│  p3 ≤ (∀^m28 x7. x7 -> ∀^m27 y1. y1 -> ∀^m26 z1. z1 -> fals) -> α60
+//│  p3 ≤ ∀^m28 x7. (x7 -> ∀^m27 y1. (y1 -> ∀^m26 z1. (z1 -> fals))) -> α60
 //│  ∀^m31 α61. (α60 ≤ tru -> α61) => α61 ≤ l22 -> α56
 //│ Remaining constraints: 4
 //│ ====== (89) ======
-//│ Constr: p3 ≤ (∀^m28 x7. x7 -> ∀^m27 y1. y1 -> ∀^m26 z1. z1 -> fals) -> α60
+//│ Constr: p3 ≤ ∀^m28 x7. (x7 -> ∀^m27 y1. (y1 -> ∀^m26 z1. (z1 -> fals))) -> α60
 //│ Rule: C-Unwrap
 //│ New Constraints:
-//│  p3 ≤ (∀^m28 x7. x7 -> ∀^m27 y1. y1 -> ∀^m26 z1. z1 -> fals) -> α60
+//│  p3 ≤ ∀^m28 x7. (x7 -> ∀^m27 y1. (y1 -> ∀^m26 z1. (z1 -> fals))) -> α60
 //│ Remaining constraints: 4
 //│ ====== (90) ======
-//│ Constr: p3 ≤ (∀^m28 x7. x7 -> ∀^m27 y1. y1 -> ∀^m26 z1. z1 -> fals) -> α60
+//│ Constr: p3 ≤ ∀^m28 x7. (x7 -> ∀^m27 y1. (y1 -> ∀^m26 z1. (z1 -> fals))) -> α60
 //│ Rule: C-Var1
 //│ Premises:
 //│   l11 ≤ p3 ∈ B
 //│ New Constraints:
-//│  l11 ≤ (∀^m28 x7. x7 -> ∀^m27 y1. y1 -> ∀^m26 z1. z1 -> fals) -> α60
+//│  l11 ≤ ∀^m28 x7. (x7 -> ∀^m27 y1. (y1 -> ∀^m26 z1. (z1 -> fals))) -> α60
 //│ Remaining constraints: 4
 //│ ====== (91) ======
-//│ Constr: l11 ≤ (∀^m28 x7. x7 -> ∀^m27 y1. y1 -> ∀^m26 z1. z1 -> fals) -> α60
+//│ Constr: l11 ≤ ∀^m28 x7. (x7 -> ∀^m27 y1. (y1 -> ∀^m26 z1. (z1 -> fals))) -> α60
 //│ Rule: C-Unwrap
 //│ New Constraints:
-//│  l11 ≤ (∀^m28 x7. x7 -> ∀^m27 y1. y1 -> ∀^m26 z1. z1 -> fals) -> α60
+//│  l11 ≤ ∀^m28 x7. (x7 -> ∀^m27 y1. (y1 -> ∀^m26 z1. (z1 -> fals))) -> α60
 //│ Remaining constraints: 4
 //│ ====== (92) ======
-//│ Constr: l11 ≤ (∀^m28 x7. x7 -> ∀^m27 y1. y1 -> ∀^m26 z1. z1 -> fals) -> α60
+//│ Constr: l11 ≤ ∀^m28 x7. (x7 -> ∀^m27 y1. (y1 -> ∀^m26 z1. (z1 -> fals))) -> α60
 //│ Rule: C-Var1
 //│ Premises:
-//│   ∀^m63 α26. (mkpair ≤ 2 -> α26) => ∀^m68 α27. (α26 ≤ (∀^m65 α28. (mkpair ≤ 1 -> α28) => ∀^m67 α29. (α28 ≤ nil -> α29) => α29) -> α27) => α27 ≤ l11 ∈ B
+//│   ∀^m63 α26. (mkpair ≤ 2 -> α26) => ∀^m68 α27. (α26 ≤ ∀^m65 α28. (mkpair ≤ 1 -> α28) => ∀^m67 α29. (α28 ≤ nil -> α29) => α29 -> α27) => α27 ≤ l11 ∈ B
 //│ New Constraints:
-//│  ∀^m63 α62. (mkpair ≤ 2 -> α62) => ∀^m68 α63. (α62 ≤ (∀^m65 α64. (mkpair ≤ 1 -> α64) => ∀^m67 α65. (α64 ≤ nil -> α65) => α65) -> α63) => α63 ≤ (∀^m28 x7. x7 -> ∀^m27 y1. y1 -> ∀^m26 z1. z1 -> fals) -> α60
+//│  ∀^m63 α62. (mkpair ≤ 2 -> α62) => ∀^m68 α63. (α62 ≤ ∀^m65 α64. (mkpair ≤ 1 -> α64) => ∀^m67 α65. (α64 ≤ nil -> α65) => α65 -> α63) => α63 ≤ ∀^m28 x7. (x7 -> ∀^m27 y1. (y1 -> ∀^m26 z1. (z1 -> fals))) -> α60
 //│ Remaining constraints: 4
 //│ ====== (93) ======
-//│ Constr: ∀^m63 α62. (mkpair ≤ 2 -> α62) => ∀^m68 α63. (α62 ≤ (∀^m65 α64. (mkpair ≤ 1 -> α64) => ∀^m67 α65. (α64 ≤ nil -> α65) => α65) -> α63) => α63 ≤ (∀^m28 x7. x7 -> ∀^m27 y1. y1 -> ∀^m26 z1. z1 -> fals) -> α60
+//│ Constr: ∀^m63 α62. (mkpair ≤ 2 -> α62) => ∀^m68 α63. (α62 ≤ ∀^m65 α64. (mkpair ≤ 1 -> α64) => ∀^m67 α65. (α64 ≤ nil -> α65) => α65 -> α63) => α63 ≤ ∀^m28 x7. (x7 -> ∀^m27 y1. (y1 -> ∀^m26 z1. (z1 -> fals))) -> α60
 //│ Rule: C-Forall1
 //│ New Constraints:
-//│  (mkpair ≤ 2 -> α62) => ∀^m68 α63. (α62 ≤ (∀^m65 α64. (mkpair ≤ 1 -> α64) => ∀^m67 α65. (α64 ≤ nil -> α65) => α65) -> α63) => α63 ≤ (∀^m28 x7. x7 -> ∀^m27 y1. y1 -> ∀^m26 z1. z1 -> fals) -> α60
+//│  (mkpair ≤ 2 -> α62) => ∀^m68 α63. (α62 ≤ ∀^m65 α64. (mkpair ≤ 1 -> α64) => ∀^m67 α65. (α64 ≤ nil -> α65) => α65 -> α63) => α63 ≤ ∀^m28 x7. (x7 -> ∀^m27 y1. (y1 -> ∀^m26 z1. (z1 -> fals))) -> α60
 //│ Remaining constraints: 4
 //│ ====== (94) ======
-//│ Constr: (mkpair ≤ 2 -> α62) => ∀^m68 α63. (α62 ≤ (∀^m65 α64. (mkpair ≤ 1 -> α64) => ∀^m67 α65. (α64 ≤ nil -> α65) => α65) -> α63) => α63 ≤ (∀^m28 x7. x7 -> ∀^m27 y1. y1 -> ∀^m26 z1. z1 -> fals) -> α60
+//│ Constr: (mkpair ≤ 2 -> α62) => ∀^m68 α63. (α62 ≤ ∀^m65 α64. (mkpair ≤ 1 -> α64) => ∀^m67 α65. (α64 ≤ nil -> α65) => α65 -> α63) => α63 ≤ ∀^m28 x7. (x7 -> ∀^m27 y1. (y1 -> ∀^m26 z1. (z1 -> fals))) -> α60
 //│ Rule: C-Constr
 //│ New Constraints:
 //│  mkpair ≤ 2 -> α62
-//│  ∀^m68 α63. (α62 ≤ (∀^m65 α64. (mkpair ≤ 1 -> α64) => ∀^m67 α65. (α64 ≤ nil -> α65) => α65) -> α63) => α63 ≤ (∀^m28 x7. x7 -> ∀^m27 y1. y1 -> ∀^m26 z1. z1 -> fals) -> α60
+//│  ∀^m68 α63. (α62 ≤ ∀^m65 α64. (mkpair ≤ 1 -> α64) => ∀^m67 α65. (α64 ≤ nil -> α65) => α65 -> α63) => α63 ≤ ∀^m28 x7. (x7 -> ∀^m27 y1. (y1 -> ∀^m26 z1. (z1 -> fals))) -> α60
 //│ Remaining constraints: 5
 //│ ====== (95) ======
 //│ Constr: mkpair ≤ 2 -> α62
@@ -1799,96 +1799,96 @@ head(concat(mkpair(2)(mkpair(1)(nil)))(mkpair(3)(nil)))
 //│ Constr: mkpair ≤ 2 -> α62
 //│ Rule: C-Var1
 //│ Premises:
-//│   ∀^m14 a1. a1 -> ∀^m13 b1. b1 -> ∀^m12 c. c -> ∀^m9 α0. (c ≤ a1 -> α0) => ∀^m11 α1. (α0 ≤ b1 -> α1) => α1 ≤ mkpair ∈ B
+//│   ∀^m14 a1. (a1 -> ∀^m13 b1. (b1 -> ∀^m12 c. (c -> ∀^m9 α0. (c ≤ a1 -> α0) => ∀^m11 α1. (α0 ≤ b1 -> α1) => α1))) ≤ mkpair ∈ B
 //│ New Constraints:
-//│  ∀^m14 a2. a2 -> ∀^m13 b2. b2 -> ∀^m12 c0. c0 -> ∀^m9 α66. (c0 ≤ a2 -> α66) => ∀^m11 α67. (α66 ≤ b2 -> α67) => α67 ≤ 2 -> α62
+//│  ∀^m14 a2. (a2 -> ∀^m13 b2. (b2 -> ∀^m12 c0. (c0 -> ∀^m9 α66. (c0 ≤ a2 -> α66) => ∀^m11 α67. (α66 ≤ b2 -> α67) => α67))) ≤ 2 -> α62
 //│ Remaining constraints: 5
 //│ ====== (97) ======
-//│ Constr: ∀^m14 a2. a2 -> ∀^m13 b2. b2 -> ∀^m12 c0. c0 -> ∀^m9 α66. (c0 ≤ a2 -> α66) => ∀^m11 α67. (α66 ≤ b2 -> α67) => α67 ≤ 2 -> α62
+//│ Constr: ∀^m14 a2. (a2 -> ∀^m13 b2. (b2 -> ∀^m12 c0. (c0 -> ∀^m9 α66. (c0 ≤ a2 -> α66) => ∀^m11 α67. (α66 ≤ b2 -> α67) => α67))) ≤ 2 -> α62
 //│ Rule: C-Forall1
 //│ New Constraints:
-//│  a2 -> ∀^m13 b2. b2 -> ∀^m12 c0. c0 -> ∀^m9 α66. (c0 ≤ a2 -> α66) => ∀^m11 α67. (α66 ≤ b2 -> α67) => α67 ≤ 2 -> α62
+//│  a2 -> ∀^m13 b2. (b2 -> ∀^m12 c0. (c0 -> ∀^m9 α66. (c0 ≤ a2 -> α66) => ∀^m11 α67. (α66 ≤ b2 -> α67) => α67)) ≤ 2 -> α62
 //│ Remaining constraints: 5
 //│ ====== (98) ======
-//│ Constr: a2 -> ∀^m13 b2. b2 -> ∀^m12 c0. c0 -> ∀^m9 α66. (c0 ≤ a2 -> α66) => ∀^m11 α67. (α66 ≤ b2 -> α67) => α67 ≤ 2 -> α62
+//│ Constr: a2 -> ∀^m13 b2. (b2 -> ∀^m12 c0. (c0 -> ∀^m9 α66. (c0 ≤ a2 -> α66) => ∀^m11 α67. (α66 ≤ b2 -> α67) => α67)) ≤ 2 -> α62
 //│ Rule: C-Fun
 //│ New Constraints:
 //│  2 ≤ a2
-//│  ∀^m13 b2. b2 -> ∀^m12 c0. c0 -> ∀^m9 α66. (c0 ≤ a2 -> α66) => ∀^m11 α67. (α66 ≤ b2 -> α67) => α67 ≤ α62
+//│  ∀^m13 b2. (b2 -> ∀^m12 c0. (c0 -> ∀^m9 α66. (c0 ≤ a2 -> α66) => ∀^m11 α67. (α66 ≤ b2 -> α67) => α67)) ≤ α62
 //│ Remaining constraints: 6
 //│ ====== (99) ======
 //│ Constr: 2 ≤ a2
 //│ Rule: C-Var2
 //│ Remaining constraints: 5
 //│ ====== (100) ======
-//│ Constr: ∀^m13 b2. b2 -> ∀^m12 c0. c0 -> ∀^m9 α66. (c0 ≤ a2 -> α66) => ∀^m11 α67. (α66 ≤ b2 -> α67) => α67 ≤ α62
+//│ Constr: ∀^m13 b2. (b2 -> ∀^m12 c0. (c0 -> ∀^m9 α66. (c0 ≤ a2 -> α66) => ∀^m11 α67. (α66 ≤ b2 -> α67) => α67)) ≤ α62
 //│ Rule: C-Var2
 //│ Remaining constraints: 4
 //│ ====== (101) ======
-//│ Constr: ∀^m68 α63. (α62 ≤ (∀^m65 α64. (mkpair ≤ 1 -> α64) => ∀^m67 α65. (α64 ≤ nil -> α65) => α65) -> α63) => α63 ≤ (∀^m28 x7. x7 -> ∀^m27 y1. y1 -> ∀^m26 z1. z1 -> fals) -> α60
+//│ Constr: ∀^m68 α63. (α62 ≤ ∀^m65 α64. (mkpair ≤ 1 -> α64) => ∀^m67 α65. (α64 ≤ nil -> α65) => α65 -> α63) => α63 ≤ ∀^m28 x7. (x7 -> ∀^m27 y1. (y1 -> ∀^m26 z1. (z1 -> fals))) -> α60
 //│ Rule: C-Forall1
 //│ New Constraints:
-//│  (α62 ≤ (∀^m65 α64. (mkpair ≤ 1 -> α64) => ∀^m67 α65. (α64 ≤ nil -> α65) => α65) -> α63) => α63 ≤ (∀^m28 x7. x7 -> ∀^m27 y1. y1 -> ∀^m26 z1. z1 -> fals) -> α60
+//│  (α62 ≤ ∀^m65 α64. (mkpair ≤ 1 -> α64) => ∀^m67 α65. (α64 ≤ nil -> α65) => α65 -> α63) => α63 ≤ ∀^m28 x7. (x7 -> ∀^m27 y1. (y1 -> ∀^m26 z1. (z1 -> fals))) -> α60
 //│ Remaining constraints: 4
 //│ ====== (102) ======
-//│ Constr: (α62 ≤ (∀^m65 α64. (mkpair ≤ 1 -> α64) => ∀^m67 α65. (α64 ≤ nil -> α65) => α65) -> α63) => α63 ≤ (∀^m28 x7. x7 -> ∀^m27 y1. y1 -> ∀^m26 z1. z1 -> fals) -> α60
+//│ Constr: (α62 ≤ ∀^m65 α64. (mkpair ≤ 1 -> α64) => ∀^m67 α65. (α64 ≤ nil -> α65) => α65 -> α63) => α63 ≤ ∀^m28 x7. (x7 -> ∀^m27 y1. (y1 -> ∀^m26 z1. (z1 -> fals))) -> α60
 //│ Rule: C-Constr
 //│ New Constraints:
-//│  α62 ≤ (∀^m65 α64. (mkpair ≤ 1 -> α64) => ∀^m67 α65. (α64 ≤ nil -> α65) => α65) -> α63
-//│  α63 ≤ (∀^m28 x7. x7 -> ∀^m27 y1. y1 -> ∀^m26 z1. z1 -> fals) -> α60
+//│  α62 ≤ ∀^m65 α64. (mkpair ≤ 1 -> α64) => ∀^m67 α65. (α64 ≤ nil -> α65) => α65 -> α63
+//│  α63 ≤ ∀^m28 x7. (x7 -> ∀^m27 y1. (y1 -> ∀^m26 z1. (z1 -> fals))) -> α60
 //│ Remaining constraints: 5
 //│ ====== (103) ======
-//│ Constr: α62 ≤ (∀^m65 α64. (mkpair ≤ 1 -> α64) => ∀^m67 α65. (α64 ≤ nil -> α65) => α65) -> α63
+//│ Constr: α62 ≤ ∀^m65 α64. (mkpair ≤ 1 -> α64) => ∀^m67 α65. (α64 ≤ nil -> α65) => α65 -> α63
 //│ Rule: C-Var1
 //│ Premises:
-//│   ∀^m13 b2. b2 -> ∀^m12 c0. c0 -> ∀^m9 α66. (c0 ≤ a2 -> α66) => ∀^m11 α67. (α66 ≤ b2 -> α67) => α67 ≤ α62 ∈ B
+//│   ∀^m13 b2. (b2 -> ∀^m12 c0. (c0 -> ∀^m9 α66. (c0 ≤ a2 -> α66) => ∀^m11 α67. (α66 ≤ b2 -> α67) => α67)) ≤ α62 ∈ B
 //│ New Constraints:
-//│  ∀^m13 b3. b3 -> ∀^m12 c1. c1 -> ∀^m9 α68. (c1 ≤ a2 -> α68) => ∀^m11 α69. (α68 ≤ b3 -> α69) => α69 ≤ (∀^m65 α64. (mkpair ≤ 1 -> α64) => ∀^m67 α65. (α64 ≤ nil -> α65) => α65) -> α63
+//│  ∀^m13 b3. (b3 -> ∀^m12 c1. (c1 -> ∀^m9 α68. (c1 ≤ a2 -> α68) => ∀^m11 α69. (α68 ≤ b3 -> α69) => α69)) ≤ ∀^m65 α64. (mkpair ≤ 1 -> α64) => ∀^m67 α65. (α64 ≤ nil -> α65) => α65 -> α63
 //│ Remaining constraints: 5
 //│ ====== (104) ======
-//│ Constr: ∀^m13 b3. b3 -> ∀^m12 c1. c1 -> ∀^m9 α68. (c1 ≤ a2 -> α68) => ∀^m11 α69. (α68 ≤ b3 -> α69) => α69 ≤ (∀^m65 α64. (mkpair ≤ 1 -> α64) => ∀^m67 α65. (α64 ≤ nil -> α65) => α65) -> α63
+//│ Constr: ∀^m13 b3. (b3 -> ∀^m12 c1. (c1 -> ∀^m9 α68. (c1 ≤ a2 -> α68) => ∀^m11 α69. (α68 ≤ b3 -> α69) => α69)) ≤ ∀^m65 α64. (mkpair ≤ 1 -> α64) => ∀^m67 α65. (α64 ≤ nil -> α65) => α65 -> α63
 //│ Rule: C-Forall1
 //│ New Constraints:
-//│  b3 -> ∀^m12 c1. c1 -> ∀^m9 α68. (c1 ≤ a2 -> α68) => ∀^m11 α69. (α68 ≤ b3 -> α69) => α69 ≤ (∀^m65 α64. (mkpair ≤ 1 -> α64) => ∀^m67 α65. (α64 ≤ nil -> α65) => α65) -> α63
+//│  b3 -> ∀^m12 c1. (c1 -> ∀^m9 α68. (c1 ≤ a2 -> α68) => ∀^m11 α69. (α68 ≤ b3 -> α69) => α69) ≤ ∀^m65 α64. (mkpair ≤ 1 -> α64) => ∀^m67 α65. (α64 ≤ nil -> α65) => α65 -> α63
 //│ Remaining constraints: 5
 //│ ====== (105) ======
-//│ Constr: b3 -> ∀^m12 c1. c1 -> ∀^m9 α68. (c1 ≤ a2 -> α68) => ∀^m11 α69. (α68 ≤ b3 -> α69) => α69 ≤ (∀^m65 α64. (mkpair ≤ 1 -> α64) => ∀^m67 α65. (α64 ≤ nil -> α65) => α65) -> α63
+//│ Constr: b3 -> ∀^m12 c1. (c1 -> ∀^m9 α68. (c1 ≤ a2 -> α68) => ∀^m11 α69. (α68 ≤ b3 -> α69) => α69) ≤ ∀^m65 α64. (mkpair ≤ 1 -> α64) => ∀^m67 α65. (α64 ≤ nil -> α65) => α65 -> α63
 //│ Rule: C-Fun
 //│ New Constraints:
 //│  ∀^m65 α64. (mkpair ≤ 1 -> α64) => ∀^m67 α65. (α64 ≤ nil -> α65) => α65 ≤ b3
-//│  ∀^m12 c1. c1 -> ∀^m9 α68. (c1 ≤ a2 -> α68) => ∀^m11 α69. (α68 ≤ b3 -> α69) => α69 ≤ α63
+//│  ∀^m12 c1. (c1 -> ∀^m9 α68. (c1 ≤ a2 -> α68) => ∀^m11 α69. (α68 ≤ b3 -> α69) => α69) ≤ α63
 //│ Remaining constraints: 6
 //│ ====== (106) ======
 //│ Constr: ∀^m65 α64. (mkpair ≤ 1 -> α64) => ∀^m67 α65. (α64 ≤ nil -> α65) => α65 ≤ b3
 //│ Rule: C-Var2
 //│ Remaining constraints: 5
 //│ ====== (107) ======
-//│ Constr: ∀^m12 c1. c1 -> ∀^m9 α68. (c1 ≤ a2 -> α68) => ∀^m11 α69. (α68 ≤ b3 -> α69) => α69 ≤ α63
+//│ Constr: ∀^m12 c1. (c1 -> ∀^m9 α68. (c1 ≤ a2 -> α68) => ∀^m11 α69. (α68 ≤ b3 -> α69) => α69) ≤ α63
 //│ Rule: C-Var2
 //│ Remaining constraints: 4
 //│ ====== (108) ======
-//│ Constr: α63 ≤ (∀^m28 x7. x7 -> ∀^m27 y1. y1 -> ∀^m26 z1. z1 -> fals) -> α60
+//│ Constr: α63 ≤ ∀^m28 x7. (x7 -> ∀^m27 y1. (y1 -> ∀^m26 z1. (z1 -> fals))) -> α60
 //│ Rule: C-Var1
 //│ Premises:
-//│   ∀^m12 c1. c1 -> ∀^m9 α68. (c1 ≤ a2 -> α68) => ∀^m11 α69. (α68 ≤ b3 -> α69) => α69 ≤ α63 ∈ B
+//│   ∀^m12 c1. (c1 -> ∀^m9 α68. (c1 ≤ a2 -> α68) => ∀^m11 α69. (α68 ≤ b3 -> α69) => α69) ≤ α63 ∈ B
 //│ New Constraints:
-//│  ∀^m12 c2. c2 -> ∀^m9 α70. (c2 ≤ a2 -> α70) => ∀^m11 α71. (α70 ≤ b3 -> α71) => α71 ≤ (∀^m28 x7. x7 -> ∀^m27 y1. y1 -> ∀^m26 z1. z1 -> fals) -> α60
+//│  ∀^m12 c2. (c2 -> ∀^m9 α70. (c2 ≤ a2 -> α70) => ∀^m11 α71. (α70 ≤ b3 -> α71) => α71) ≤ ∀^m28 x7. (x7 -> ∀^m27 y1. (y1 -> ∀^m26 z1. (z1 -> fals))) -> α60
 //│ Remaining constraints: 4
 //│ ====== (109) ======
-//│ Constr: ∀^m12 c2. c2 -> ∀^m9 α70. (c2 ≤ a2 -> α70) => ∀^m11 α71. (α70 ≤ b3 -> α71) => α71 ≤ (∀^m28 x7. x7 -> ∀^m27 y1. y1 -> ∀^m26 z1. z1 -> fals) -> α60
+//│ Constr: ∀^m12 c2. (c2 -> ∀^m9 α70. (c2 ≤ a2 -> α70) => ∀^m11 α71. (α70 ≤ b3 -> α71) => α71) ≤ ∀^m28 x7. (x7 -> ∀^m27 y1. (y1 -> ∀^m26 z1. (z1 -> fals))) -> α60
 //│ Rule: C-Forall1
 //│ New Constraints:
-//│  c2 -> ∀^m9 α70. (c2 ≤ a2 -> α70) => ∀^m11 α71. (α70 ≤ b3 -> α71) => α71 ≤ (∀^m28 x7. x7 -> ∀^m27 y1. y1 -> ∀^m26 z1. z1 -> fals) -> α60
+//│  c2 -> ∀^m9 α70. (c2 ≤ a2 -> α70) => ∀^m11 α71. (α70 ≤ b3 -> α71) => α71 ≤ ∀^m28 x7. (x7 -> ∀^m27 y1. (y1 -> ∀^m26 z1. (z1 -> fals))) -> α60
 //│ Remaining constraints: 4
 //│ ====== (110) ======
-//│ Constr: c2 -> ∀^m9 α70. (c2 ≤ a2 -> α70) => ∀^m11 α71. (α70 ≤ b3 -> α71) => α71 ≤ (∀^m28 x7. x7 -> ∀^m27 y1. y1 -> ∀^m26 z1. z1 -> fals) -> α60
+//│ Constr: c2 -> ∀^m9 α70. (c2 ≤ a2 -> α70) => ∀^m11 α71. (α70 ≤ b3 -> α71) => α71 ≤ ∀^m28 x7. (x7 -> ∀^m27 y1. (y1 -> ∀^m26 z1. (z1 -> fals))) -> α60
 //│ Rule: C-Fun
 //│ New Constraints:
-//│  ∀^m28 x7. x7 -> ∀^m27 y1. y1 -> ∀^m26 z1. z1 -> fals ≤ c2
+//│  ∀^m28 x7. (x7 -> ∀^m27 y1. (y1 -> ∀^m26 z1. (z1 -> fals))) ≤ c2
 //│  ∀^m9 α70. (c2 ≤ a2 -> α70) => ∀^m11 α71. (α70 ≤ b3 -> α71) => α71 ≤ α60
 //│ Remaining constraints: 5
 //│ ====== (111) ======
-//│ Constr: ∀^m28 x7. x7 -> ∀^m27 y1. y1 -> ∀^m26 z1. z1 -> fals ≤ c2
+//│ Constr: ∀^m28 x7. (x7 -> ∀^m27 y1. (y1 -> ∀^m26 z1. (z1 -> fals))) ≤ c2
 //│ Rule: C-Var2
 //│ Remaining constraints: 4
 //│ ====== (112) ======
@@ -1939,29 +1939,29 @@ head(concat(mkpair(2)(mkpair(1)(nil)))(mkpair(3)(nil)))
 //│ Constr: c2 ≤ a2 -> α72
 //│ Rule: C-Var1
 //│ Premises:
-//│   ∀^m28 x7. x7 -> ∀^m27 y1. y1 -> ∀^m26 z1. z1 -> fals ≤ c2 ∈ B
+//│   ∀^m28 x7. (x7 -> ∀^m27 y1. (y1 -> ∀^m26 z1. (z1 -> fals))) ≤ c2 ∈ B
 //│ New Constraints:
-//│  ∀^m28 x8. x8 -> ∀^m27 y2. y2 -> ∀^m26 z2. z2 -> fals ≤ a2 -> α72
+//│  ∀^m28 x8. (x8 -> ∀^m27 y2. (y2 -> ∀^m26 z2. (z2 -> fals))) ≤ a2 -> α72
 //│ Remaining constraints: 5
 //│ ====== (120) ======
-//│ Constr: ∀^m28 x8. x8 -> ∀^m27 y2. y2 -> ∀^m26 z2. z2 -> fals ≤ a2 -> α72
+//│ Constr: ∀^m28 x8. (x8 -> ∀^m27 y2. (y2 -> ∀^m26 z2. (z2 -> fals))) ≤ a2 -> α72
 //│ Rule: C-Forall1
 //│ New Constraints:
-//│  x8 -> ∀^m27 y2. y2 -> ∀^m26 z2. z2 -> fals ≤ a2 -> α72
+//│  x8 -> ∀^m27 y2. (y2 -> ∀^m26 z2. (z2 -> fals)) ≤ a2 -> α72
 //│ Remaining constraints: 5
 //│ ====== (121) ======
-//│ Constr: x8 -> ∀^m27 y2. y2 -> ∀^m26 z2. z2 -> fals ≤ a2 -> α72
+//│ Constr: x8 -> ∀^m27 y2. (y2 -> ∀^m26 z2. (z2 -> fals)) ≤ a2 -> α72
 //│ Rule: C-Fun
 //│ New Constraints:
 //│  a2 ≤ x8
-//│  ∀^m27 y2. y2 -> ∀^m26 z2. z2 -> fals ≤ α72
+//│  ∀^m27 y2. (y2 -> ∀^m26 z2. (z2 -> fals)) ≤ α72
 //│ Remaining constraints: 6
 //│ ====== (122) ======
 //│ Constr: a2 ≤ x8
 //│ Rule: C-Var2
 //│ Remaining constraints: 5
 //│ ====== (123) ======
-//│ Constr: ∀^m27 y2. y2 -> ∀^m26 z2. z2 -> fals ≤ α72
+//│ Constr: ∀^m27 y2. (y2 -> ∀^m26 z2. (z2 -> fals)) ≤ α72
 //│ Rule: C-Var2
 //│ Remaining constraints: 4
 //│ ====== (124) ======
@@ -1981,41 +1981,41 @@ head(concat(mkpair(2)(mkpair(1)(nil)))(mkpair(3)(nil)))
 //│ Constr: α72 ≤ b3 -> α73
 //│ Rule: C-Var1
 //│ Premises:
-//│   ∀^m27 y2. y2 -> ∀^m26 z2. z2 -> fals ≤ α72 ∈ B
+//│   ∀^m27 y2. (y2 -> ∀^m26 z2. (z2 -> fals)) ≤ α72 ∈ B
 //│ New Constraints:
-//│  ∀^m27 y3. y3 -> ∀^m26 z3. z3 -> fals ≤ b3 -> α73
+//│  ∀^m27 y3. (y3 -> ∀^m26 z3. (z3 -> fals)) ≤ b3 -> α73
 //│ Remaining constraints: 5
 //│ ====== (127) ======
-//│ Constr: ∀^m27 y3. y3 -> ∀^m26 z3. z3 -> fals ≤ b3 -> α73
+//│ Constr: ∀^m27 y3. (y3 -> ∀^m26 z3. (z3 -> fals)) ≤ b3 -> α73
 //│ Rule: C-Forall1
 //│ New Constraints:
-//│  y3 -> ∀^m26 z3. z3 -> fals ≤ b3 -> α73
+//│  y3 -> ∀^m26 z3. (z3 -> fals) ≤ b3 -> α73
 //│ Remaining constraints: 5
 //│ ====== (128) ======
-//│ Constr: y3 -> ∀^m26 z3. z3 -> fals ≤ b3 -> α73
+//│ Constr: y3 -> ∀^m26 z3. (z3 -> fals) ≤ b3 -> α73
 //│ Rule: C-Fun
 //│ New Constraints:
 //│  b3 ≤ y3
-//│  ∀^m26 z3. z3 -> fals ≤ α73
+//│  ∀^m26 z3. (z3 -> fals) ≤ α73
 //│ Remaining constraints: 6
 //│ ====== (129) ======
 //│ Constr: b3 ≤ y3
 //│ Rule: C-Var2
 //│ Remaining constraints: 5
 //│ ====== (130) ======
-//│ Constr: ∀^m26 z3. z3 -> fals ≤ α73
+//│ Constr: ∀^m26 z3. (z3 -> fals) ≤ α73
 //│ Rule: C-Var2
 //│ Remaining constraints: 4
 //│ ====== (131) ======
 //│ Constr: α73 ≤ tru -> α61
 //│ Rule: C-Var1
 //│ Premises:
-//│   ∀^m26 z3. z3 -> fals ≤ α73 ∈ B
+//│   ∀^m26 z3. (z3 -> fals) ≤ α73 ∈ B
 //│ New Constraints:
-//│  ∀^m26 z4. z4 -> fals ≤ tru -> α61
+//│  ∀^m26 z4. (z4 -> fals) ≤ tru -> α61
 //│ Remaining constraints: 4
 //│ ====== (132) ======
-//│ Constr: ∀^m26 z4. z4 -> fals ≤ tru -> α61
+//│ Constr: ∀^m26 z4. (z4 -> fals) ≤ tru -> α61
 //│ Rule: C-Forall1
 //│ New Constraints:
 //│  z4 -> fals ≤ tru -> α61
@@ -2053,29 +2053,29 @@ head(concat(mkpair(2)(mkpair(1)(nil)))(mkpair(3)(nil)))
 //│ Constr: fals ≤ l22 -> α56
 //│ Rule: C-Var1
 //│ Premises:
-//│   ∀^m6 a0. a0 -> ∀^m5 b0. b0 -> b0 ≤ fals ∈ B
+//│   ∀^m6 a0. (a0 -> ∀^m5 b0. (b0 -> b0)) ≤ fals ∈ B
 //│ New Constraints:
-//│  ∀^m6 a3. a3 -> ∀^m5 b4. b4 -> b4 ≤ l22 -> α56
+//│  ∀^m6 a3. (a3 -> ∀^m5 b4. (b4 -> b4)) ≤ l22 -> α56
 //│ Remaining constraints: 3
 //│ ====== (139) ======
-//│ Constr: ∀^m6 a3. a3 -> ∀^m5 b4. b4 -> b4 ≤ l22 -> α56
+//│ Constr: ∀^m6 a3. (a3 -> ∀^m5 b4. (b4 -> b4)) ≤ l22 -> α56
 //│ Rule: C-Forall1
 //│ New Constraints:
-//│  a3 -> ∀^m5 b4. b4 -> b4 ≤ l22 -> α56
+//│  a3 -> ∀^m5 b4. (b4 -> b4) ≤ l22 -> α56
 //│ Remaining constraints: 3
 //│ ====== (140) ======
-//│ Constr: a3 -> ∀^m5 b4. b4 -> b4 ≤ l22 -> α56
+//│ Constr: a3 -> ∀^m5 b4. (b4 -> b4) ≤ l22 -> α56
 //│ Rule: C-Fun
 //│ New Constraints:
 //│  l22 ≤ a3
-//│  ∀^m5 b4. b4 -> b4 ≤ α56
+//│  ∀^m5 b4. (b4 -> b4) ≤ α56
 //│ Remaining constraints: 4
 //│ ====== (141) ======
 //│ Constr: l22 ≤ a3
 //│ Rule: C-Var2
 //│ Remaining constraints: 3
 //│ ====== (142) ======
-//│ Constr: ∀^m5 b4. b4 -> b4 ≤ α56
+//│ Constr: ∀^m5 b4. (b4 -> b4) ≤ α56
 //│ Rule: C-Var2
 //│ Remaining constraints: 2
 //│ ====== (143) ======
@@ -2095,12 +2095,12 @@ head(concat(mkpair(2)(mkpair(1)(nil)))(mkpair(3)(nil)))
 //│ Constr: α56 ≤ l11 -> α57
 //│ Rule: C-Var1
 //│ Premises:
-//│   ∀^m5 b4. b4 -> b4 ≤ α56 ∈ B
+//│   ∀^m5 b4. (b4 -> b4) ≤ α56 ∈ B
 //│ New Constraints:
-//│  ∀^m5 b5. b5 -> b5 ≤ l11 -> α57
+//│  ∀^m5 b5. (b5 -> b5) ≤ l11 -> α57
 //│ Remaining constraints: 3
 //│ ====== (146) ======
-//│ Constr: ∀^m5 b5. b5 -> b5 ≤ l11 -> α57
+//│ Constr: ∀^m5 b5. (b5 -> b5) ≤ l11 -> α57
 //│ Rule: C-Forall1
 //│ New Constraints:
 //│  b5 -> b5 ≤ l11 -> α57
@@ -2152,22 +2152,22 @@ head(concat(mkpair(2)(mkpair(1)(nil)))(mkpair(3)(nil)))
 //│ Constr: l11 ≤ tru -> α24
 //│ Rule: C-Var1
 //│ Premises:
-//│   ∀^m63 α26. (mkpair ≤ 2 -> α26) => ∀^m68 α27. (α26 ≤ (∀^m65 α28. (mkpair ≤ 1 -> α28) => ∀^m67 α29. (α28 ≤ nil -> α29) => α29) -> α27) => α27 ≤ l11 ∈ B
+//│   ∀^m63 α26. (mkpair ≤ 2 -> α26) => ∀^m68 α27. (α26 ≤ ∀^m65 α28. (mkpair ≤ 1 -> α28) => ∀^m67 α29. (α28 ≤ nil -> α29) => α29 -> α27) => α27 ≤ l11 ∈ B
 //│ New Constraints:
-//│  ∀^m63 α74. (mkpair ≤ 2 -> α74) => ∀^m68 α75. (α74 ≤ (∀^m65 α76. (mkpair ≤ 1 -> α76) => ∀^m67 α77. (α76 ≤ nil -> α77) => α77) -> α75) => α75 ≤ tru -> α24
+//│  ∀^m63 α74. (mkpair ≤ 2 -> α74) => ∀^m68 α75. (α74 ≤ ∀^m65 α76. (mkpair ≤ 1 -> α76) => ∀^m67 α77. (α76 ≤ nil -> α77) => α77 -> α75) => α75 ≤ tru -> α24
 //│ Remaining constraints: 2
 //│ ====== (155) ======
-//│ Constr: ∀^m63 α74. (mkpair ≤ 2 -> α74) => ∀^m68 α75. (α74 ≤ (∀^m65 α76. (mkpair ≤ 1 -> α76) => ∀^m67 α77. (α76 ≤ nil -> α77) => α77) -> α75) => α75 ≤ tru -> α24
+//│ Constr: ∀^m63 α74. (mkpair ≤ 2 -> α74) => ∀^m68 α75. (α74 ≤ ∀^m65 α76. (mkpair ≤ 1 -> α76) => ∀^m67 α77. (α76 ≤ nil -> α77) => α77 -> α75) => α75 ≤ tru -> α24
 //│ Rule: C-Forall1
 //│ New Constraints:
-//│  (mkpair ≤ 2 -> α74) => ∀^m68 α75. (α74 ≤ (∀^m65 α76. (mkpair ≤ 1 -> α76) => ∀^m67 α77. (α76 ≤ nil -> α77) => α77) -> α75) => α75 ≤ tru -> α24
+//│  (mkpair ≤ 2 -> α74) => ∀^m68 α75. (α74 ≤ ∀^m65 α76. (mkpair ≤ 1 -> α76) => ∀^m67 α77. (α76 ≤ nil -> α77) => α77 -> α75) => α75 ≤ tru -> α24
 //│ Remaining constraints: 2
 //│ ====== (156) ======
-//│ Constr: (mkpair ≤ 2 -> α74) => ∀^m68 α75. (α74 ≤ (∀^m65 α76. (mkpair ≤ 1 -> α76) => ∀^m67 α77. (α76 ≤ nil -> α77) => α77) -> α75) => α75 ≤ tru -> α24
+//│ Constr: (mkpair ≤ 2 -> α74) => ∀^m68 α75. (α74 ≤ ∀^m65 α76. (mkpair ≤ 1 -> α76) => ∀^m67 α77. (α76 ≤ nil -> α77) => α77 -> α75) => α75 ≤ tru -> α24
 //│ Rule: C-Constr
 //│ New Constraints:
 //│  mkpair ≤ 2 -> α74
-//│  ∀^m68 α75. (α74 ≤ (∀^m65 α76. (mkpair ≤ 1 -> α76) => ∀^m67 α77. (α76 ≤ nil -> α77) => α77) -> α75) => α75 ≤ tru -> α24
+//│  ∀^m68 α75. (α74 ≤ ∀^m65 α76. (mkpair ≤ 1 -> α76) => ∀^m67 α77. (α76 ≤ nil -> α77) => α77 -> α75) => α75 ≤ tru -> α24
 //│ Remaining constraints: 3
 //│ ====== (157) ======
 //│ Constr: mkpair ≤ 2 -> α74
@@ -2179,83 +2179,83 @@ head(concat(mkpair(2)(mkpair(1)(nil)))(mkpair(3)(nil)))
 //│ Constr: mkpair ≤ 2 -> α74
 //│ Rule: C-Var1
 //│ Premises:
-//│   ∀^m14 a1. a1 -> ∀^m13 b1. b1 -> ∀^m12 c. c -> ∀^m9 α0. (c ≤ a1 -> α0) => ∀^m11 α1. (α0 ≤ b1 -> α1) => α1 ≤ mkpair ∈ B
+//│   ∀^m14 a1. (a1 -> ∀^m13 b1. (b1 -> ∀^m12 c. (c -> ∀^m9 α0. (c ≤ a1 -> α0) => ∀^m11 α1. (α0 ≤ b1 -> α1) => α1))) ≤ mkpair ∈ B
 //│ New Constraints:
-//│  ∀^m14 a4. a4 -> ∀^m13 b6. b6 -> ∀^m12 c3. c3 -> ∀^m9 α78. (c3 ≤ a4 -> α78) => ∀^m11 α79. (α78 ≤ b6 -> α79) => α79 ≤ 2 -> α74
+//│  ∀^m14 a4. (a4 -> ∀^m13 b6. (b6 -> ∀^m12 c3. (c3 -> ∀^m9 α78. (c3 ≤ a4 -> α78) => ∀^m11 α79. (α78 ≤ b6 -> α79) => α79))) ≤ 2 -> α74
 //│ Remaining constraints: 3
 //│ ====== (159) ======
-//│ Constr: ∀^m14 a4. a4 -> ∀^m13 b6. b6 -> ∀^m12 c3. c3 -> ∀^m9 α78. (c3 ≤ a4 -> α78) => ∀^m11 α79. (α78 ≤ b6 -> α79) => α79 ≤ 2 -> α74
+//│ Constr: ∀^m14 a4. (a4 -> ∀^m13 b6. (b6 -> ∀^m12 c3. (c3 -> ∀^m9 α78. (c3 ≤ a4 -> α78) => ∀^m11 α79. (α78 ≤ b6 -> α79) => α79))) ≤ 2 -> α74
 //│ Rule: C-Forall1
 //│ New Constraints:
-//│  a4 -> ∀^m13 b6. b6 -> ∀^m12 c3. c3 -> ∀^m9 α78. (c3 ≤ a4 -> α78) => ∀^m11 α79. (α78 ≤ b6 -> α79) => α79 ≤ 2 -> α74
+//│  a4 -> ∀^m13 b6. (b6 -> ∀^m12 c3. (c3 -> ∀^m9 α78. (c3 ≤ a4 -> α78) => ∀^m11 α79. (α78 ≤ b6 -> α79) => α79)) ≤ 2 -> α74
 //│ Remaining constraints: 3
 //│ ====== (160) ======
-//│ Constr: a4 -> ∀^m13 b6. b6 -> ∀^m12 c3. c3 -> ∀^m9 α78. (c3 ≤ a4 -> α78) => ∀^m11 α79. (α78 ≤ b6 -> α79) => α79 ≤ 2 -> α74
+//│ Constr: a4 -> ∀^m13 b6. (b6 -> ∀^m12 c3. (c3 -> ∀^m9 α78. (c3 ≤ a4 -> α78) => ∀^m11 α79. (α78 ≤ b6 -> α79) => α79)) ≤ 2 -> α74
 //│ Rule: C-Fun
 //│ New Constraints:
 //│  2 ≤ a4
-//│  ∀^m13 b6. b6 -> ∀^m12 c3. c3 -> ∀^m9 α78. (c3 ≤ a4 -> α78) => ∀^m11 α79. (α78 ≤ b6 -> α79) => α79 ≤ α74
+//│  ∀^m13 b6. (b6 -> ∀^m12 c3. (c3 -> ∀^m9 α78. (c3 ≤ a4 -> α78) => ∀^m11 α79. (α78 ≤ b6 -> α79) => α79)) ≤ α74
 //│ Remaining constraints: 4
 //│ ====== (161) ======
 //│ Constr: 2 ≤ a4
 //│ Rule: C-Var2
 //│ Remaining constraints: 3
 //│ ====== (162) ======
-//│ Constr: ∀^m13 b6. b6 -> ∀^m12 c3. c3 -> ∀^m9 α78. (c3 ≤ a4 -> α78) => ∀^m11 α79. (α78 ≤ b6 -> α79) => α79 ≤ α74
+//│ Constr: ∀^m13 b6. (b6 -> ∀^m12 c3. (c3 -> ∀^m9 α78. (c3 ≤ a4 -> α78) => ∀^m11 α79. (α78 ≤ b6 -> α79) => α79)) ≤ α74
 //│ Rule: C-Var2
 //│ Remaining constraints: 2
 //│ ====== (163) ======
-//│ Constr: ∀^m68 α75. (α74 ≤ (∀^m65 α76. (mkpair ≤ 1 -> α76) => ∀^m67 α77. (α76 ≤ nil -> α77) => α77) -> α75) => α75 ≤ tru -> α24
+//│ Constr: ∀^m68 α75. (α74 ≤ ∀^m65 α76. (mkpair ≤ 1 -> α76) => ∀^m67 α77. (α76 ≤ nil -> α77) => α77 -> α75) => α75 ≤ tru -> α24
 //│ Rule: C-Forall1
 //│ New Constraints:
-//│  (α74 ≤ (∀^m65 α76. (mkpair ≤ 1 -> α76) => ∀^m67 α77. (α76 ≤ nil -> α77) => α77) -> α75) => α75 ≤ tru -> α24
+//│  (α74 ≤ ∀^m65 α76. (mkpair ≤ 1 -> α76) => ∀^m67 α77. (α76 ≤ nil -> α77) => α77 -> α75) => α75 ≤ tru -> α24
 //│ Remaining constraints: 2
 //│ ====== (164) ======
-//│ Constr: (α74 ≤ (∀^m65 α76. (mkpair ≤ 1 -> α76) => ∀^m67 α77. (α76 ≤ nil -> α77) => α77) -> α75) => α75 ≤ tru -> α24
+//│ Constr: (α74 ≤ ∀^m65 α76. (mkpair ≤ 1 -> α76) => ∀^m67 α77. (α76 ≤ nil -> α77) => α77 -> α75) => α75 ≤ tru -> α24
 //│ Rule: C-Constr
 //│ New Constraints:
-//│  α74 ≤ (∀^m65 α76. (mkpair ≤ 1 -> α76) => ∀^m67 α77. (α76 ≤ nil -> α77) => α77) -> α75
+//│  α74 ≤ ∀^m65 α76. (mkpair ≤ 1 -> α76) => ∀^m67 α77. (α76 ≤ nil -> α77) => α77 -> α75
 //│  α75 ≤ tru -> α24
 //│ Remaining constraints: 3
 //│ ====== (165) ======
-//│ Constr: α74 ≤ (∀^m65 α76. (mkpair ≤ 1 -> α76) => ∀^m67 α77. (α76 ≤ nil -> α77) => α77) -> α75
+//│ Constr: α74 ≤ ∀^m65 α76. (mkpair ≤ 1 -> α76) => ∀^m67 α77. (α76 ≤ nil -> α77) => α77 -> α75
 //│ Rule: C-Var1
 //│ Premises:
-//│   ∀^m13 b6. b6 -> ∀^m12 c3. c3 -> ∀^m9 α78. (c3 ≤ a4 -> α78) => ∀^m11 α79. (α78 ≤ b6 -> α79) => α79 ≤ α74 ∈ B
+//│   ∀^m13 b6. (b6 -> ∀^m12 c3. (c3 -> ∀^m9 α78. (c3 ≤ a4 -> α78) => ∀^m11 α79. (α78 ≤ b6 -> α79) => α79)) ≤ α74 ∈ B
 //│ New Constraints:
-//│  ∀^m13 b7. b7 -> ∀^m12 c4. c4 -> ∀^m9 α80. (c4 ≤ a4 -> α80) => ∀^m11 α81. (α80 ≤ b7 -> α81) => α81 ≤ (∀^m65 α76. (mkpair ≤ 1 -> α76) => ∀^m67 α77. (α76 ≤ nil -> α77) => α77) -> α75
+//│  ∀^m13 b7. (b7 -> ∀^m12 c4. (c4 -> ∀^m9 α80. (c4 ≤ a4 -> α80) => ∀^m11 α81. (α80 ≤ b7 -> α81) => α81)) ≤ ∀^m65 α76. (mkpair ≤ 1 -> α76) => ∀^m67 α77. (α76 ≤ nil -> α77) => α77 -> α75
 //│ Remaining constraints: 3
 //│ ====== (166) ======
-//│ Constr: ∀^m13 b7. b7 -> ∀^m12 c4. c4 -> ∀^m9 α80. (c4 ≤ a4 -> α80) => ∀^m11 α81. (α80 ≤ b7 -> α81) => α81 ≤ (∀^m65 α76. (mkpair ≤ 1 -> α76) => ∀^m67 α77. (α76 ≤ nil -> α77) => α77) -> α75
+//│ Constr: ∀^m13 b7. (b7 -> ∀^m12 c4. (c4 -> ∀^m9 α80. (c4 ≤ a4 -> α80) => ∀^m11 α81. (α80 ≤ b7 -> α81) => α81)) ≤ ∀^m65 α76. (mkpair ≤ 1 -> α76) => ∀^m67 α77. (α76 ≤ nil -> α77) => α77 -> α75
 //│ Rule: C-Forall1
 //│ New Constraints:
-//│  b7 -> ∀^m12 c4. c4 -> ∀^m9 α80. (c4 ≤ a4 -> α80) => ∀^m11 α81. (α80 ≤ b7 -> α81) => α81 ≤ (∀^m65 α76. (mkpair ≤ 1 -> α76) => ∀^m67 α77. (α76 ≤ nil -> α77) => α77) -> α75
+//│  b7 -> ∀^m12 c4. (c4 -> ∀^m9 α80. (c4 ≤ a4 -> α80) => ∀^m11 α81. (α80 ≤ b7 -> α81) => α81) ≤ ∀^m65 α76. (mkpair ≤ 1 -> α76) => ∀^m67 α77. (α76 ≤ nil -> α77) => α77 -> α75
 //│ Remaining constraints: 3
 //│ ====== (167) ======
-//│ Constr: b7 -> ∀^m12 c4. c4 -> ∀^m9 α80. (c4 ≤ a4 -> α80) => ∀^m11 α81. (α80 ≤ b7 -> α81) => α81 ≤ (∀^m65 α76. (mkpair ≤ 1 -> α76) => ∀^m67 α77. (α76 ≤ nil -> α77) => α77) -> α75
+//│ Constr: b7 -> ∀^m12 c4. (c4 -> ∀^m9 α80. (c4 ≤ a4 -> α80) => ∀^m11 α81. (α80 ≤ b7 -> α81) => α81) ≤ ∀^m65 α76. (mkpair ≤ 1 -> α76) => ∀^m67 α77. (α76 ≤ nil -> α77) => α77 -> α75
 //│ Rule: C-Fun
 //│ New Constraints:
 //│  ∀^m65 α76. (mkpair ≤ 1 -> α76) => ∀^m67 α77. (α76 ≤ nil -> α77) => α77 ≤ b7
-//│  ∀^m12 c4. c4 -> ∀^m9 α80. (c4 ≤ a4 -> α80) => ∀^m11 α81. (α80 ≤ b7 -> α81) => α81 ≤ α75
+//│  ∀^m12 c4. (c4 -> ∀^m9 α80. (c4 ≤ a4 -> α80) => ∀^m11 α81. (α80 ≤ b7 -> α81) => α81) ≤ α75
 //│ Remaining constraints: 4
 //│ ====== (168) ======
 //│ Constr: ∀^m65 α76. (mkpair ≤ 1 -> α76) => ∀^m67 α77. (α76 ≤ nil -> α77) => α77 ≤ b7
 //│ Rule: C-Var2
 //│ Remaining constraints: 3
 //│ ====== (169) ======
-//│ Constr: ∀^m12 c4. c4 -> ∀^m9 α80. (c4 ≤ a4 -> α80) => ∀^m11 α81. (α80 ≤ b7 -> α81) => α81 ≤ α75
+//│ Constr: ∀^m12 c4. (c4 -> ∀^m9 α80. (c4 ≤ a4 -> α80) => ∀^m11 α81. (α80 ≤ b7 -> α81) => α81) ≤ α75
 //│ Rule: C-Var2
 //│ Remaining constraints: 2
 //│ ====== (170) ======
 //│ Constr: α75 ≤ tru -> α24
 //│ Rule: C-Var1
 //│ Premises:
-//│   ∀^m12 c4. c4 -> ∀^m9 α80. (c4 ≤ a4 -> α80) => ∀^m11 α81. (α80 ≤ b7 -> α81) => α81 ≤ α75 ∈ B
+//│   ∀^m12 c4. (c4 -> ∀^m9 α80. (c4 ≤ a4 -> α80) => ∀^m11 α81. (α80 ≤ b7 -> α81) => α81) ≤ α75 ∈ B
 //│ New Constraints:
-//│  ∀^m12 c5. c5 -> ∀^m9 α82. (c5 ≤ a4 -> α82) => ∀^m11 α83. (α82 ≤ b7 -> α83) => α83 ≤ tru -> α24
+//│  ∀^m12 c5. (c5 -> ∀^m9 α82. (c5 ≤ a4 -> α82) => ∀^m11 α83. (α82 ≤ b7 -> α83) => α83) ≤ tru -> α24
 //│ Remaining constraints: 2
 //│ ====== (171) ======
-//│ Constr: ∀^m12 c5. c5 -> ∀^m9 α82. (c5 ≤ a4 -> α82) => ∀^m11 α83. (α82 ≤ b7 -> α83) => α83 ≤ tru -> α24
+//│ Constr: ∀^m12 c5. (c5 -> ∀^m9 α82. (c5 ≤ a4 -> α82) => ∀^m11 α83. (α82 ≤ b7 -> α83) => α83) ≤ tru -> α24
 //│ Rule: C-Forall1
 //│ New Constraints:
 //│  c5 -> ∀^m9 α82. (c5 ≤ a4 -> α82) => ∀^m11 α83. (α82 ≤ b7 -> α83) => α83 ≤ tru -> α24
@@ -2320,29 +2320,29 @@ head(concat(mkpair(2)(mkpair(1)(nil)))(mkpair(3)(nil)))
 //│ Constr: tru ≤ a4 -> α84
 //│ Rule: C-Var1
 //│ Premises:
-//│   ∀^m3 a. a -> ∀^m2 b. b -> a ≤ tru ∈ B
+//│   ∀^m3 a. (a -> ∀^m2 b. (b -> a)) ≤ tru ∈ B
 //│ New Constraints:
-//│  ∀^m3 a5. a5 -> ∀^m2 b8. b8 -> a5 ≤ a4 -> α84
+//│  ∀^m3 a5. (a5 -> ∀^m2 b8. (b8 -> a5)) ≤ a4 -> α84
 //│ Remaining constraints: 2
 //│ ====== (182) ======
-//│ Constr: ∀^m3 a5. a5 -> ∀^m2 b8. b8 -> a5 ≤ a4 -> α84
+//│ Constr: ∀^m3 a5. (a5 -> ∀^m2 b8. (b8 -> a5)) ≤ a4 -> α84
 //│ Rule: C-Forall1
 //│ New Constraints:
-//│  a5 -> ∀^m2 b8. b8 -> a5 ≤ a4 -> α84
+//│  a5 -> ∀^m2 b8. (b8 -> a5) ≤ a4 -> α84
 //│ Remaining constraints: 2
 //│ ====== (183) ======
-//│ Constr: a5 -> ∀^m2 b8. b8 -> a5 ≤ a4 -> α84
+//│ Constr: a5 -> ∀^m2 b8. (b8 -> a5) ≤ a4 -> α84
 //│ Rule: C-Fun
 //│ New Constraints:
 //│  a4 ≤ a5
-//│  ∀^m2 b8. b8 -> a5 ≤ α84
+//│  ∀^m2 b8. (b8 -> a5) ≤ α84
 //│ Remaining constraints: 3
 //│ ====== (184) ======
 //│ Constr: a4 ≤ a5
 //│ Rule: C-Var2
 //│ Remaining constraints: 2
 //│ ====== (185) ======
-//│ Constr: ∀^m2 b8. b8 -> a5 ≤ α84
+//│ Constr: ∀^m2 b8. (b8 -> a5) ≤ α84
 //│ Rule: C-Var2
 //│ Remaining constraints: 1
 //│ ====== (186) ======
@@ -2362,12 +2362,12 @@ head(concat(mkpair(2)(mkpair(1)(nil)))(mkpair(3)(nil)))
 //│ Constr: α84 ≤ b7 -> α85
 //│ Rule: C-Var1
 //│ Premises:
-//│   ∀^m2 b8. b8 -> a5 ≤ α84 ∈ B
+//│   ∀^m2 b8. (b8 -> a5) ≤ α84 ∈ B
 //│ New Constraints:
-//│  ∀^m2 b9. b9 -> a5 ≤ b7 -> α85
+//│  ∀^m2 b9. (b9 -> a5) ≤ b7 -> α85
 //│ Remaining constraints: 2
 //│ ====== (189) ======
-//│ Constr: ∀^m2 b9. b9 -> a5 ≤ b7 -> α85
+//│ Constr: ∀^m2 b9. (b9 -> a5) ≤ b7 -> α85
 //│ Rule: C-Forall1
 //│ New Constraints:
 //│  b9 -> a5 ≤ b7 -> α85
