@@ -26,7 +26,7 @@ private val ArgPrec = 20
 private val FunPrec = 10
 
 enum CoreTerm derives CanEqual:
-  case Unit
+  case Bool(x: Boolean)
   case Const(i: Int)
   case Cond
   case Var(x: String)
@@ -39,7 +39,7 @@ enum CoreTerm derives CanEqual:
     def parens(p: Int)(d: Document): Document =
       if p < prec then doc"(${d})" else d
     this match
-      case Unit => "()"
+      case Bool(b) => b.toString
       case Const(i) => i.toString
       case Cond => "cond"
       case Var(x) => x
@@ -75,13 +75,13 @@ sealed trait Type:
         val cons = doc"${c.show}" |> parens(-1)
         doc"${cons} => ${ty.showAsTypeImpl(ForallPrec)}"
           |> parens(ForallPrec)
-      case PosType.Unit() => "()"
+      case PosType.Bool() => "bool"
       case PosType.Const(i) => i.toString
       case PosType.Var(al) => al.show
       case PosType.Lam(al: TypeVar, sigma) => 
         doc"${al.show} -> ${sigma.showAsTypeImpl(ArrowRhsPrec)}"
           |> parens(ArrowLhsPrec)
-      case PosType.Lam(al: NegType.Force, sigma) => 
+      case PosType.Lam(al: NegType.Bool, sigma) => 
         doc"${al.showAsTypeImpl(ArrowLhsPrec)} -> ${sigma.showAsTypeImpl(ArrowRhsPrec)}"
           |> parens(ArrowLhsPrec)
       case PosType.Mrked(al, m) =>
@@ -90,6 +90,7 @@ sealed trait Type:
       case NegType.App(sigma, al) => 
         doc"${sigma.showAsTypeImpl(ArrowLhsPrec)} -> ${al.show}"
           |> parens(ArrowLhsPrec)
+      case _: NegType.Bool => "bool"
       case _: NegType.Force => "•"
 
   def showAsTypeLatex(using NamingCtx): Document = showAsTypeLatexImpl(TopPrec)
@@ -122,7 +123,7 @@ sealed trait Type:
         val rest = ty.showAsTypeLatexImpl(ForallPrec)
         doc"${c.showLatex} \Rightarrow $rest"
           |> parens(ForallPrec)
-      case PosType.Unit() => doc"()"
+      case PosType.Bool() => doc"\texttt{bool}"
       case PosType.Const(i) => doc"${i}"
       case PosType.Var(al) => al.showLatex
       case PosType.Lam(al, sigma) =>
@@ -132,13 +133,14 @@ sealed trait Type:
             doc"${sigma.showAsTypeLatexImpl(ArrowRhsPrec)}"
         al match
           case a: TypeVar => doc"${a.showLatex} \rightarrow $rhs" |> parens(ArrowRhsPrec)
-          case a: NegType.Force => doc"${a.showAsTypeLatexImpl(ArrowLhsPrec)} \rightarrow $rhs" |> parens(ArrowRhsPrec)
+          case a: NegType.Bool => doc"${a.showAsTypeLatexImpl(ArrowLhsPrec)} \rightarrow $rhs" |> parens(ArrowRhsPrec)
       case PosType.Mrked(al, m) =>
         if ctx.showMarks then doc"${al.showLatex}^{${m.uid}}" else al.showLatex
       case NegType.Var(al) => al.showLatex
       case NegType.App(sigma, al) =>
         doc"${sigma.showAsTypeLatexImpl(ArrowLhsPrec)} \rightarrow ${al.showLatex}"
           |> parens(ArrowLhsPrec)
+      case NegType.Bool() => doc"\texttt{bool}"
       case _:NegType.Force => doc"\bullet"
 
   def showAsTerm(using ctx: NamingCtx) = showAsTermImpl(TopPrec)
@@ -163,13 +165,13 @@ sealed trait Type:
         doc"let ${bindings} in ${sigma.showAsTermImpl(TopPrec)}"
           |> parens(TopPrec)
 
-      case PosType.Unit() => "()"
+      case PosType.Bool() => "v_bool"
       case PosType.Const(i) => i.toString
       case PosType.Var(al) => al.show
       case PosType.Lam(al: TypeVar, sigma) =>
         doc"λ${al.show}. ${sigma.showAsTermImpl(LamPrec)}"
           |> parens(LamPrec)
-      case PosType.Lam(al: NegType.Force, sigma) =>
+      case PosType.Lam(al: NegType.Bool, sigma) =>
         doc"λ${al.showAsTermImpl(LamPrec)}. ${sigma.showAsTermImpl(LamPrec)}"
           |> parens(LamPrec)
       case PosType.Mrked(al, m) => al.show
@@ -228,6 +230,7 @@ class Constraint(val lb: QuantType, val ub: NegType, val mrks: List[Mark]) deriv
       case NegType.App(sigma, al) => (al,
         doc"${lb.showAsTermImpl(FunPrec)} ${sigma.showAsTermImpl(ArgPrec)}"
           |> parens(BindingPrec))
+      case NegType.Bool() => return doc"v_bool"
       case NegType.Force(_) => return doc"•"
     doc"${beta.show} = ${rhs}"
 
@@ -289,49 +292,48 @@ enum QuantType extends Type derives CanEqual:
 
 // τ^+
 enum PosType extends Type derives CanEqual:
-  case Unit()
+  case Bool()
   case Const(i: Int)
   case Var(al: TypeVar)
-  case Lam(al: TypeVar | NegType.Force, sigma: QuantType)
+  case Lam(al: TypeVar | NegType.Bool, sigma: QuantType)
   case Mrked(al: TypeVar, m: Mark)
 
   override def hashCode(): Int = this match
-    case Unit() => 0
+    case Bool() => 0
     case Const(i) => i.hashCode
     case Var(al) => al.hashCode
     case Lam(al: TypeVar, sigma) => mix(al.hashCode, sigma.hashCode)
-    case Lam(al: NegType.Force, sigma) => mix(al.hashCode, sigma.hashCode)
+    case Lam(al: NegType.Bool, sigma) => mix(al.hashCode, sigma.hashCode)
     case Mrked(al, m) => mix(al.hashCode, m.uid.hashCode)
 
   override def equals(other: Any) = (this, other) match
-    case (Unit(), Unit()) => true
+    case (Bool(), Bool()) => true
     case (Const(i1), Const(i2)) => i1 == i2
     case (Var(a1), Var(a2)) => a1 == a2
     case (Lam(a1: TypeVar, s1), Lam(a2: TypeVar, s2)) =>
       a1 == a2 && s1 == s2
-    case (Lam(_: NegType.Force, s1), Lam(_: NegType.Force, s2)) =>
+    case (Lam(_: NegType.Bool, s1), Lam(_: NegType.Bool, s2)) =>
       s1 == s2
     case (Mrked(a1, _), Mrked(a2, _)) => a1 == a2
     case _ => false
 
   def canonicalize(using ctx: CanonicalizeCtx): PosType = this match
-    case Unit() => Unit()
-    case x: Const => x
     case Var(al) => Var(al.canonicalize)
     case Lam(al: TypeVar, sigma) => Lam(al.canonicalize, sigma.canonicalize)
-    case Lam(al: NegType.Force, sigma) => Lam(al, sigma.canonicalize)
+    case Lam(al: NegType.Bool, sigma) => Lam(al, sigma.canonicalize)
     case Mrked(al, m) => Mrked(al.canonicalize, m)
+    case x => x
 
   def refresh(using InferenceCtx, Map[Int, TypeVar]): PosType = this match
-    case Unit() => Unit()
-    case x: Const => x
     case Var(al) => Var(al.refresh)
     case Lam(al: TypeVar, sigma) => Lam(al.refresh, sigma.refresh)
-    case Lam(al: NegType.Force, sigma) => Lam(al, sigma.refresh)
+    case Lam(al: NegType.Bool, sigma) => Lam(al, sigma.refresh)
     case Mrked(al, m) => Mrked(al.refresh, m)
+    case x => x
 
 // τ^-
 enum NegType extends Type derives CanEqual:
+  case Bool()
   case Var(al: TypeVar)
   case App(sigma: QuantType, al: TypeVar)
   case Force(toplevel: Boolean)
@@ -340,18 +342,19 @@ enum NegType extends Type derives CanEqual:
     case (Var(a1), Var(a2)) => a1 == a2
     case (App(s1, a1), App(s2, a2)) => s1 == s2 && a1 == a2
     case (Force(x), Force(y)) if x == y => true
+    case (Bool(), Bool()) => true
     case _ => false
 
   override def hashCode(): Int = this match
     case Var(al) => al.hashCode
     case App(sigma, al) => mix(sigma.hashCode, al.hashCode)
     case Force(toplevel) => toplevel.hashCode
+    case Bool() => 0
 
   def canonicalize(using ctx: CanonicalizeCtx): NegType = this match
     case Var(al) => Var(al.canonicalize)
     case App(sigma, al) => App(sigma.canonicalize, al.canonicalize)
     case x => x
-
 
   def refresh(using InferenceCtx, Map[Int, TypeVar]): NegType = this match
     case Var(al) => Var(al.refresh)
@@ -385,9 +388,8 @@ class Typer(using Raise):
           case x => CoreTerm.Let(getBindings(stats), x)
       case Term.IfLike(_: Keyword.`if`.type, Split.Let(s, cond, Split.Cons(Branch(_, _, Split.Else(t1)), Split.Else(t2)))) =>
         CoreTerm.App(CoreTerm.App(CoreTerm.App(CoreTerm.Cond, fromTerm(cond)), fromTerm(t1)), fromTerm(t2))
-      case Term.Lit(Tree.UnitLit(_)) => CoreTerm.Unit
+      case Term.Lit(Tree.BoolLit(b)) => CoreTerm.Bool(b)
       case Term.Lit(Tree.IntLit(i)) => CoreTerm.Const(i.toInt)
-      case Term.UnitVal() => CoreTerm.Unit
       case Term.Lam(ParamList(flags, p :: ps, rest), body) =>
         val body1 = fromTerm(Term.Lam(ParamList(flags, ps, rest), body))
         CoreTerm.Lam(p.sym.nme, body1)
@@ -398,14 +400,14 @@ class Typer(using Raise):
       case _ =>
         val m = msg"invalid term ${term.toString}"
         raise(ErrorReport(m -> term.toLoc :: Nil))
-        CoreTerm.Unit
+        CoreTerm.Bool(true)
     res match
       case CoreTerm.Let(Nil, body) => body
       case _ => res
 
   def checkWellFormedImpl(term: CoreTerm)(using ctx: Set[String])
     : Unit = term match
-    case CoreTerm.Unit | CoreTerm.Cond | CoreTerm.Const(_) => ()
+    case CoreTerm.Bool(_) | CoreTerm.Cond | CoreTerm.Const(_) => ()
     case CoreTerm.Var(x) => if !ctx.contains(x) then
       raise(ErrorReport( msg"invalid scope ${x}" -> None :: Nil))
     case CoreTerm.Lam(x, body) =>
@@ -434,11 +436,11 @@ class Typer(using Raise):
 
   def inferType(term: CoreTerm)
     (using ctx: InferenceCtx): (PosType, List[CtxElem]) = term match
-    case CoreTerm.Unit => (PosType.Unit(), Nil)
+    case CoreTerm.Bool(_) => (PosType.Bool(), Nil)
     case CoreTerm.Const(i) => (PosType.Const(i), Nil)
     case CoreTerm.Cond => 
       val al = ctx.getFreshTv("α")
-      (PosType.Lam(NegType.Force(false), QuantType.Base(PosType.Lam(al, QuantType.Base(PosType.Lam(al, QuantType.fromVar(al)))))),
+      (PosType.Lam(NegType.Bool(), QuantType.Base(PosType.Lam(al, QuantType.Base(PosType.Lam(al, QuantType.fromVar(al)))))),
         (al, ctx.getFreshMrk) :: Nil)
     case CoreTerm.Var(x) =>
       (PosType.Mrked(ctx.mappings(x), ctx.getFreshMrk), Nil)
@@ -478,12 +480,13 @@ def unify(ty1: Type, ty2: Type)
     unify(s1, s2)(using (bv + a.uid + b.uid))
   case (QuantType.Constr(c1, s1), QuantType.Constr(c2, s2)) =>
     unifyConstr(c1, c2) ++ unify(s1, s2)
-  case (PosType.Unit(), PosType.Unit()) => List.empty
+  case (PosType.Bool(), PosType.Bool()) => List.empty
   case (PosType.Var(al), PosType.Var(be)) => unify(al, be)
   case (PosType.Lam(al, s1), PosType.Lam(be, s2)) => unify(al, be) ++ unify(s1, s2)
   case (PosType.Mrked(al, _), PosType.Mrked(be, _)) => unify(al, be)
   case (NegType.Var(al), NegType.Var(be)) => unify(al, be)
   case (NegType.App(s1, al), NegType.App(s2, be)) => unify(s1, s2) ++ unify(al, be)
+  case (NegType.Bool(), NegType.Bool()) => List.empty
   case _ =>
     val a = ty1.showAsType.toString
     val b = ty2.showAsType.toString
@@ -566,7 +569,7 @@ class CtxSolver(var unresolved: List[CtxElem])(using rai: Raise, naming: NamingC
     case (QuantType.Base(PosType.Lam(al, sigma)), NegType.App(sigma1, beta)) =>
       val a = al match
         case alpha: TypeVar => NegType.Var(alpha)
-        case bullet: NegType.Force => bullet
+        case ty: NegType.Bool => ty
       val c1 = Constraint(sigma1, a, c.mrks)
       val c2 = Constraint(sigma, NegType.Var(beta), c.mrks)
       ("C-Fun", None, List(c1, c2), Nil)
@@ -591,12 +594,14 @@ class CtxSolver(var unresolved: List[CtxElem])(using rai: Raise, naming: NamingC
       ("C-ConstForce", None, Nil, Nil)
     case (QuantType.Base(x: PosType.Lam), NegType.Force(top)) => 
       if top then results += x
-      ("C-FunForce", None, Nil, Nil)
-    case (QuantType.Base(x: PosType.Unit), NegType.Force(top)) =>
+      ("C-Force", None, Nil, Nil)
+    case (QuantType.Base(x: PosType.Bool), NegType.Force(top)) =>
       if top then results += x
-      ("C-UnitForce", None, Nil, Nil)
+      ("C-Force", None, Nil, Nil)
+    case (QuantType.Base(x: PosType.Bool), NegType.Bool()) =>
+      ("C-Bool", None, Nil, Nil)
 
-    // e.g. application where lhs is a unit
+    // e.g. application where lhs is a bool
     case _ => ("C-Err", None, Nil, Nil)
 
 class InferenceCtx(

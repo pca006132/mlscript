@@ -1,12 +1,12 @@
-// Applying the unit with a unit.
+// Applying a bool with a bool.
 // It is stuck with C-Err.
-()( () )
+true( true )
 
 // Same, but as an argument to the identity, which is also stuck.
-(x => x)( ()( () ))
+(x => x)( true( true ))
 
-// Thunk for applying the unit with a unit.
+// Thunk for applying a bool with a bool.
 // Because the inner stuck term is not actually evaluated,
 // this term is not really stuck, and we can infer a weak-type.
-thunk => ()( () )
+thunk => true( true )
 

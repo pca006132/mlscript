@@ -1,22 +1,23 @@
 :supreme-f
 
+//│ Error: hkmc2.ErrorReport: invalid term Lit(UnitLit(false))
 //│ Error: hkmc2.ErrorReport: invalid term Import(member:Predef,/home/pca006132/code/mlscript/hkmc2/shared/src/test/mlscript-compile/Predef.mjs)
-//│ Parsed Core Term: ()
-//│ Inferred: ()
-//│ As term: ()
-//│ |> () ≤ •
+//│ Parsed Core Term: true
+//│ Inferred: bool
+//│ As term: v_bool
+//│ |> bool ≤ •
 //│ ====== (1) ======
-//│ Constr: () ≤ •
-//│ Rule: C-UnitForce
+//│ Constr: bool ≤ •
+//│ Rule: C-Force
 //│ Remaining constraints: 0
 //│ ====== Final ======
 //│ ------ Resolved Weak Types ------
-//│ ()
-if (()) then (x => x) else ()
-//│ Parsed Core Term: ((cond ()) (λx. x)) ()
+//│ bool
+if (true) then (x => x) else true
+//│ Parsed Core Term: ((cond true) (λx. x)) true
 //│ Inferred: α
-//│ As term: let α1 = (λ•. λα0. λα0. α0) () in let α2 = α1 (λx. x) in let α = α2 () in α
-//│ |> α0, α1, • -> α0 -> α0 -> α0 ≤ () -> α1, α2, α1 ≤ ∀^m4 x. (x -> x) -> α2, α, α2 ≤ () -> α, α ≤ •
+//│ As term: let α1 = (λ???. λα0. λα0. α0) v_bool in let α2 = α1 (λx. x) in let α = α2 v_bool in α
+//│ |> α0, α1, bool -> α0 -> α0 -> α0 ≤ bool -> α1, α2, α1 ≤ ∀^m4 x. (x -> x) -> α2, α, α2 ≤ bool -> α, α ≤ •
 //│ ====== (1) ======
 //│ Constr: α0
 //│ Rule: C-Promote
@@ -26,15 +27,15 @@ if (()) then (x => x) else ()
 //│ Rule: C-Promote
 //│ Remaining constraints: 6
 //│ ====== (3) ======
-//│ Constr: • -> α0 -> α0 -> α0 ≤ () -> α1
+//│ Constr: bool -> α0 -> α0 -> α0 ≤ bool -> α1
 //│ Rule: C-Fun
 //│ New Constraints:
-//│  () ≤ •
+//│  bool ≤ bool
 //│  α0 -> α0 -> α0 ≤ α1
 //│ Remaining constraints: 7
 //│ ====== (4) ======
-//│ Constr: () ≤ •
-//│ Rule: C-UnitForce
+//│ Constr: bool ≤ bool
+//│ Rule: C-Bool
 //│ Remaining constraints: 6
 //│ ====== (5) ======
 //│ Constr: α0 -> α0 -> α0 ≤ α1
@@ -72,22 +73,22 @@ if (()) then (x => x) else ()
 //│ Rule: C-Promote
 //│ Remaining constraints: 2
 //│ ====== (12) ======
-//│ Constr: α2 ≤ () -> α
+//│ Constr: α2 ≤ bool -> α
 //│ Rule: C-Var1
 //│ Premises:
 //│   α0 -> α0 ≤ α2 ∈ B
 //│ New Constraints:
-//│  α0 -> α0 ≤ () -> α
+//│  α0 -> α0 ≤ bool -> α
 //│ Remaining constraints: 2
 //│ ====== (13) ======
-//│ Constr: α0 -> α0 ≤ () -> α
+//│ Constr: α0 -> α0 ≤ bool -> α
 //│ Rule: C-Fun
 //│ New Constraints:
-//│  () ≤ α0
+//│  bool ≤ α0
 //│  α0 ≤ α
 //│ Remaining constraints: 3
 //│ ====== (14) ======
-//│ Constr: () ≤ α0
+//│ Constr: bool ≤ α0
 //│ Rule: C-Var2
 //│ Remaining constraints: 2
 //│ ====== (15) ======
@@ -95,17 +96,17 @@ if (()) then (x => x) else ()
 //│ Rule: C-Var1
 //│ Premises:
 //│   ∀^m4 x. (x -> x) ≤ α0 ∈ B
-//│   () ≤ α0 ∈ B
+//│   bool ≤ α0 ∈ B
 //│ New Constraints:
 //│  ∀^m4 x0. (x0 -> x0) ≤ α
-//│  () ≤ α
+//│  bool ≤ α
 //│ Remaining constraints: 3
 //│ ====== (16) ======
 //│ Constr: ∀^m4 x0. (x0 -> x0) ≤ α
 //│ Rule: C-Var2
 //│ Remaining constraints: 2
 //│ ====== (17) ======
-//│ Constr: () ≤ α
+//│ Constr: bool ≤ α
 //│ Rule: C-Var2
 //│ Remaining constraints: 1
 //│ ====== (18) ======
@@ -114,21 +115,21 @@ if (()) then (x => x) else ()
 //│ Premises:
 //│   α0 ≤ α ∈ B
 //│   ∀^m4 x0. (x0 -> x0) ≤ α ∈ B
-//│   () ≤ α ∈ B
+//│   bool ≤ α ∈ B
 //│ New Constraints:
 //│  α0 ≤ •
 //│  ∀^m4 x1. (x1 -> x1) ≤ •
-//│  () ≤ •
+//│  bool ≤ •
 //│ Remaining constraints: 3
 //│ ====== (19) ======
 //│ Constr: α0 ≤ •
 //│ Rule: C-Var1
 //│ Premises:
 //│   ∀^m4 x. (x -> x) ≤ α0 ∈ B
-//│   () ≤ α0 ∈ B
+//│   bool ≤ α0 ∈ B
 //│ New Constraints:
 //│  ∀^m4 x2. (x2 -> x2) ≤ •
-//│  () ≤ •
+//│  bool ≤ •
 //│ Remaining constraints: 4
 //│ ====== (20) ======
 //│ Constr: ∀^m4 x2. (x2 -> x2) ≤ •
@@ -138,11 +139,11 @@ if (()) then (x => x) else ()
 //│ Remaining constraints: 4
 //│ ====== (21) ======
 //│ Constr: x2 -> x2 ≤ •
-//│ Rule: C-FunForce
+//│ Rule: C-Force
 //│ Remaining constraints: 3
 //│ ====== (22) ======
-//│ Constr: () ≤ •
-//│ Rule: C-UnitForce
+//│ Constr: bool ≤ •
+//│ Rule: C-Force
 //│ Remaining constraints: 2
 //│ ====== (23) ======
 //│ Constr: ∀^m4 x1. (x1 -> x1) ≤ •
@@ -153,16 +154,16 @@ if (()) then (x => x) else ()
 //│ Remaining constraints: 2
 //│ ====== (24) ======
 //│ Constr: x2 -> x2 ≤ •
-//│ Rule: C-FunForce
+//│ Rule: C-Force
 //│ Remaining constraints: 1
 //│ ====== (25) ======
-//│ Constr: () ≤ •
-//│ Rule: C-UnitForce
+//│ Constr: bool ≤ •
+//│ Rule: C-Force
 //│ Remaining constraints: 0
 //│ ====== Final ======
 //│ ------ Resolved Weak Types ------
 //│ x2 -> x2
-//│ ()
+//│ bool
 
 x => x
 //│ Parsed Core Term: λx. x
@@ -175,17 +176,17 @@ x => x
 //│ Remaining constraints: 1
 //│ ====== (2) ======
 //│ Constr: x -> x ≤ •
-//│ Rule: C-FunForce
+//│ Rule: C-Force
 //│ Remaining constraints: 0
 //│ ====== Final ======
 //│ ------ Resolved Weak Types ------
 //│ x -> x
 
-(x => x)(())
-//│ Parsed Core Term: (λx. x) ()
+(x => x)(true)
+//│ Parsed Core Term: (λx. x) true
 //│ Inferred: α
-//│ As term: let α = (λx. x) () in α
-//│ |> x, α, x -> x ≤ () -> α, α ≤ •
+//│ As term: let α = (λx. x) v_bool in α
+//│ |> x, α, x -> x ≤ bool -> α, α ≤ •
 //│ ====== (1) ======
 //│ Constr: x
 //│ Rule: C-Promote
@@ -195,14 +196,14 @@ x => x
 //│ Rule: C-Promote
 //│ Remaining constraints: 2
 //│ ====== (3) ======
-//│ Constr: x -> x ≤ () -> α
+//│ Constr: x -> x ≤ bool -> α
 //│ Rule: C-Fun
 //│ New Constraints:
-//│  () ≤ x
+//│  bool ≤ x
 //│  x ≤ α
 //│ Remaining constraints: 3
 //│ ====== (4) ======
-//│ Constr: () ≤ x
+//│ Constr: bool ≤ x
 //│ Rule: C-Var2
 //│ Remaining constraints: 2
 //│ ====== (5) ======
@@ -227,17 +228,17 @@ x => x
 //│ Constr: x ≤ •
 //│ Rule: C-Var1
 //│ Premises:
-//│   () ≤ x ∈ B
+//│   bool ≤ x ∈ B
 //│ New Constraints:
-//│  () ≤ •
+//│  bool ≤ •
 //│ Remaining constraints: 1
 //│ ====== (9) ======
-//│ Constr: () ≤ •
-//│ Rule: C-UnitForce
+//│ Constr: bool ≤ •
+//│ Rule: C-Force
 //│ Remaining constraints: 0
 //│ ====== Final ======
 //│ ------ Resolved Weak Types ------
-//│ ()
+//│ bool
 
 (x => x)(y => y)
 //│ Parsed Core Term: (λx. x) (λy. y)
@@ -297,17 +298,17 @@ x => x
 //│ Remaining constraints: 1
 //│ ====== (10) ======
 //│ Constr: y0 -> y0 ≤ •
-//│ Rule: C-FunForce
+//│ Rule: C-Force
 //│ Remaining constraints: 0
 //│ ====== Final ======
 //│ ------ Resolved Weak Types ------
 //│ y0 -> y0
 
-(x => x)(y => y)(())
-//│ Parsed Core Term: ((λx. x) (λy. y)) ()
+(x => x)(y => y)(true)
+//│ Parsed Core Term: ((λx. x) (λy. y)) true
 //│ Inferred: α
-//│ As term: let α0 = (λx. x) (λy. y) in let α = α0 () in α
-//│ |> x, α0, x -> x ≤ ∀^m4 y. (y -> y) -> α0, α, α0 ≤ () -> α, α ≤ •
+//│ As term: let α0 = (λx. x) (λy. y) in let α = α0 v_bool in α
+//│ |> x, α0, x -> x ≤ ∀^m4 y. (y -> y) -> α0, α, α0 ≤ bool -> α, α ≤ •
 //│ ====== (1) ======
 //│ Constr: x
 //│ Rule: C-Promote
@@ -336,42 +337,42 @@ x => x
 //│ Rule: C-Promote
 //│ Remaining constraints: 2
 //│ ====== (7) ======
-//│ Constr: α0 ≤ () -> α
+//│ Constr: α0 ≤ bool -> α
 //│ Rule: C-Var1
 //│ Premises:
 //│   x ≤ α0 ∈ B
 //│ New Constraints:
-//│  x ≤ () -> α
+//│  x ≤ bool -> α
 //│ Remaining constraints: 2
 //│ ====== (8) ======
-//│ Constr: x ≤ () -> α
+//│ Constr: x ≤ bool -> α
 //│ Rule: C-Unwrap
 //│ New Constraints:
-//│  x ≤ () -> α
+//│  x ≤ bool -> α
 //│ Remaining constraints: 2
 //│ ====== (9) ======
-//│ Constr: x ≤ () -> α
+//│ Constr: x ≤ bool -> α
 //│ Rule: C-Var1
 //│ Premises:
 //│   ∀^m4 y. (y -> y) ≤ x ∈ B
 //│ New Constraints:
-//│  ∀^m4 y0. (y0 -> y0) ≤ () -> α
+//│  ∀^m4 y0. (y0 -> y0) ≤ bool -> α
 //│ Remaining constraints: 2
 //│ ====== (10) ======
-//│ Constr: ∀^m4 y0. (y0 -> y0) ≤ () -> α
+//│ Constr: ∀^m4 y0. (y0 -> y0) ≤ bool -> α
 //│ Rule: C-Forall1
 //│ New Constraints:
-//│  y0 -> y0 ≤ () -> α
+//│  y0 -> y0 ≤ bool -> α
 //│ Remaining constraints: 2
 //│ ====== (11) ======
-//│ Constr: y0 -> y0 ≤ () -> α
+//│ Constr: y0 -> y0 ≤ bool -> α
 //│ Rule: C-Fun
 //│ New Constraints:
-//│  () ≤ y0
+//│  bool ≤ y0
 //│  y0 ≤ α
 //│ Remaining constraints: 3
 //│ ====== (12) ======
-//│ Constr: () ≤ y0
+//│ Constr: bool ≤ y0
 //│ Rule: C-Var2
 //│ Remaining constraints: 2
 //│ ====== (13) ======
@@ -396,23 +397,23 @@ x => x
 //│ Constr: y0 ≤ •
 //│ Rule: C-Var1
 //│ Premises:
-//│   () ≤ y0 ∈ B
+//│   bool ≤ y0 ∈ B
 //│ New Constraints:
-//│  () ≤ •
+//│  bool ≤ •
 //│ Remaining constraints: 1
 //│ ====== (17) ======
-//│ Constr: () ≤ •
-//│ Rule: C-UnitForce
+//│ Constr: bool ≤ •
+//│ Rule: C-Force
 //│ Remaining constraints: 0
 //│ ====== Final ======
 //│ ------ Resolved Weak Types ------
-//│ ()
+//│ bool
 
-(x => x(x))(y => y)(())
-//│ Parsed Core Term: ((λx. x x) (λy. y)) ()
+(x => x(x))(y => y)(true)
+//│ Parsed Core Term: ((λx. x x) (λy. y)) true
 //│ Inferred: α
-//│ As term: let α1 = (λx. (let α0 = x x in α0)) (λy. y) in let α = α1 () in α
-//│ |> x, α1, x -> ∀^m3 α0. (x ≤ x -> α0) => α0 ≤ ∀^m6 y. (y -> y) -> α1, α, α1 ≤ () -> α, α ≤ •
+//│ As term: let α1 = (λx. (let α0 = x x in α0)) (λy. y) in let α = α1 v_bool in α
+//│ |> x, α1, x -> ∀^m3 α0. (x ≤ x -> α0) => α0 ≤ ∀^m6 y. (y -> y) -> α1, α, α1 ≤ bool -> α, α ≤ •
 //│ ====== (1) ======
 //│ Constr: x
 //│ Rule: C-Promote
@@ -441,25 +442,25 @@ x => x
 //│ Rule: C-Promote
 //│ Remaining constraints: 2
 //│ ====== (7) ======
-//│ Constr: α1 ≤ () -> α
+//│ Constr: α1 ≤ bool -> α
 //│ Rule: C-Var1
 //│ Premises:
 //│   ∀^m3 α0. (x ≤ x -> α0) => α0 ≤ α1 ∈ B
 //│ New Constraints:
-//│  ∀^m3 α2. (x ≤ x -> α2) => α2 ≤ () -> α
+//│  ∀^m3 α2. (x ≤ x -> α2) => α2 ≤ bool -> α
 //│ Remaining constraints: 2
 //│ ====== (8) ======
-//│ Constr: ∀^m3 α2. (x ≤ x -> α2) => α2 ≤ () -> α
+//│ Constr: ∀^m3 α2. (x ≤ x -> α2) => α2 ≤ bool -> α
 //│ Rule: C-Forall1
 //│ New Constraints:
-//│  (x ≤ x -> α2) => α2 ≤ () -> α
+//│  (x ≤ x -> α2) => α2 ≤ bool -> α
 //│ Remaining constraints: 2
 //│ ====== (9) ======
-//│ Constr: (x ≤ x -> α2) => α2 ≤ () -> α
+//│ Constr: (x ≤ x -> α2) => α2 ≤ bool -> α
 //│ Rule: C-Constr
 //│ New Constraints:
 //│  x ≤ x -> α2
-//│  α2 ≤ () -> α
+//│  α2 ≤ bool -> α
 //│ Remaining constraints: 3
 //│ ====== (10) ======
 //│ Constr: x ≤ x -> α2
@@ -497,56 +498,56 @@ x => x
 //│ Rule: C-Var2
 //│ Remaining constraints: 2
 //│ ====== (16) ======
-//│ Constr: α2 ≤ () -> α
+//│ Constr: α2 ≤ bool -> α
 //│ Rule: C-Var1
 //│ Premises:
 //│   y0 ≤ α2 ∈ B
 //│ New Constraints:
-//│  y0 ≤ () -> α
+//│  y0 ≤ bool -> α
 //│ Remaining constraints: 2
 //│ ====== (17) ======
-//│ Constr: y0 ≤ () -> α
+//│ Constr: y0 ≤ bool -> α
 //│ Rule: C-Unwrap
 //│ New Constraints:
-//│  y0 ≤ () -> α
+//│  y0 ≤ bool -> α
 //│ Remaining constraints: 2
 //│ ====== (18) ======
-//│ Constr: y0 ≤ () -> α
+//│ Constr: y0 ≤ bool -> α
 //│ Rule: C-Var1
 //│ Premises:
 //│   x ≤ y0 ∈ B
 //│ New Constraints:
-//│  x ≤ () -> α
+//│  x ≤ bool -> α
 //│ Remaining constraints: 2
 //│ ====== (19) ======
-//│ Constr: x ≤ () -> α
+//│ Constr: x ≤ bool -> α
 //│ Rule: C-Unwrap
 //│ New Constraints:
-//│  x ≤ () -> α
+//│  x ≤ bool -> α
 //│ Remaining constraints: 2
 //│ ====== (20) ======
-//│ Constr: x ≤ () -> α
+//│ Constr: x ≤ bool -> α
 //│ Rule: C-Var1
 //│ Premises:
 //│   ∀^m6 y. (y -> y) ≤ x ∈ B
 //│ New Constraints:
-//│  ∀^m6 y1. (y1 -> y1) ≤ () -> α
+//│  ∀^m6 y1. (y1 -> y1) ≤ bool -> α
 //│ Remaining constraints: 2
 //│ ====== (21) ======
-//│ Constr: ∀^m6 y1. (y1 -> y1) ≤ () -> α
+//│ Constr: ∀^m6 y1. (y1 -> y1) ≤ bool -> α
 //│ Rule: C-Forall1
 //│ New Constraints:
-//│  y1 -> y1 ≤ () -> α
+//│  y1 -> y1 ≤ bool -> α
 //│ Remaining constraints: 2
 //│ ====== (22) ======
-//│ Constr: y1 -> y1 ≤ () -> α
+//│ Constr: y1 -> y1 ≤ bool -> α
 //│ Rule: C-Fun
 //│ New Constraints:
-//│  () ≤ y1
+//│  bool ≤ y1
 //│  y1 ≤ α
 //│ Remaining constraints: 3
 //│ ====== (23) ======
-//│ Constr: () ≤ y1
+//│ Constr: bool ≤ y1
 //│ Rule: C-Var2
 //│ Remaining constraints: 2
 //│ ====== (24) ======
@@ -571,23 +572,23 @@ x => x
 //│ Constr: y1 ≤ •
 //│ Rule: C-Var1
 //│ Premises:
-//│   () ≤ y1 ∈ B
+//│   bool ≤ y1 ∈ B
 //│ New Constraints:
-//│  () ≤ •
+//│  bool ≤ •
 //│ Remaining constraints: 1
 //│ ====== (28) ======
-//│ Constr: () ≤ •
-//│ Rule: C-UnitForce
+//│ Constr: bool ≤ •
+//│ Rule: C-Force
 //│ Remaining constraints: 0
 //│ ====== Final ======
 //│ ------ Resolved Weak Types ------
-//│ ()
+//│ bool
 
-(x => x)((y => y)(()))
-//│ Parsed Core Term: (λx. x) ((λy. y) ())
+(x => x)((y => y)(true))
+//│ Parsed Core Term: (λx. x) ((λy. y) true)
 //│ Inferred: α
-//│ As term: let α = (λx. x) (let α0 = (λy. y) () in α0) in α
-//│ |> x, α, x -> x ≤ ∀^m4 y. ∀^m5 α0. (y -> y ≤ () -> α0) => α0 -> α, α ≤ •
+//│ As term: let α = (λx. x) (let α0 = (λy. y) v_bool in α0) in α
+//│ |> x, α, x -> x ≤ ∀^m4 y. ∀^m5 α0. (y -> y ≤ bool -> α0) => α0 -> α, α ≤ •
 //│ ====== (1) ======
 //│ Constr: x
 //│ Rule: C-Promote
@@ -597,14 +598,14 @@ x => x
 //│ Rule: C-Promote
 //│ Remaining constraints: 2
 //│ ====== (3) ======
-//│ Constr: x -> x ≤ ∀^m4 y. ∀^m5 α0. (y -> y ≤ () -> α0) => α0 -> α
+//│ Constr: x -> x ≤ ∀^m4 y. ∀^m5 α0. (y -> y ≤ bool -> α0) => α0 -> α
 //│ Rule: C-Fun
 //│ New Constraints:
-//│  ∀^m4 y. ∀^m5 α0. (y -> y ≤ () -> α0) => α0 ≤ x
+//│  ∀^m4 y. ∀^m5 α0. (y -> y ≤ bool -> α0) => α0 ≤ x
 //│  x ≤ α
 //│ Remaining constraints: 3
 //│ ====== (4) ======
-//│ Constr: ∀^m4 y. ∀^m5 α0. (y -> y ≤ () -> α0) => α0 ≤ x
+//│ Constr: ∀^m4 y. ∀^m5 α0. (y -> y ≤ bool -> α0) => α0 ≤ x
 //│ Rule: C-Var2
 //│ Remaining constraints: 2
 //│ ====== (5) ======
@@ -629,38 +630,38 @@ x => x
 //│ Constr: x ≤ •
 //│ Rule: C-Var1
 //│ Premises:
-//│   ∀^m4 y. ∀^m5 α0. (y -> y ≤ () -> α0) => α0 ≤ x ∈ B
+//│   ∀^m4 y. ∀^m5 α0. (y -> y ≤ bool -> α0) => α0 ≤ x ∈ B
 //│ New Constraints:
-//│  ∀^m4 y0. ∀^m5 α1. (y0 -> y0 ≤ () -> α1) => α1 ≤ •
+//│  ∀^m4 y0. ∀^m5 α1. (y0 -> y0 ≤ bool -> α1) => α1 ≤ •
 //│ Remaining constraints: 1
 //│ ====== (9) ======
-//│ Constr: ∀^m4 y0. ∀^m5 α1. (y0 -> y0 ≤ () -> α1) => α1 ≤ •
+//│ Constr: ∀^m4 y0. ∀^m5 α1. (y0 -> y0 ≤ bool -> α1) => α1 ≤ •
 //│ Rule: C-Forall1
 //│ New Constraints:
-//│  ∀^m5 α1. (y0 -> y0 ≤ () -> α1) => α1 ≤ •
+//│  ∀^m5 α1. (y0 -> y0 ≤ bool -> α1) => α1 ≤ •
 //│ Remaining constraints: 1
 //│ ====== (10) ======
-//│ Constr: ∀^m5 α1. (y0 -> y0 ≤ () -> α1) => α1 ≤ •
+//│ Constr: ∀^m5 α1. (y0 -> y0 ≤ bool -> α1) => α1 ≤ •
 //│ Rule: C-Forall1
 //│ New Constraints:
-//│  (y0 -> y0 ≤ () -> α1) => α1 ≤ •
+//│  (y0 -> y0 ≤ bool -> α1) => α1 ≤ •
 //│ Remaining constraints: 1
 //│ ====== (11) ======
-//│ Constr: (y0 -> y0 ≤ () -> α1) => α1 ≤ •
+//│ Constr: (y0 -> y0 ≤ bool -> α1) => α1 ≤ •
 //│ Rule: C-Constr
 //│ New Constraints:
-//│  y0 -> y0 ≤ () -> α1
+//│  y0 -> y0 ≤ bool -> α1
 //│  α1 ≤ •
 //│ Remaining constraints: 2
 //│ ====== (12) ======
-//│ Constr: y0 -> y0 ≤ () -> α1
+//│ Constr: y0 -> y0 ≤ bool -> α1
 //│ Rule: C-Fun
 //│ New Constraints:
-//│  () ≤ y0
+//│  bool ≤ y0
 //│  y0 ≤ α1
 //│ Remaining constraints: 3
 //│ ====== (13) ======
-//│ Constr: () ≤ y0
+//│ Constr: bool ≤ y0
 //│ Rule: C-Var2
 //│ Remaining constraints: 2
 //│ ====== (14) ======
@@ -685,17 +686,17 @@ x => x
 //│ Constr: y0 ≤ •
 //│ Rule: C-Var1
 //│ Premises:
-//│   () ≤ y0 ∈ B
+//│   bool ≤ y0 ∈ B
 //│ New Constraints:
-//│  () ≤ •
+//│  bool ≤ •
 //│ Remaining constraints: 1
 //│ ====== (18) ======
-//│ Constr: () ≤ •
-//│ Rule: C-UnitForce
+//│ Constr: bool ≤ •
+//│ Rule: C-Force
 //│ Remaining constraints: 0
 //│ ====== Final ======
 //│ ------ Resolved Weak Types ------
-//│ ()
+//│ bool
 
 
 thunk => (x => x(x))(y => y(y))
@@ -709,18 +710,18 @@ thunk => (x => x(x))(y => y(y))
 //│ Remaining constraints: 1
 //│ ====== (2) ======
 //│ Constr: thunk -> ∀^m4 x. ∀^m9 α. (x -> ∀^m3 α0. (x ≤ x -> α0) => α0 ≤ ∀^m8 y. (y -> ∀^m7 α1. (y ≤ y -> α1) => α1) -> α) => α ≤ •
-//│ Rule: C-FunForce
+//│ Rule: C-Force
 //│ Remaining constraints: 0
 //│ ====== Final ======
 //│ ------ Resolved Weak Types ------
 //│ thunk -> ∀^m4 x. ∀^m9 α. (x -> ∀^m3 α0. (x ≤ x -> α0) => α0 ≤ ∀^m8 y. (y -> ∀^m7 α1. (y ≤ y -> α1) => α1) -> α) => α
 
 // :tylatex
-(x => x(x))(y => y(y))(())
-//│ Parsed Core Term: ((λx. x x) (λy. y y)) ()
+(x => x(x))(y => y(y))(true)
+//│ Parsed Core Term: ((λx. x x) (λy. y y)) true
 //│ Inferred: α
-//│ As term: let α2 = (λx. (let α0 = x x in α0)) (λy. (let α1 = y y in α1)) in let α = α2 () in α
-//│ |> x, α2, x -> ∀^m3 α0. (x ≤ x -> α0) => α0 ≤ ∀^m8 y. (y -> ∀^m7 α1. (y ≤ y -> α1) => α1) -> α2, α, α2 ≤ () -> α, α ≤ •
+//│ As term: let α2 = (λx. (let α0 = x x in α0)) (λy. (let α1 = y y in α1)) in let α = α2 v_bool in α
+//│ |> x, α2, x -> ∀^m3 α0. (x ≤ x -> α0) => α0 ≤ ∀^m8 y. (y -> ∀^m7 α1. (y ≤ y -> α1) => α1) -> α2, α, α2 ≤ bool -> α, α ≤ •
 //│ ====== (1) ======
 //│ Constr: x
 //│ Rule: C-Promote
@@ -749,25 +750,25 @@ thunk => (x => x(x))(y => y(y))
 //│ Rule: C-Promote
 //│ Remaining constraints: 2
 //│ ====== (7) ======
-//│ Constr: α2 ≤ () -> α
+//│ Constr: α2 ≤ bool -> α
 //│ Rule: C-Var1
 //│ Premises:
 //│   ∀^m3 α0. (x ≤ x -> α0) => α0 ≤ α2 ∈ B
 //│ New Constraints:
-//│  ∀^m3 α3. (x ≤ x -> α3) => α3 ≤ () -> α
+//│  ∀^m3 α3. (x ≤ x -> α3) => α3 ≤ bool -> α
 //│ Remaining constraints: 2
 //│ ====== (8) ======
-//│ Constr: ∀^m3 α3. (x ≤ x -> α3) => α3 ≤ () -> α
+//│ Constr: ∀^m3 α3. (x ≤ x -> α3) => α3 ≤ bool -> α
 //│ Rule: C-Forall1
 //│ New Constraints:
-//│  (x ≤ x -> α3) => α3 ≤ () -> α
+//│  (x ≤ x -> α3) => α3 ≤ bool -> α
 //│ Remaining constraints: 2
 //│ ====== (9) ======
-//│ Constr: (x ≤ x -> α3) => α3 ≤ () -> α
+//│ Constr: (x ≤ x -> α3) => α3 ≤ bool -> α
 //│ Rule: C-Constr
 //│ New Constraints:
 //│  x ≤ x -> α3
-//│  α3 ≤ () -> α
+//│  α3 ≤ bool -> α
 //│ Remaining constraints: 3
 //│ ====== (10) ======
 //│ Constr: x ≤ x -> α3
@@ -805,25 +806,25 @@ thunk => (x => x(x))(y => y(y))
 //│ Rule: C-Var2
 //│ Remaining constraints: 2
 //│ ====== (16) ======
-//│ Constr: α3 ≤ () -> α
+//│ Constr: α3 ≤ bool -> α
 //│ Rule: C-Var1
 //│ Premises:
 //│   ∀^m7 α4. (y0 ≤ y0 -> α4) => α4 ≤ α3 ∈ B
 //│ New Constraints:
-//│  ∀^m7 α5. (y0 ≤ y0 -> α5) => α5 ≤ () -> α
+//│  ∀^m7 α5. (y0 ≤ y0 -> α5) => α5 ≤ bool -> α
 //│ Remaining constraints: 2
 //│ ====== (17) ======
-//│ Constr: ∀^m7 α5. (y0 ≤ y0 -> α5) => α5 ≤ () -> α
+//│ Constr: ∀^m7 α5. (y0 ≤ y0 -> α5) => α5 ≤ bool -> α
 //│ Rule: C-Forall1
 //│ New Constraints:
-//│  (y0 ≤ y0 -> α5) => α5 ≤ () -> α
+//│  (y0 ≤ y0 -> α5) => α5 ≤ bool -> α
 //│ Remaining constraints: 2
 //│ ====== (18) ======
-//│ Constr: (y0 ≤ y0 -> α5) => α5 ≤ () -> α
+//│ Constr: (y0 ≤ y0 -> α5) => α5 ≤ bool -> α
 //│ Rule: C-Constr
 //│ New Constraints:
 //│  y0 ≤ y0 -> α5
-//│  α5 ≤ () -> α
+//│  α5 ≤ bool -> α
 //│ Remaining constraints: 3
 //│ ====== (19) ======
 //│ Constr: y0 ≤ y0 -> α5
@@ -875,25 +876,25 @@ thunk => (x => x(x))(y => y(y))
 //│ Rule: C-Var2
 //│ Remaining constraints: 2
 //│ ====== (27) ======
-//│ Constr: α5 ≤ () -> α
+//│ Constr: α5 ≤ bool -> α
 //│ Rule: C-Var1
 //│ Premises:
 //│   ∀^m7 α6. (y1 ≤ y1 -> α6) => α6 ≤ α5 ∈ B
 //│ New Constraints:
-//│  ∀^m7 α7. (y1 ≤ y1 -> α7) => α7 ≤ () -> α
+//│  ∀^m7 α7. (y1 ≤ y1 -> α7) => α7 ≤ bool -> α
 //│ Remaining constraints: 2
 //│ ====== (28) ======
-//│ Constr: ∀^m7 α7. (y1 ≤ y1 -> α7) => α7 ≤ () -> α
+//│ Constr: ∀^m7 α7. (y1 ≤ y1 -> α7) => α7 ≤ bool -> α
 //│ Rule: C-Forall1
 //│ New Constraints:
-//│  (y1 ≤ y1 -> α7) => α7 ≤ () -> α
+//│  (y1 ≤ y1 -> α7) => α7 ≤ bool -> α
 //│ Remaining constraints: 2
 //│ ====== (29) ======
-//│ Constr: (y1 ≤ y1 -> α7) => α7 ≤ () -> α
+//│ Constr: (y1 ≤ y1 -> α7) => α7 ≤ bool -> α
 //│ Rule: C-Constr
 //│ New Constraints:
 //│  y1 ≤ y1 -> α7
-//│  α7 ≤ () -> α
+//│  α7 ≤ bool -> α
 //│ Remaining constraints: 3
 //│ ====== (30) ======
 //│ Constr: y1 ≤ y1 -> α7
@@ -959,25 +960,25 @@ thunk => (x => x(x))(y => y(y))
 //│ Rule: C-Var2
 //│ Remaining constraints: 2
 //│ ====== (40) ======
-//│ Constr: α7 ≤ () -> α
+//│ Constr: α7 ≤ bool -> α
 //│ Rule: C-Var1
 //│ Premises:
 //│   ∀^m7 α8. (y2 ≤ y2 -> α8) => α8 ≤ α7 ∈ B
 //│ New Constraints:
-//│  ∀^m7 α9. (y2 ≤ y2 -> α9) => α9 ≤ () -> α
+//│  ∀^m7 α9. (y2 ≤ y2 -> α9) => α9 ≤ bool -> α
 //│ Remaining constraints: 2
 //│ ====== (41) ======
-//│ Constr: ∀^m7 α9. (y2 ≤ y2 -> α9) => α9 ≤ () -> α
+//│ Constr: ∀^m7 α9. (y2 ≤ y2 -> α9) => α9 ≤ bool -> α
 //│ Rule: C-Forall1
 //│ New Constraints:
-//│  (y2 ≤ y2 -> α9) => α9 ≤ () -> α
+//│  (y2 ≤ y2 -> α9) => α9 ≤ bool -> α
 //│ Remaining constraints: 2
 //│ ====== (42) ======
-//│ Constr: (y2 ≤ y2 -> α9) => α9 ≤ () -> α
+//│ Constr: (y2 ≤ y2 -> α9) => α9 ≤ bool -> α
 //│ Rule: C-Constr
 //│ New Constraints:
 //│  y2 ≤ y2 -> α9
-//│  α9 ≤ () -> α
+//│  α9 ≤ bool -> α
 //│ Remaining constraints: 3
 //│ ====== (43) ======
 //│ Constr: y2 ≤ y2 -> α9
@@ -1102,26 +1103,26 @@ thunk => (x => x(x))(y => y(y))
 //│ Rule: C-Var2
 //│ Remaining constraints: 2
 //│ ====== (61) ======
-//│ Constr: α9 ≤ () -> α
+//│ Constr: α9 ≤ bool -> α
 //│ Rule: C-Var1
 //│ Premises:
 //│   ∀^m7 α8. (y2 ≤ y2 -> α8) => α8 ≤ α9 ∈ B
 //│ New Constraints:
-//│  ∀^m7 α11. (y2 ≤ y2 -> α11) => α11 ≤ () -> α
+//│  ∀^m7 α11. (y2 ≤ y2 -> α11) => α11 ≤ bool -> α
 //│ Remaining constraints: 2
 //│ ====== (62) ======
-//│ Constr: ∀^m7 α11. (y2 ≤ y2 -> α11) => α11 ≤ () -> α
+//│ Constr: ∀^m7 α11. (y2 ≤ y2 -> α11) => α11 ≤ bool -> α
 //│ Rule: C-Forall2
 //│ Premise: [m2,m1,m6,m5,m7] ↦ (y2 ≤ y2 -> α9) => α9 ∈ B
 //│ New Constraints:
-//│  (y2 ≤ y2 -> α9) => α9 ≤ () -> α
+//│  (y2 ≤ y2 -> α9) => α9 ≤ bool -> α
 //│ Remaining constraints: 2
 //│ ====== (63) ======
-//│ Constr: (y2 ≤ y2 -> α9) => α9 ≤ () -> α
+//│ Constr: (y2 ≤ y2 -> α9) => α9 ≤ bool -> α
 //│ Rule: C-Constr
 //│ New Constraints:
 //│  y2 ≤ y2 -> α9
-//│  α9 ≤ () -> α
+//│  α9 ≤ bool -> α
 //│ Remaining constraints: 3
 //│ ====== (64) ======
 //│ Constr: y2 ≤ y2 -> α9
@@ -1136,10 +1137,10 @@ thunk => (x => x(x))(y => y(y))
 //│   y2 ≤ y2 -> α9 ∈ B
 //│ Remaining constraints: 2
 //│ ====== (66) ======
-//│ Constr: α9 ≤ () -> α
+//│ Constr: α9 ≤ bool -> α
 //│ Rule: C-Skip
 //│ Premises:
-//│   α9 ≤ () -> α ∈ B
+//│   α9 ≤ bool -> α ∈ B
 //│ Remaining constraints: 1
 //│ ====== (67) ======
 //│ Constr: α ≤ •
@@ -1148,24 +1149,24 @@ thunk => (x => x(x))(y => y(y))
 //│ ====== Final ======
 //│ ------ Resolved Weak Types ------
 
-()( () )
-//│ Parsed Core Term: () ()
+true( true )
+//│ Parsed Core Term: true true
 //│ Inferred: α
-//│ As term: let α = () () in α
-//│ |> α, () ≤ () -> α, α ≤ •
+//│ As term: let α = v_bool v_bool in α
+//│ |> α, bool ≤ bool -> α, α ≤ •
 //│ ====== (1) ======
 //│ Constr: α
 //│ Rule: C-Promote
 //│ Remaining constraints: 2
 //│ ====== (2) ======
-//│ Constr: () ≤ () -> α
+//│ Constr: bool ≤ bool -> α
 //│ Rule: C-Err
 
-(x => x)( ()( () ))
-//│ Parsed Core Term: (λx. x) (() ())
+(x => x)( true( true ))
+//│ Parsed Core Term: (λx. x) (true true)
 //│ Inferred: α
-//│ As term: let α = (λx. x) (let α0 = () () in α0) in α
-//│ |> x, α, x -> x ≤ ∀^m3 α0. (() ≤ () -> α0) => α0 -> α, α ≤ •
+//│ As term: let α = (λx. x) (let α0 = v_bool v_bool in α0) in α
+//│ |> x, α, x -> x ≤ ∀^m3 α0. (bool ≤ bool -> α0) => α0 -> α, α ≤ •
 //│ ====== (1) ======
 //│ Constr: x
 //│ Rule: C-Promote
@@ -1175,14 +1176,14 @@ thunk => (x => x(x))(y => y(y))
 //│ Rule: C-Promote
 //│ Remaining constraints: 2
 //│ ====== (3) ======
-//│ Constr: x -> x ≤ ∀^m3 α0. (() ≤ () -> α0) => α0 -> α
+//│ Constr: x -> x ≤ ∀^m3 α0. (bool ≤ bool -> α0) => α0 -> α
 //│ Rule: C-Fun
 //│ New Constraints:
-//│  ∀^m3 α0. (() ≤ () -> α0) => α0 ≤ x
+//│  ∀^m3 α0. (bool ≤ bool -> α0) => α0 ≤ x
 //│  x ≤ α
 //│ Remaining constraints: 3
 //│ ====== (4) ======
-//│ Constr: ∀^m3 α0. (() ≤ () -> α0) => α0 ≤ x
+//│ Constr: ∀^m3 α0. (bool ≤ bool -> α0) => α0 ≤ x
 //│ Rule: C-Var2
 //│ Remaining constraints: 2
 //│ ====== (5) ======
@@ -1207,25 +1208,25 @@ thunk => (x => x(x))(y => y(y))
 //│ Constr: x ≤ •
 //│ Rule: C-Var1
 //│ Premises:
-//│   ∀^m3 α0. (() ≤ () -> α0) => α0 ≤ x ∈ B
+//│   ∀^m3 α0. (bool ≤ bool -> α0) => α0 ≤ x ∈ B
 //│ New Constraints:
-//│  ∀^m3 α1. (() ≤ () -> α1) => α1 ≤ •
+//│  ∀^m3 α1. (bool ≤ bool -> α1) => α1 ≤ •
 //│ Remaining constraints: 1
 //│ ====== (9) ======
-//│ Constr: ∀^m3 α1. (() ≤ () -> α1) => α1 ≤ •
+//│ Constr: ∀^m3 α1. (bool ≤ bool -> α1) => α1 ≤ •
 //│ Rule: C-Forall1
 //│ New Constraints:
-//│  (() ≤ () -> α1) => α1 ≤ •
+//│  (bool ≤ bool -> α1) => α1 ≤ •
 //│ Remaining constraints: 1
 //│ ====== (10) ======
-//│ Constr: (() ≤ () -> α1) => α1 ≤ •
+//│ Constr: (bool ≤ bool -> α1) => α1 ≤ •
 //│ Rule: C-Constr
 //│ New Constraints:
-//│  () ≤ () -> α1
+//│  bool ≤ bool -> α1
 //│  α1 ≤ •
 //│ Remaining constraints: 2
 //│ ====== (11) ======
-//│ Constr: () ≤ () -> α1
+//│ Constr: bool ≤ bool -> α1
 //│ Rule: C-Err
 
 

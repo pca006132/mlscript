@@ -40,18 +40,22 @@ let id(x) = x in id
 //│ Remaining constraints: 1
 //│ ====== (6) ======
 //│ Constr: x0 -> x0 ≤ •
-//│ Rule: C-FunForce
+//│ Rule: C-Force
 //│ Remaining constraints: 0
 //│ ====== Final ======
 //│ ------ Resolved Weak Types ------
 //│ x0 -> x0
 
-let a = ()
-let b = ()
-//│ Parsed Core Term: let a = (); b = () in ()
-//│ Inferred: ()
-//│ As term: let a = (); b = () in ()
-//│ |> a, b, () ≤ a, () ≤ b, () ≤ •
+let a = true
+let b = true
+true
+//│ FAILURE: Unexpected type error
+//│ FAILURE LOCATION: res (SupremeF.scala:402)
+//│ ═══[ERROR] invalid term Lit(UnitLit(false))
+//│ Parsed Core Term: let a = true; b = true in true
+//│ Inferred: bool
+//│ As term: let a = v_bool; b = v_bool in v_bool
+//│ |> a, b, bool ≤ a, bool ≤ b, bool ≤ •
 //│ ====== (1) ======
 //│ Constr: a
 //│ Rule: C-Promote
@@ -61,20 +65,20 @@ let b = ()
 //│ Rule: C-Promote
 //│ Remaining constraints: 3
 //│ ====== (3) ======
-//│ Constr: () ≤ a
+//│ Constr: bool ≤ a
 //│ Rule: C-Var2
 //│ Remaining constraints: 2
 //│ ====== (4) ======
-//│ Constr: () ≤ b
+//│ Constr: bool ≤ b
 //│ Rule: C-Var2
 //│ Remaining constraints: 1
 //│ ====== (5) ======
-//│ Constr: () ≤ •
-//│ Rule: C-UnitForce
+//│ Constr: bool ≤ •
+//│ Rule: C-Force
 //│ Remaining constraints: 0
 //│ ====== Final ======
 //│ ------ Resolved Weak Types ------
-//│ ()
+//│ bool
 
 (x =>
   fun y = x(y)
@@ -89,7 +93,7 @@ let b = ()
 //│ Remaining constraints: 1
 //│ ====== (2) ======
 //│ Constr: x -> ∀^m5 y. (∀^m3 α. (x ≤ y -> α) => α ≤ y) => y ≤ •
-//│ Rule: C-FunForce
+//│ Rule: C-Force
 //│ Remaining constraints: 0
 //│ ====== Final ======
 //│ ------ Resolved Weak Types ------
@@ -230,7 +234,7 @@ let c = b in c
 //│ Remaining constraints: 1
 //│ ====== (2) ======
 //│ Constr: x -> ∀^m5 y. (∀^m3 α. (x ≤ y -> α) => α ≤ y) => y ≤ •
-//│ Rule: C-FunForce
+//│ Rule: C-Force
 //│ Remaining constraints: 0
 //│ ====== Final ======
 //│ ------ Resolved Weak Types ------
@@ -371,7 +375,7 @@ let c = b in c
 //│ Remaining constraints: 1
 //│ ====== (2) ======
 //│ Constr: x -> ∀^m5 y. (∀^m3 α. (x ≤ y -> α) => α ≤ y) => y ≤ •
-//│ Rule: C-FunForce
+//│ Rule: C-Force
 //│ Remaining constraints: 0
 //│ ====== Final ======
 //│ ------ Resolved Weak Types ------
@@ -512,7 +516,7 @@ let c = b in c
 //│ Remaining constraints: 1
 //│ ====== (2) ======
 //│ Constr: x -> ∀^m5 y. (∀^m3 α. (x ≤ y -> α) => α ≤ y) => y ≤ •
-//│ Rule: C-FunForce
+//│ Rule: C-Force
 //│ Remaining constraints: 0
 //│ ====== Final ======
 //│ ------ Resolved Weak Types ------
@@ -640,15 +644,15 @@ let c = b in c
 //│ ====== Final ======
 //│ ------ Resolved Weak Types ------
 
-let a = ()
+let a = true
 let b =
   let d = (e => a(e))(a)
   d
 let c = b in c(b(a))
-//│ Parsed Core Term: let a = (); b = (let d = (λe. a e) a in d); c = b in c (b a)
+//│ Parsed Core Term: let a = true; b = (let d = (λe. a e) a in d); c = b in c (b a)
 //│ Inferred: α
-//│ As term: let a = (); b = (let d = (let α1 = (λe. (let α0 = a e in α0)) a in α1) in d); c = b in let α = c (let α2 = b a in α2) in α
-//│ |> a, b, c, () ≤ a, ∀^m8 d. (∀^m4 e. ∀^m6 α1. (e -> ∀^m3 α0. (a ≤ e -> α0) => α0 ≤ a -> α1) => α1 ≤ d) => d ≤ b, b ≤ c, α, c ≤ ∀^m13 α2. (b ≤ a -> α2) => α2 -> α, α ≤ •
+//│ As term: let a = v_bool; b = (let d = (let α1 = (λe. (let α0 = a e in α0)) a in α1) in d); c = b in let α = c (let α2 = b a in α2) in α
+//│ |> a, b, c, bool ≤ a, ∀^m8 d. (∀^m4 e. ∀^m6 α1. (e -> ∀^m3 α0. (a ≤ e -> α0) => α0 ≤ a -> α1) => α1 ≤ d) => d ≤ b, b ≤ c, α, c ≤ ∀^m13 α2. (b ≤ a -> α2) => α2 -> α, α ≤ •
 //│ ====== (1) ======
 //│ Constr: a
 //│ Rule: C-Promote
@@ -662,7 +666,7 @@ let c = b in c(b(a))
 //│ Rule: C-Promote
 //│ Remaining constraints: 6
 //│ ====== (4) ======
-//│ Constr: () ≤ a
+//│ Constr: bool ≤ a
 //│ Rule: C-Var2
 //│ Remaining constraints: 5
 //│ ====== (5) ======
@@ -801,12 +805,12 @@ let c = b in c(b(a))
 //│ Constr: a ≤ e1 -> α7
 //│ Rule: C-Var1
 //│ Premises:
-//│   () ≤ a ∈ B
+//│   bool ≤ a ∈ B
 //│ New Constraints:
-//│  () ≤ e1 -> α7
+//│  bool ≤ e1 -> α7
 //│ Remaining constraints: 3
 //│ ====== (28) ======
-//│ Constr: () ≤ e1 -> α7
+//│ Constr: bool ≤ e1 -> α7
 //│ Rule: C-Err
 
 (x => y => x)(x => x)
@@ -853,7 +857,7 @@ let c = b in c(b(a))
 //│ Remaining constraints: 1
 //│ ====== (8) ======
 //│ Constr: y0 -> x ≤ •
-//│ Rule: C-FunForce
+//│ Rule: C-Force
 //│ Remaining constraints: 0
 //│ ====== Final ======
 //│ ------ Resolved Weak Types ------
@@ -870,7 +874,7 @@ let c = b in c(b(a))
 //│ Remaining constraints: 1
 //│ ====== (2) ======
 //│ Constr: x -> ∀^m2 y. (y -> y) ≤ •
-//│ Rule: C-FunForce
+//│ Rule: C-Force
 //│ Remaining constraints: 0
 //│ ====== Final ======
 //│ ------ Resolved Weak Types ------

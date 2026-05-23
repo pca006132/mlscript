@@ -1,12 +1,12 @@
 // Approximation via cond, which is using the `if` syntax here.
-// The inferred weak type can be either an identity function or a unit.
+// The inferred weak type can be either an identity function or a bool.
 // Note that while the identity function type shown in inferred weak types is
 // not quantified using forall, we do not have any bounds for the type variable,
 // so it is in fact polymorphic.
-if (()) then (x => x) else ()
+if (true) then (x => x) else false
 
 
 // Function application where the parameter can have different types due to approximation.
 // The result can also have different types.
-let c = if (()) then (x => x) else ()
+let c = if (true) then (x => x) else false
 (y => y)(c)

@@ -166,7 +166,7 @@ build of
   // The path here is just an example. Do not output to the test folder because
   // it will trigger the test.
   // None
-  Some of "/home/pca006132/code/popl"
+  Some of path.resolve of projectRoot, "..", "..", "web-demo"
 //│ > Processing src/test/mlscript-compile/apps/supreme-f-web-demo/main.mjs
 //│ > Processing ../js/target/scala-3.6.1/hkmc2-opt/MLscript.mjs
 //│ > Processing src/test/mlscript-compile/apps/supreme-f-web-demo/Examples.mjs
@@ -182,7 +182,7 @@ build of
 //│ > Processing src/test/mlscript-compile/Str.mjs
 //│ > Processing src/test/mlscript-compile/Runtime.mjs
 //│ > Collected 13 files
-//│ > There are 16 files in the output folder.
+//│ > There are 15 files in the output folder.
 //│ > Removing Examples.mjs
 //│ > Removing Iter.mjs
 //│ > Removing MLscript.mjs
